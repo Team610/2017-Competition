@@ -27,6 +27,9 @@ public class Vision extends Subsystem {
 		return table.getNumber("xValue", 0);
 	}
 	
+	public boolean isDetected(){
+		return table.getBoolean("detected", false);
+	}
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
