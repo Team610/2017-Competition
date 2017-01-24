@@ -1,28 +1,32 @@
 package org.usfirst.frc.team610.robot;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-
-import org.usfirst.frc.team610.robot.commands.ExampleCommand;
-
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
-
-
-
+import edu.wpi.first.wpilibj.Joystick;
 
 
 public class OI {
+	
 	private static OI instance;
+	private Joystick driver;
+	private Joystick operator;
+	
+	private OI(){
+		driver = new Joystick(0);
+		operator = new Joystick(1);
+	}
 	
 	public static OI getInstance(){
 		if(instance == null){
-			return new OI();
-		} else {
-			return instance;
+			instance = new OI();
 		}
+		return instance;
 	}
 	
+	public Joystick getDriver(){
+		return driver;
+	}
+	
+	public Joystick getOperator(){
+		return operator;
+	}
 	
 }
