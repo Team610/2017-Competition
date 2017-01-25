@@ -22,6 +22,8 @@ public class DriveTrain extends Subsystem {
 	private DoubleSolenoid solLeft, solRight;
 	private Compressor compressor;
 	
+	private NavX navX;
+	
 	private OI oi;
 
 	public static DriveTrain getInstance() {
@@ -32,15 +34,17 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	private DriveTrain(){
-		solLeft = new DoubleSolenoid(ElectricalConstants.leftGearboxOne, ElectricalConstants.leftGearboxTwo);
-		solRight = new DoubleSolenoid(ElectricalConstants.rightGearboxOne,ElectricalConstants.rightGearboxTwo);
+		solLeft = new DoubleSolenoid(ElectricalConstants.SHIFTER_LEFT_ONE, ElectricalConstants.SHIFTER_LEFT_TWO);
+		solRight = new DoubleSolenoid(ElectricalConstants.SHIFTER_RIGHT_ONE,ElectricalConstants.SHIFTER_RIGHT_TWO);
 		compressor = new Compressor();
-		leftFront = new Victor(ElectricalConstants.leftDriveFront);
-		leftBack = new Victor(ElectricalConstants.leftDriveBack);
-		rightFront = new Victor(ElectricalConstants.rightDriveFront);
-		rightBack = new Victor(ElectricalConstants.rightDriveBack);
+		leftFront = new Victor(ElectricalConstants.DRIVE_LEFT_FRONT);
+		leftBack = new Victor(ElectricalConstants.DRIVE_LEFT_BACK);
+		rightFront = new Victor(ElectricalConstants.DRIVE_RIGHT_FRONT);
+		rightBack = new Victor(ElectricalConstants.DRIVE_RIGHT_BACK);
 		oi = OI.getInstance();
+		navX = NavX.getInstance();
 //		drivePID = new PID(p, i, d)
+		
 		
 	}
 
@@ -72,9 +76,17 @@ public class DriveTrain extends Subsystem {
 	
 	public void compressor(boolean start){
 		if(start)
-			compressor.enabled();
+			compressor.start();
 		else
 			compressor.stop();
+	}
+	
+	public double getAngle(){
+		return navX.getAngle();
+	}
+	
+	public void resetAngle(){
+		navX.reset();
 	}
 	
 	public void drive(){

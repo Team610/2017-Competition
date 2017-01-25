@@ -18,8 +18,8 @@ public class GearIntake extends Subsystem{
 	}
 	
 	public GearIntake(){
-		topIntake = new DoubleSolenoid(ElectricalConstants.topGearOne,ElectricalConstants.topGearTwo);
-		botIntake = new DoubleSolenoid(ElectricalConstants.botGearOne,ElectricalConstants.botGearTwo);
+		topIntake = new DoubleSolenoid(ElectricalConstants.GEAR_FLAP_ONE,ElectricalConstants.GEAR_FLAP_TWO);
+		botIntake = new DoubleSolenoid(ElectricalConstants.GEAR_SCORER_ONE,ElectricalConstants.GEAR_SCORER_TWO);
 		topIsClosed = true;
 		botIsClosed = true;
 		

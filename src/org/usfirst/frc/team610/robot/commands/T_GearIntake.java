@@ -17,16 +17,14 @@ public class T_GearIntake extends Command{
 	
 	protected void execute(){
 		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L1)){
-			if(gearIntake.topIsClosed())
-				gearIntake.topIntake(true);
-			else
-				gearIntake.topIntake(false);
+			gearIntake.topIntake(true);
+		} else {
+			gearIntake.topIntake(false);
 		}
-		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L2)){
-			if(gearIntake.botIsClosed())
-				gearIntake.botIntake(true);
-			else
-				gearIntake.botIntake(false);
+		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L2)) {
+			gearIntake.botIntake(true);
+		} else {
+			gearIntake.botIntake(false);
 		}
 	}
 

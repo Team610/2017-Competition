@@ -29,7 +29,11 @@ public class NavX extends Subsystem {
     }
     
     public double getAngle(){
-    	return navX.getAngle();
+    	return navX.getYaw();
+    }
+    
+    public void reset(){
+    	navX.zeroYaw();
     }
     
     

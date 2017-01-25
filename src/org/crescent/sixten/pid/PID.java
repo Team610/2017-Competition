@@ -39,33 +39,6 @@ public class PID {
 		this.min = min;
 	}
 
-	public double getValue(double input, double target) {
-		if (curTarget != target) {
-			resetPID();
-			curTarget = target;
-		}
-		e = target - input;
-		eDiff = ePrev - e;
-
-		if (e > 5) {
-			iCounter = 0;
-		} else if (e < -5) {
-			iCounter = 0;
-		} else {
-			iCounter += e;
-		}
-
-		output = e * p + eDiff * d + iCounter * i;
-
-		ePrev = e;
-		if (output > max) {
-			output = max;
-		} else if (output < min) {
-			output = min;
-		}
-
-		return output;
-	}
 
 	public double getValue(double input, double target, double feedForward) {
 		if (curTarget != target) {

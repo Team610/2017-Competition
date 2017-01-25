@@ -15,7 +15,6 @@ public class Shooter {
 	private double shooterPeriod;
 	private PID shooterPID;
 	static Counter shooterCounter;
-	private OI oi;
 	
 	public static Shooter getInstance(){
 		if(instance == null)
@@ -25,8 +24,8 @@ public class Shooter {
 	
 	public Shooter(){
 		RPMfactor = 60;
-		shooterCounter = new Counter(ElectricalConstants.shooterEncoder);
-		shooter = new Victor(ElectricalConstants.shooterMotor);
+		shooterCounter = new Counter(ElectricalConstants.SHOOTER_SENSOR);
+		shooter = new Victor(ElectricalConstants.SHOOTER_MOTOR);
 		
 		shooterCounter.setMaxPeriod(.1);
 		shooterCounter.setDistancePerPulse(1);
@@ -35,26 +34,27 @@ public class Shooter {
 		
 		shooterPeriod = Double.POSITIVE_INFINITY;
 		shooterPID = new PID(0,0,0); //change to PID Constants
-		oi = OI.getInstance();
 	}
 	
+	//Set shooter at certain RPM
 	public void setShooter(double rpm){
-		double curSpeed = getShooterSpeed();
-		double target = rpm;
 		double shooterPower = 0;
-		shooterPower = shooterPID.getValue(getShooterSpeed(), 4000) + getFeedForward(4000); //change to shooter constants
+		shooterPower = shooterPID.getValue(getShooterSpeed(), rpm, getFeedForward(4000)); //change to shooter constants
 		if(shooterPower > 0)
 			setPower(shooterPower);
 	}
 	
+	//Set power to motor
 	public void setPower(double power){
 		shooter.set(power);
 	}
 	
+	//Get rpm of the shooter
 	public double getShooterSpeed(){
 		return RPMfactor/getShooterPeriod();
 	}
 	
+	//Gets the time between counts
 	public double getShooterPeriod(){
 		double shooterPeriod = shooterCounter.getPeriod();
 		if(shooterPeriod < 1.66e-4)
@@ -65,6 +65,7 @@ public class Shooter {
 		}
 	}
 	
+	//Gets feedforward
 	public double getFeedForward(double rpm){
 		return 1.4e-4 * rpm - 0.05; //change for this years feedforward
 	}

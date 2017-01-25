@@ -17,7 +17,7 @@ public class HopperFeeder {
 	}
 	
 	public HopperFeeder(){
-		feeder = new Victor(ElectricalConstants.feeder);
+		feeder = new Victor(ElectricalConstants.FEEDER);
 		isRunning = false;
 	}
 	

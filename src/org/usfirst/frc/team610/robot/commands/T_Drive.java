@@ -1,7 +1,5 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team610.robot.OI;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,5 +25,9 @@ public class T_Drive extends Command{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	protected void end() {
+		driveTrain.compressor(false);
+    }
 
 }
