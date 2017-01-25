@@ -16,14 +16,17 @@ public class ElectricalConstants {
 	public static final int GEAR_FLAP_TWO = 0;
 	public static final int GEAR_SCORER_ONE = 0;
 	public static final int GEAR_SCORER_TWO = 0;
-	//Shooter motor
+	//Shooter
 	public static final int SHOOTER_MOTOR = 0;
+	public static final int TURRET_MOTOR = 0;
 	//Shooter encoder
 	public static final int SHOOTER_SENSOR = 0;
+	//Turret encoder
+	public static final int TURRET_SENSOR = 0;
 	//Hopper Feeder motor
 	public static final int FEEDER = 0;
 	//Intake Motor
-
 	public static final int INTAKE = 0;
-	
+	//Hanger Motor
+	public static final int HANGER_MOTOR = 0;
 }

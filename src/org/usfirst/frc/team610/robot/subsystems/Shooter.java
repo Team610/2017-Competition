@@ -1,16 +1,17 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
 import org.crescent.sixten.pid.PID;
-import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Shooter {
+public class Shooter extends Subsystem{
 	
 	static Shooter instance;
 	private Victor shooter;
+	private Victor turret;
 	private double RPMfactor;
 	private double shooterPeriod;
 	private PID shooterPID;
@@ -26,7 +27,7 @@ public class Shooter {
 		RPMfactor = 60;
 		shooterCounter = new Counter(ElectricalConstants.SHOOTER_SENSOR);
 		shooter = new Victor(ElectricalConstants.SHOOTER_MOTOR);
-		
+		turret = new Victor(ElectricalConstants.TURRET_MOTOR);
 		shooterCounter.setMaxPeriod(.1);
 		shooterCounter.setDistancePerPulse(1);
 		shooterCounter.setSamplesToAverage(1);
@@ -54,6 +55,10 @@ public class Shooter {
 		return RPMfactor/getShooterPeriod();
 	}
 	
+	public void setTurret(double speed){
+		turret.set(speed);
+	}
+	
 	//Gets the time between counts
 	public double getShooterPeriod(){
 		double shooterPeriod = shooterCounter.getPeriod();
@@ -68,5 +73,11 @@ public class Shooter {
 	//Gets feedforward
 	public double getFeedForward(double rpm){
 		return 1.4e-4 * rpm - 0.05; //change for this years feedforward
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }
