@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class GearIntake extends Subsystem{
 	
 	static GearIntake instance;
-	private DoubleSolenoid topIntake, botIntake;
-	private boolean topIsClosed, botIsClosed;
+	private DoubleSolenoid intake, outtake;
+	private boolean isIntakeClosed, isOuttake;
 	
 	public static GearIntake getInstance(){
 		if(instance == null)
@@ -18,41 +18,41 @@ public class GearIntake extends Subsystem{
 	}
 	
 	public GearIntake(){
-		topIntake = new DoubleSolenoid(ElectricalConstants.GEAR_FLAP_ONE,ElectricalConstants.GEAR_FLAP_TWO);
-		botIntake = new DoubleSolenoid(ElectricalConstants.GEAR_SCORER_ONE,ElectricalConstants.GEAR_SCORER_TWO);
-		topIsClosed = true;
-		botIsClosed = true;
+		intake = new DoubleSolenoid(ElectricalConstants.GEAR_FLAP_ONE,ElectricalConstants.GEAR_FLAP_TWO);
+		outtake = new DoubleSolenoid(ElectricalConstants.GEAR_SCORER_ONE,ElectricalConstants.GEAR_SCORER_TWO);
+		isIntakeClosed = true;
+		isOuttake = true;
 		
 	}
 	
-	public void topIntake(boolean open){
+	public void setIntake(boolean open){
 		if(open){
-			topIntake.set(DoubleSolenoid.Value.kForward);
-			topIsClosed = false;
+			intake.set(DoubleSolenoid.Value.kForward);
+			isIntakeClosed = false;
 		}
 		else{
-			topIntake.set(DoubleSolenoid.Value.kReverse);
-			topIsClosed = true;
+			intake.set(DoubleSolenoid.Value.kReverse);
+			isIntakeClosed = true;
 		}
 	}
 	
-	public void botIntake(boolean open){
+	public void setOuttake(boolean open){
 		if(open){
-			botIntake.set(DoubleSolenoid.Value.kForward);
-			botIsClosed = false;
+			outtake.set(DoubleSolenoid.Value.kForward);
+			isOuttake = false;
 		}
 		else{
-			botIntake.set(DoubleSolenoid.Value.kReverse);
-			botIsClosed = false;
+			outtake.set(DoubleSolenoid.Value.kReverse);
+			isOuttake = true;
 		}
 	}
 	
-	public boolean topIsClosed(){
-		return topIsClosed;
+	public boolean isIntakeClosed(){
+		return isIntakeClosed;
 	}
 	
-	public boolean botIsClosed(){
-		return botIsClosed;
+	public boolean isOuttakeClosed(){
+		return isOuttake;
 	}
 
 	@Override

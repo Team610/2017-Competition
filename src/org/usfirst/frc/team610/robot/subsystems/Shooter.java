@@ -2,6 +2,7 @@ package org.usfirst.frc.team610.robot.subsystems;
 
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Victor;
@@ -24,7 +25,7 @@ public class Shooter extends Subsystem{
 	}
 	
 	public Shooter(){
-		RPMfactor = 60;
+		RPMfactor = 60; // min/s
 		shooterCounter = new Counter(ElectricalConstants.SHOOTER_SENSOR);
 		shooter = new Victor(ElectricalConstants.SHOOTER_MOTOR);
 		turret = new Victor(ElectricalConstants.TURRET_MOTOR);
@@ -33,16 +34,19 @@ public class Shooter extends Subsystem{
 		shooterCounter.setSamplesToAverage(1);
 		shooterCounter.reset();
 		
-		shooterPeriod = Double.POSITIVE_INFINITY;
-		shooterPID = new PID(0,0,0); //change to PID Constants
+		shooterPeriod = 0;
+		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
+	}
+	
+	public void updatePID(){
+		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 	}
 	
 	//Set shooter at certain RPM
 	public void setShooter(double rpm){
 		double shooterPower = 0;
 		shooterPower = shooterPID.getValue(getShooterSpeed(), rpm, getFeedForward(4000)); //change to shooter constants
-		if(shooterPower > 0)
-			setPower(shooterPower);
+		setPower(shooterPower);
 	}
 	
 	//Set power to motor

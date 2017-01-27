@@ -17,11 +17,11 @@ public class T_Hanger extends Command{
 	
 	protected void execute(){
 		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_L1))
-			hanger.setHangerPower(0.5);
+			hanger.setHanger(0.5);
 		else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_L2))
-			hanger.setHangerPower(0);
+			hanger.setHanger(0);
 		else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_A))
-			hanger.setHangerPower(0);
+			hanger.setHanger(0);
 	}
 
 	@Override

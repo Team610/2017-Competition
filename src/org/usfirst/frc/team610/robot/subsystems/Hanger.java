@@ -1,6 +1,8 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
+import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
+import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,6 +11,7 @@ public class Hanger extends Subsystem{
 	
 	static Hanger instance;
 	private Victor hanger;
+	private OI oi;
 	
 	public static Hanger getInstance(){
 		if(instance == null)
@@ -17,11 +20,16 @@ public class Hanger extends Subsystem{
 	}
 	
 	public Hanger(){
+		oi = OI.getInstance();
 		hanger = new Victor(ElectricalConstants.HANGER_MOTOR);
 	}
 	
-	public void setHangerPower(double power){
+	public void setHanger(double power){
 		hanger.set(power);
+	}
+	
+	public void hang(){
+		setHanger(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y));
 	}
 
 	@Override

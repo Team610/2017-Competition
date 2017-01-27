@@ -1,12 +1,14 @@
 
 package org.usfirst.frc.team610.robot;
 
+import org.usfirst.frc.team610.robot.commands.T_Teleop;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -21,6 +23,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	Command autonomousCommand;
+	CommandGroup teleop;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -30,6 +33,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = OI.getInstance();
+		teleop = new T_Teleop();
 
 	}
 
@@ -40,17 +44,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		teleop.cancel();
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		teleop.cancel();
 	}
 
 
 	@Override
 	public void autonomousInit() {
+		teleop.cancel();
 
 	}
 
@@ -60,10 +67,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		teleop.cancel();
 	}
 
 	@Override
 	public void teleopInit() {
+		teleop.start();
 
 	}
 

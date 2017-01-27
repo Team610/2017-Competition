@@ -4,9 +4,11 @@ import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,7 +18,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
 	private static DriveTrain instance;
-	private PID drivePID;
+	private PID encLeftPID;
+	private PID encRightPID;
+	private PID gyroPID;
 	private Victor leftFront,leftBack,rightFront,rightBack;
 	
 	private DoubleSolenoid solLeft, solRight;
@@ -25,6 +29,9 @@ public class DriveTrain extends Subsystem {
 	private NavX navX;
 	
 	private OI oi;
+	
+	private Encoder leftEnc;
+	private Encoder rightEnc;
 
 	public static DriveTrain getInstance() {
 		if (instance == null) {
@@ -43,12 +50,23 @@ public class DriveTrain extends Subsystem {
 		rightBack = new Victor(ElectricalConstants.DRIVE_RIGHT_BACK);
 		oi = OI.getInstance();
 		navX = NavX.getInstance();
-//		drivePID = new PID(p, i, d)
-		
-		
+		encLeftPID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		encRightPID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_I);
+		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B);
+		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
+		leftEnc.setDistancePerPulse(4*Math.PI / 512.0);
+		rightEnc.setDistancePerPulse(4*Math.PI / 512.0);
 	}
 
+	public double getLeftInches(){
+		return leftEnc.getDistance();
+	}
 
+	public double getRightInches(){
+		return rightEnc.getDistance();
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -103,6 +121,16 @@ public class DriveTrain extends Subsystem {
 			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2))
 				shiftDown();
 		}
+	}
+	
+	public void setTurn(double angle){
+		setLeft(gyroPID.getValue(getAngle(), angle, 0));
+		setRight(-gyroPID.getValue(getAngle(), angle, 0));
+	}
+	
+	public void driveForward(double inches){
+		setLeft(encLeftPID.getValue(getLeftInches(), inches, 0) + gyroPID.getValue(getAngle(), 0, 0));
+		setRight(encRightPID.getValue(getRightInches(), inches, 0) - gyroPID.getValue(getAngle(), 0, 0));
 	}
 	
 }
