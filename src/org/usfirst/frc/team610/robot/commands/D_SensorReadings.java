@@ -1,7 +1,7 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team611.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team611.robot.subsystems.NavX;
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

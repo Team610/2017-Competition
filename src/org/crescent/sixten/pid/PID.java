@@ -48,18 +48,10 @@ public class PID {
 		e = target - input;
 		eDiff = ePrev - e;
 
-		if (e > 0 && iCounter < 1.0 / i) {
-			if (e > 0.1) {
-				iCounter = 0;
-			} else {
-				iCounter += e;
-			}
-		} else if (e < 0 && iCounter < -1.0 / i) {
-			if (e < -0.1) {
-				iCounter = 0;
-			} else {
-				iCounter += e;
-			}
+		if (Math.abs(e) < 0.5 * target) {
+			iCounter += e;
+		} else {
+			iCounter = 0;
 		}
 
 		output = e * p + eDiff * d + iCounter * i + feedForward;

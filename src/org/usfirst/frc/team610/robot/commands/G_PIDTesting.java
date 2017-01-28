@@ -1,6 +1,6 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team611.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class G_PIDTesting extends CommandGroup {
     public G_PIDTesting() {
         
-    	DriveTrain.getInstance().resetEncoders();
+//    	DriveTrain.getInstance().resetEnc();
 //    	addSequential(new A_PositionLock(10,90));
 //    	addSequential(new A_PositionLock(10,90));
-    	addSequential(new A_PositionMove(250,0,1,7.5));
+//    	addSequential(new A_PositionMove(250,10));
     	
     }
 }

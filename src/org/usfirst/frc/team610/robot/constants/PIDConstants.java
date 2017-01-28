@@ -17,7 +17,6 @@ public class PIDConstants {
 	public static double DRIVE_GYRO_P = 0;
 	public static double DRIVE_GYRO_I = 0;
 	public static double DRIVE_GYRO_D = 0;
-	
 
 	public static double TURRET_P = 0;
 	public static double TURRET_I = 0;
@@ -28,13 +27,13 @@ public class PIDConstants {
 		SHOOTER_I = prefs.getDouble("Shooter I", 0);
 		SHOOTER_D = prefs.getDouble("Shooter D", 0);
 		
-		DRIVE_ENC_P = prefs.getDouble("Enc P", 0);
+		DRIVE_ENC_P = prefs.getDouble("Enc P", 0.5);
 		DRIVE_ENC_I = prefs.getDouble("Enc I", 0);
 		DRIVE_ENC_D = prefs.getDouble("Enc D", 0);
 		
 		DRIVE_GYRO_P = prefs.getDouble("Gyro P", 0);
 		DRIVE_GYRO_I = prefs.getDouble("Gyro I", 0);
 		DRIVE_GYRO_D = prefs.getDouble("Gyro D", 0);
-			
 	}
+	
 }

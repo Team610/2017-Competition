@@ -50,13 +50,19 @@ public class DriveTrain extends Subsystem {
 		rightBack = new Victor(ElectricalConstants.DRIVE_RIGHT_BACK);
 		oi = OI.getInstance();
 		navX = NavX.getInstance();
-		encLeftPID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
-		encRightPID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		encLeftPID = new PID(0.01, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		encRightPID = new PID(0.01, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_I);
 		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B);
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
 		leftEnc.setDistancePerPulse(4*Math.PI / 128.0);
 		rightEnc.setDistancePerPulse(4*Math.PI / 128.0);
+	}
+	
+	public void resetSensors(){
+		leftEnc.reset();
+		rightEnc.reset();
+		navX.reset();
 	}
 
 	public double getLeftInches(){
@@ -87,7 +93,7 @@ public class DriveTrain extends Subsystem {
 	
 	public void setRight(double power){
 		rightFront.set(power);
-		rightBack.set(power);;
+		rightBack.set(power);
 	}
 	
 	public void setLeft(double power){

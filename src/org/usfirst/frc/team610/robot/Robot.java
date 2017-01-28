@@ -2,6 +2,8 @@
 package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
+import org.usfirst.frc.team610.robot.commands.A_Auton;
+import org.usfirst.frc.team610.robot.commands.DrivePID;
 import org.usfirst.frc.team610.robot.commands.T_Drive;
 import org.usfirst.frc.team610.robot.commands.T_Teleop;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
@@ -30,6 +32,8 @@ public class Robot extends IterativeRobot {
 	CommandGroup teleop;
 	VisionServer visionServer;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	CommandGroup autonTest;
+	Command pidTune;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,6 +44,8 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		teleop = new T_Teleop();
 		drive = new T_Drive();
+		autonTest = new A_Auton(true);
+		pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
 	}
@@ -54,6 +60,8 @@ public class Robot extends IterativeRobot {
 //		teleop.cancel();
 		visionServer = VisionServer.getInstance();
 		drive.cancel();
+		autonTest.cancel();
+		pidTune.cancel();
 		
 	}
 
@@ -66,8 +74,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-//		teleop.cancel();
+		teleop.cancel();
 		drive.cancel();
+		autonTest.start();
 	}
 
 	/**
@@ -76,13 +85,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-//		teleop.cancel();
+		teleop.cancel();
 	}
 
 	@Override
 	public void teleopInit() {
-//		teleop.start();
+		teleop.start();
 		drive.start();
+		//autonTest.cancel();
 
 	}
 

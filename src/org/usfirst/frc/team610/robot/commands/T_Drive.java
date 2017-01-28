@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class T_Drive extends Command {
 
 	private DriveTrain driveTrain;
-	private boolean manual = false;
+	private boolean turbo = false;
+	private boolean atMax = false;
 	private OI oi;
-	private boolean isPressed = false;
-	private boolean upShift = false;
+
 
 	public T_Drive() {
 		driveTrain = DriveTrain.getInstance();
@@ -28,39 +28,25 @@ public class T_Drive extends Command {
 	protected void execute() {
 		driveTrain.drive();
 
-		if (!upShift) {
-			driveTrain.shiftDown();
-		} else if (upShift) {
+		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)){
 			driveTrain.shiftUp();
-		}
-
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) && !isPressed) {
-			manual = true;
-			upShift = !upShift;
-			isPressed = true;
-		}
-
-		if (!oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)) {
-			isPressed = false;
-		}
-
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)) {
-			manual = !manual;
+			turbo = true;
+		} else if(Math.abs(driveTrain.getLeftRPM()) < 5 && Math.abs(driveTrain.getRightRPM()) < 5){
+			driveTrain.shiftDown();
+			turbo = false;
 		}
 		
-		if(!manual){
-			if(driveTrain.getRightRPM() < 110 && driveTrain.getLeftRPM() < 110){
-				upShift = false;
-			} else if(driveTrain.getRightRPM() > 115 && driveTrain.getLeftRPM() > 115){
-				upShift = true;
-			}
+		if(Math.abs(driveTrain.getLeftRPM()) > 120 && Math.abs(driveTrain.getRightRPM()) > 120){
+			atMax = true;
+		} else {
+			atMax = false;
 		}
-
-		 SmartDashboard.putNumber("leftRPM", driveTrain.getLeftRPM());
-		 SmartDashboard.putNumber("rightRPM", driveTrain.getRightRPM());
-		// SmartDashboard.putNumber("leftDistance", driveTrain.getLeftInches());
-		// SmartDashboard.putNumber("rightDistance",
-		// driveTrain.getRightInches());
+		
+		SmartDashboard.putBoolean("SHIFT!", atMax);
+		SmartDashboard.putNumber("leftRPM", driveTrain.getLeftRPM());
+		SmartDashboard.putNumber("rightRPM", driveTrain.getRightRPM());
+		SmartDashboard.putNumber("leftDistance", driveTrain.getLeftInches());
+		SmartDashboard.putNumber("rightDistance", driveTrain.getRightInches());
 	}
 
 	@Override
