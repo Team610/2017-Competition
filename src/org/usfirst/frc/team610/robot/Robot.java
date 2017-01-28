@@ -1,8 +1,10 @@
 
 package org.usfirst.frc.team610.robot;
 
+import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team610.robot.commands.T_Drive;
 import org.usfirst.frc.team610.robot.commands.T_Teleop;
+import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,6 +28,7 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	Command drive;
 	CommandGroup teleop;
+	VisionServer visionServer;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -37,6 +40,7 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		teleop = new T_Teleop();
 		drive = new T_Drive();
+		RIOdroid.initUSB();
 
 	}
 
@@ -48,7 +52,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 //		teleop.cancel();
-
+		visionServer = VisionServer.getInstance();
+		drive.cancel();
+		
 	}
 
 	@Override
@@ -61,7 +67,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 //		teleop.cancel();
-
+		drive.cancel();
 	}
 
 	/**

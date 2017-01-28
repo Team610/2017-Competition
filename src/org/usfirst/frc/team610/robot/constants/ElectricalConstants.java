@@ -7,10 +7,10 @@ public class ElectricalConstants {
 	public static final int DRIVE_RIGHT_BACK = 2;
 	public static final int DRIVE_RIGHT_FRONT = 3;
 	//Encoders
-	public static final int DRIVE_ENC_LEFT_A = 2;
-	public static final int DRIVE_ENC_LEFT_B = 3;
-	public static final int DRIVE_ENC_RIGHT_A = 0;
-	public static final int DRIVE_ENC_RIGHT_B = 1;
+	public static final int DRIVE_ENC_LEFT_A = 0;
+	public static final int DRIVE_ENC_LEFT_B = 1;
+	public static final int DRIVE_ENC_RIGHT_A = 2;
+	public static final int DRIVE_ENC_RIGHT_B = 3;
 	//drive train shifter pistons
 	public static final int SHIFTER_RIGHT_ONE = 4;
 	public static final int SHIFTER_RIGHT_TWO = 5;
@@ -25,9 +25,9 @@ public class ElectricalConstants {
 	public static final int SHOOTER_MOTOR = 8;
 	public static final int TURRET_MOTOR = 9;
 	//Shooter encoder
-	public static final int SHOOTER_SENSOR = 1;
+	public static final int SHOOTER_SENSOR = 4;
 	//Turret encoder
-	public static final int TURRET_SENSOR = 2;
+	public static final int TURRET_SENSOR = 5;
 	//Hopper Feeder motor
 	public static final int FEEDER = 10;
 	//Intake Motor

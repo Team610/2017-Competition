@@ -24,7 +24,7 @@ public class DriveTrain extends Subsystem {
 	private Victor leftFront,leftBack,rightFront,rightBack;
 	
 	private DoubleSolenoid solLeft, solRight;
-	private Compressor compressor;
+	//private Compressor compressor; //Todo: add this back in
 	
 	private NavX navX;
 	
@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem {
 	private DriveTrain(){
 		solLeft = new DoubleSolenoid(ElectricalConstants.SHIFTER_LEFT_ONE, ElectricalConstants.SHIFTER_LEFT_TWO);
 		solRight = new DoubleSolenoid(ElectricalConstants.SHIFTER_RIGHT_ONE,ElectricalConstants.SHIFTER_RIGHT_TWO);
-		compressor = new Compressor();
+//		compressor = new Compressor();
 		leftFront = new Victor(ElectricalConstants.DRIVE_LEFT_FRONT);
 		leftBack = new Victor(ElectricalConstants.DRIVE_LEFT_BACK);
 		rightFront = new Victor(ElectricalConstants.DRIVE_RIGHT_FRONT);
@@ -55,12 +55,12 @@ public class DriveTrain extends Subsystem {
 		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_I);
 		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B);
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
-		leftEnc.setDistancePerPulse(4*Math.PI / 512.0);
-		rightEnc.setDistancePerPulse(4*Math.PI / 512.0);
+		leftEnc.setDistancePerPulse(4*Math.PI / 128.0);
+		rightEnc.setDistancePerPulse(4*Math.PI / 128.0);
 	}
 
 	public double getLeftInches(){
-		return leftEnc.getDistance();
+		return -leftEnc.getDistance();
 	}
 
 	public double getRightInches(){
@@ -73,6 +73,11 @@ public class DriveTrain extends Subsystem {
 	
 	public double getLeftRPM(){
 		return rightEnc.getRate();
+	}
+	
+	public void resetEnc(){
+		rightEnc.reset();
+		leftEnc.reset();
 	}
 	
 	public void initDefaultCommand() {
@@ -100,12 +105,13 @@ public class DriveTrain extends Subsystem {
 		solRight.set(DoubleSolenoid.Value.kReverse);
 	}
 	
-	public void compressor(boolean start){
-		if(start)
-			compressor.start();
-		else
-			compressor.stop();
-	}
+	// Todo: put this back in
+//	public void compressor(boolean start){
+//		if(start)
+//			compressor.start();
+//		else
+//			compressor.stop();
+//	}
 	
 	public double getAngle(){
 		return navX.getAngle();
@@ -123,12 +129,12 @@ public class DriveTrain extends Subsystem {
 		rightSpeed = y + x;
 		setRight(rightSpeed);
 		setLeft(leftSpeed);
-		if(leftSpeed != 0 && rightSpeed != 0){
-			if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) || (getLeftRPM() > 1500 && getRightRPM() > 1500))
-				shiftUp();
-			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)|| (getLeftRPM() < 1500 && getRightRPM() < 1500))
-				shiftDown();
-		}
+//		if(leftSpeed != 0 && rightSpeed != 0){
+//			if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) || (getLeftRPM() > 1500 && getRightRPM() > 1500))
+//				shiftUp();
+//			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)|| (getLeftRPM() < 1500 && getRightRPM() < 1500))
+//				shiftDown();
+//		}
 	}
 	
 	public void setTurn(double angle){

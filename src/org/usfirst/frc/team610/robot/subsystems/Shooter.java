@@ -18,12 +18,9 @@ public class Shooter extends Subsystem{
 	private double RPMfactor;
 	private double shooterPeriod;
 	private PID shooterPID;
-	static Counter shooterCounter;
+	private Counter shooterCounter;
 	private DigitalInput positionSensor;
-	private PID turretPID;
-	private int counter;
-	private boolean isOnPos;
-	private int curPos;
+
 	
 	public static Shooter getInstance(){
 		if(instance == null)
@@ -40,12 +37,9 @@ public class Shooter extends Subsystem{
 		shooterCounter.setDistancePerPulse(1);
 		shooterCounter.setSamplesToAverage(1);
 		shooterCounter.reset();
-		turretPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
-		counter = 0;
-		isOnPos = false;
-		curPos = 0;
+
 	}
 	
 	public void updatePID(){
@@ -102,9 +96,9 @@ public class Shooter extends Subsystem{
 		return !positionSensor.get();
 	}
 	
-	public void vision(){
-		setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0, 0));
-	}
+//	public void vision(){
+//		setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0, 0));
+//	}
 	
 	public void setShooterPos(int pos){ //one = home, two = red, three = blue
 	}
