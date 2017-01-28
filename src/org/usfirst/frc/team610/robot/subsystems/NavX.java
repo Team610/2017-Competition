@@ -1,6 +1,6 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.nav6.frc.IMUAdvanced;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -11,7 +11,7 @@ public class NavX extends Subsystem {
 	
 	private static NavX instance;
 	 
-	private AHRS navX;
+	private IMUAdvanced navX;
 	
 	public static NavX getInstance(){
 		if(instance == null){

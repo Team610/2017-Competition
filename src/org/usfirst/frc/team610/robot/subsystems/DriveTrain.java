@@ -67,6 +67,14 @@ public class DriveTrain extends Subsystem {
 		return rightEnc.getDistance();
 	}
 	
+	public double getRightRPM(){
+		return rightEnc.getRate();
+	}
+	
+	public double getLeftRPM(){
+		return rightEnc.getRate();
+	}
+	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
@@ -116,9 +124,9 @@ public class DriveTrain extends Subsystem {
 		setRight(rightSpeed);
 		setLeft(leftSpeed);
 		if(leftSpeed != 0 && rightSpeed != 0){
-			if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1))
+			if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) || (getLeftRPM() > 1500 && getRightRPM() > 1500))
 				shiftUp();
-			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2))
+			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)|| (getLeftRPM() < 1500 && getRightRPM() < 1500))
 				shiftDown();
 		}
 	}

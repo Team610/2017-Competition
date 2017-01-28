@@ -18,7 +18,10 @@ public class PIDConstants {
 	public static double DRIVE_GYRO_I = 0;
 	public static double DRIVE_GYRO_D = 0;
 	
-	
+
+	public static double TURRET_P = 0;
+	public static double TURRET_I = 0;
+	public static double TURRET_D = 0;
 	
 	public static void Update(){
 		SHOOTER_P = prefs.getDouble("Shooter P", 0);

@@ -3,8 +3,10 @@ package org.usfirst.frc.team610.robot.subsystems;
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
+import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -17,6 +19,11 @@ public class Shooter extends Subsystem{
 	private double shooterPeriod;
 	private PID shooterPID;
 	static Counter shooterCounter;
+	private DigitalInput positionSensor;
+	private PID turretPID;
+	private int counter;
+	private boolean isOnPos;
+	private int curPos;
 	
 	public static Shooter getInstance(){
 		if(instance == null)
@@ -33,9 +40,12 @@ public class Shooter extends Subsystem{
 		shooterCounter.setDistancePerPulse(1);
 		shooterCounter.setSamplesToAverage(1);
 		shooterCounter.reset();
-		
+		turretPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
+		counter = 0;
+		isOnPos = false;
+		curPos = 0;
 	}
 	
 	public void updatePID(){
@@ -79,6 +89,26 @@ public class Shooter extends Subsystem{
 		return 1.4e-4 * rpm - 0.05; //change for this years feedforward
 	}
 
+	public boolean atPosition(){
+//		if(positionSensor.get()){
+//			isOnPos = false;
+//		}
+//		else{
+//			if(isOnPos == false){
+//				isOnPos = true;
+//				counter++;
+//			}
+//		}
+		return !positionSensor.get();
+	}
+	
+	public void vision(){
+		setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0, 0));
+	}
+	
+	public void setShooterPos(int pos){ //one = home, two = red, three = blue
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

@@ -3,6 +3,7 @@ package org.usfirst.frc.team610.robot.commands;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class T_Drive extends Command{
 	
@@ -18,6 +19,8 @@ public class T_Drive extends Command{
 	
 	protected void execute(){
 		driveTrain.drive();
+		SmartDashboard.putNumber("leftRPM", driveTrain.getLeftRPM());
+		SmartDashboard.putNumber("rightRPM", driveTrain.getRightRPM());
 	}
 	
 	@Override

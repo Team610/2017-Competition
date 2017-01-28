@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team610.robot;
 
+import org.usfirst.frc.team610.robot.commands.T_Drive;
 import org.usfirst.frc.team610.robot.commands.T_Teleop;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -23,6 +24,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	Command autonomousCommand;
+	Command drive;
 	CommandGroup teleop;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -34,6 +36,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = OI.getInstance();
 		teleop = new T_Teleop();
+		drive = new T_Drive();
 
 	}
 
@@ -44,20 +47,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		teleop.cancel();
+//		teleop.cancel();
 
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		teleop.cancel();
+//		teleop.cancel();
 	}
 
 
 	@Override
 	public void autonomousInit() {
-		teleop.cancel();
+//		teleop.cancel();
 
 	}
 
@@ -67,12 +70,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		teleop.cancel();
+//		teleop.cancel();
 	}
 
 	@Override
 	public void teleopInit() {
-		teleop.start();
+//		teleop.start();
+		drive.start();
 
 	}
 

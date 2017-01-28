@@ -34,4 +34,6 @@ public class ElectricalConstants {
 	public static final int INTAKE = 11;
 	//Hanger Motor
 	public static final int HANGER_MOTOR = 12;
+	//
+	public static final int SHOOTER_POT = 3;
 }
