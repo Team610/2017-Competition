@@ -1,7 +1,5 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -9,14 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class A_ResetTurn extends Command {
 
-	private DriveTrain driveTrain;
 	private double time;
 	
 	
     public A_ResetTurn(double time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	driveTrain = DriveTrain.getInstance();
     	this.time = time;
     }
 

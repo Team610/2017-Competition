@@ -132,7 +132,7 @@ public class DriveTrain extends Subsystem {
 		navX.reset();
 	}
 	
-	public void drive(){
+	public void drive(double speedFactor){
 		double x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
 		double y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
 		double leftSpeed, rightSpeed;
@@ -141,8 +141,8 @@ public class DriveTrain extends Subsystem {
 		
 //		SmartDashboard.putNumber("LeftSpeed", leftSpeed);
 		
-		setRight(rightSpeed);
-		setLeft(leftSpeed);
+		setRight(rightSpeed * speedFactor);
+		setLeft(leftSpeed * speedFactor);
 //		if(leftSpeed != 0 && rightSpeed != 0){
 //			if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) || (getLeftRPM() > 1500 && getRightRPM() > 1500))
 //				shiftUp();

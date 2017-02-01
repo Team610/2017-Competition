@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class T_Drive extends Command {
 
 	private DriveTrain driveTrain;
-	private boolean turbo = false;
 	private boolean atMax = false;
-	private boolean pidLock = false;
 	private double leftEncValue, rightEncValue;
 	private PID pidLeft, pidRight;
 	private OI oi;
@@ -33,24 +31,23 @@ public class T_Drive extends Command {
 
 	protected void execute() {
 		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)) {
-			if(!pidLock){
+			if(Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y)) < 0.05 
+					&& Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X)) < 0.05){
+				driveTrain.setLeft(pidLeft.getValue(driveTrain.getLeftInches(),leftEncValue,0));
+				driveTrain.setRight(pidRight.getValue(driveTrain.getRightInches(),rightEncValue,0));
+			} else {
+				driveTrain.drive(0.5);
 				leftEncValue = driveTrain.getLeftInches();
 				rightEncValue = driveTrain.getRightInches();
 			}
 			
-			driveTrain.setLeft(pidLeft.getValue(driveTrain.getLeftInches(),leftEncValue,0));
-			driveTrain.setRight(pidRight.getValue(driveTrain.getRightInches(),rightEncValue,0));
-			
-			pidLock = true;
 		} else {
-			driveTrain.drive();
+			driveTrain.drive(1);
 
 			if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)) {
 				driveTrain.shiftUp();
-				turbo = true;
 			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 && Math.abs(driveTrain.getRightRPM()) < 50) {
 				driveTrain.shiftDown();
-				turbo = false;
 			}
 
 			if (Math.abs(driveTrain.getLeftRPM()) > 120 && Math.abs(driveTrain.getRightRPM()) > 120) {
@@ -58,7 +55,6 @@ public class T_Drive extends Command {
 			} else {
 				atMax = false;
 			}
-			pidLock = false;
 		}
 
 		SmartDashboard.putBoolean("SHIFT!", atMax);
