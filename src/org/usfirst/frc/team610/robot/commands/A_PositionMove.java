@@ -1,5 +1,6 @@
 package org.usfirst.frc.team610.robot.commands;
 
+import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
@@ -13,25 +14,44 @@ public class A_PositionMove extends Command {
 
 	// Distance
 	private DriveTrain driveTrain;
+	private PID leftDrivePID, rightDrivePID;
 
-	double distance;
-	double time;
+	private double distance;
+	private double time;
 
 	public A_PositionMove(double distance, double time) {
 		driveTrain = DriveTrain.getInstance();
 		this.time = time;
-		this.distance = -distance;
+		this.distance = distance;
+		leftDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		rightDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+//		driveTrain.resetEnc();
+		
+		PIDConstants.Update();
 		setTimeout(time);
+		driveTrain.setLeft(0);
+		driveTrain.setRight(0);
+		leftDrivePID.resetPID();
+		rightDrivePID.resetPID();
+		leftDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		rightDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		System.out.println("Starting Move");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		driveTrain.driveForward(distance);
-
+		double leftPower = -leftDrivePID.getValue(driveTrain.getLeftInches(), distance, 0);
+		double rightPower = -rightDrivePID.getValue(driveTrain.getRightInches(), distance, 0);
+		SmartDashboard.putNumber("Left Enc", driveTrain.getLeftInches());
+		SmartDashboard.putNumber("Right Enc", driveTrain.getRightInches());
+		SmartDashboard.putNumber("LeftPower", leftPower);
+		SmartDashboard.putNumber("RightPower", rightPower);
+		driveTrain.setLeft(leftPower);
+		driveTrain.setRight(rightPower);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -41,6 +61,8 @@ public class A_PositionMove extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		driveTrain.setLeft(0);
+		driveTrain.setRight(0);
 	}
 
 	// Called when another command which requires one or more of the same

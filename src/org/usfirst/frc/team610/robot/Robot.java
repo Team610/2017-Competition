@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 		teleop = new T_Teleop();
 		drive = new T_Drive();
 		autonTest = new A_Auton(true);
-		pidTune = new DrivePID();
+		//pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
 	}
@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 		visionServer = VisionServer.getInstance();
 		drive.cancel();
 		autonTest.cancel();
-		pidTune.cancel();
+		//pidTune.cancel();
 		
 	}
 
@@ -77,6 +77,7 @@ public class Robot extends IterativeRobot {
 		teleop.cancel();
 		drive.cancel();
 		autonTest.start();
+//		pidTune.start();
 	}
 
 	/**
@@ -90,9 +91,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		teleop.start();
+//		teleop.start();
 		drive.start();
-		//autonTest.cancel();
+		autonTest.cancel();
+//		pidTune.cancel();
 
 	}
 

@@ -31,7 +31,7 @@ public class T_Drive extends Command {
 		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)){
 			driveTrain.shiftUp();
 			turbo = true;
-		} else if(Math.abs(driveTrain.getLeftRPM()) < 5 && Math.abs(driveTrain.getRightRPM()) < 5){
+		} else if(Math.abs(driveTrain.getLeftRPM()) < 50 && Math.abs(driveTrain.getRightRPM()) < 50){
 			driveTrain.shiftDown();
 			turbo = false;
 		}
@@ -42,9 +42,10 @@ public class T_Drive extends Command {
 			atMax = false;
 		}
 		
+		
 		SmartDashboard.putBoolean("SHIFT!", atMax);
-		SmartDashboard.putNumber("leftRPM", driveTrain.getLeftRPM());
-		SmartDashboard.putNumber("rightRPM", driveTrain.getRightRPM());
+		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
+		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
 		SmartDashboard.putNumber("leftDistance", driveTrain.getLeftInches());
 		SmartDashboard.putNumber("rightDistance", driveTrain.getRightInches());
 	}

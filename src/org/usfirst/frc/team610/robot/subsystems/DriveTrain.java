@@ -7,10 +7,13 @@ import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -18,9 +21,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
 	private static DriveTrain instance;
-	private PID encLeftPID;
-	private PID encRightPID;
-	private PID gyroPID;
+
 	private Victor leftFront,leftBack,rightFront,rightBack;
 	
 	private DoubleSolenoid solLeft, solRight;
@@ -29,6 +30,8 @@ public class DriveTrain extends Subsystem {
 	private NavX navX;
 	
 	private OI oi;
+	
+	private DigitalInput leftEye;
 	
 	private Encoder leftEnc;
 	private Encoder rightEnc;
@@ -50,13 +53,11 @@ public class DriveTrain extends Subsystem {
 		rightBack = new Victor(ElectricalConstants.DRIVE_RIGHT_BACK);
 		oi = OI.getInstance();
 		navX = NavX.getInstance();
-		encLeftPID = new PID(0.01, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
-		encRightPID = new PID(0.01, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
-		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_I);
 		leftEnc = new Encoder(ElectricalConstants.DRIVE_ENC_LEFT_A, ElectricalConstants.DRIVE_ENC_LEFT_B);
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
 		leftEnc.setDistancePerPulse(4*Math.PI / 128.0);
 		rightEnc.setDistancePerPulse(4*Math.PI / 128.0);
+		leftEye = new DigitalInput(ElectricalConstants.GEAR_EYE_LEFT);
 	}
 	
 	public void resetSensors(){
@@ -64,13 +65,17 @@ public class DriveTrain extends Subsystem {
 		rightEnc.reset();
 		navX.reset();
 	}
+	
+	public boolean getLeftEye(){
+		return leftEye.get();
+	}
 
 	public double getLeftInches(){
-		return -leftEnc.getDistance();
+		return leftEnc.getDistance();
 	}
 
 	public double getRightInches(){
-		return rightEnc.getDistance();
+		return -rightEnc.getDistance();
 	}
 	
 	public double getRightRPM(){
@@ -133,6 +138,9 @@ public class DriveTrain extends Subsystem {
 		double leftSpeed, rightSpeed;
 		leftSpeed = y - x;
 		rightSpeed = y + x;
+		
+//		SmartDashboard.putNumber("LeftSpeed", leftSpeed);
+		
 		setRight(rightSpeed);
 		setLeft(leftSpeed);
 //		if(leftSpeed != 0 && rightSpeed != 0){
@@ -141,16 +149,6 @@ public class DriveTrain extends Subsystem {
 //			else if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)|| (getLeftRPM() < 1500 && getRightRPM() < 1500))
 //				shiftDown();
 //		}
-	}
-	
-	public void setTurn(double angle){
-		setLeft(gyroPID.getValue(getAngle(), angle, 0));
-		setRight(-gyroPID.getValue(getAngle(), angle, 0));
-	}
-	
-	public void driveForward(double inches){
-		setLeft(encLeftPID.getValue(getLeftInches(), inches, 0) + gyroPID.getValue(getAngle(), 0, 0));
-		setRight(encRightPID.getValue(getRightInches(), inches, 0) - gyroPID.getValue(getAngle(), 0, 0));
 	}
 	
 }
