@@ -30,11 +30,17 @@ public class T_Drive extends Command {
 	}
 
 	protected void execute() {
+		PIDConstants.Update();
+		pidRight.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		pidLeft.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		
 		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)) {
 			if(Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y)) < 0.05 
 					&& Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X)) < 0.05){
 				driveTrain.setLeft(pidLeft.getValue(driveTrain.getLeftInches(),leftEncValue,0));
 				driveTrain.setRight(pidRight.getValue(driveTrain.getRightInches(),rightEncValue,0));
+				System.out.println(driveTrain.getLeftInches());
+				System.out.println(driveTrain.getRightInches());
 			} else {
 				driveTrain.drive(0.5);
 				leftEncValue = driveTrain.getLeftInches();
@@ -55,6 +61,8 @@ public class T_Drive extends Command {
 			} else {
 				atMax = false;
 			}
+			leftEncValue = driveTrain.getLeftInches();
+			rightEncValue = driveTrain.getRightInches();
 		}
 
 		SmartDashboard.putBoolean("SHIFT!", atMax);
