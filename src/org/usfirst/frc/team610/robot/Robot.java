@@ -3,7 +3,9 @@ package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team610.robot.commands.A_Auton;
-import org.usfirst.frc.team610.robot.commands.DrivePID;
+import org.usfirst.frc.team610.robot.commands.G_GearLeft;
+import org.usfirst.frc.team610.robot.commands.G_GearRight;
+import org.usfirst.frc.team610.robot.commands.G_Hopper;
 import org.usfirst.frc.team610.robot.commands.T_Drive;
 import org.usfirst.frc.team610.robot.commands.T_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
@@ -32,7 +34,7 @@ public class Robot extends IterativeRobot {
 	CommandGroup teleop;
 	VisionServer visionServer;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	CommandGroup autonTest;
+	CommandGroup auton, autonTest;
 	Command pidTune;
 
 	/**
@@ -60,7 +62,7 @@ public class Robot extends IterativeRobot {
 		// teleop.cancel();
 		visionServer = VisionServer.getInstance();
 		drive.cancel();
-		autonTest.cancel();
+		auton.cancel();
 		// pidTune.cancel();
 
 	}
@@ -71,12 +73,12 @@ public class Robot extends IterativeRobot {
 		// teleop.cancel();
 
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
-			//Start Left Gear Auton
+			auton = new G_GearLeft();
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
-			//Start Right Gear Auton
+			auton = new G_GearRight();
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
-			//Start Hopper Auton
-		}
+			auton = new G_Hopper();
+		}	
 	}
 
 
@@ -84,7 +86,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		teleop.cancel();
 		drive.cancel();
-		autonTest.start();
+		auton.start();
 		// pidTune.start();
 	}
 
