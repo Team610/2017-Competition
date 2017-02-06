@@ -11,7 +11,7 @@ public class ElectricalConstants {
 	public static final int DRIVE_ENC_LEFT_B = 3;
 	public static final int DRIVE_ENC_RIGHT_A = 0;
 	public static final int DRIVE_ENC_RIGHT_B = 1;
-	//drive train shifter pistons
+	//Drive train shifter pistons
 	public static final int SHIFTER_RIGHT_ONE = 4;
 	public static final int SHIFTER_RIGHT_TWO = 5;
 	public static final int SHIFTER_LEFT_ONE = 6;
@@ -38,4 +38,7 @@ public class ElectricalConstants {
 	public static final int SHOOTER_POT = 3;
 	
 	public static final int GEAR_EYE_LEFT = 10;
+	//GEAR SENSORS
+	public static final int GEAR_OPTICAL_LEFT = 0; //CHANGE
+	public static final int GEAR_OPTICAL_RIGHT = 0; //CHANGE
 }
