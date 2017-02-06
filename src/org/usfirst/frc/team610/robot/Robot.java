@@ -6,6 +6,7 @@ import org.usfirst.frc.team610.robot.commands.A_Auton;
 import org.usfirst.frc.team610.robot.commands.DrivePID;
 import org.usfirst.frc.team610.robot.commands.T_Drive;
 import org.usfirst.frc.team610.robot.commands.T_Teleop;
+import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -14,7 +15,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 		teleop = new T_Teleop();
 		drive = new T_Drive();
 		autonTest = new A_Auton(true);
-		//pidTune = new DrivePID();
+		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
 	}
@@ -57,18 +57,26 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-//		teleop.cancel();
+		// teleop.cancel();
 		visionServer = VisionServer.getInstance();
 		drive.cancel();
 		autonTest.cancel();
-		//pidTune.cancel();
-		
+		// pidTune.cancel();
+
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-//		teleop.cancel();
+		// teleop.cancel();
+
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
+			//Start Left Gear Auton
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
+			//Start Right Gear Auton
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
+			//Start Hopper Auton
+		}
 	}
 
 
@@ -77,7 +85,7 @@ public class Robot extends IterativeRobot {
 		teleop.cancel();
 		drive.cancel();
 		autonTest.start();
-//		pidTune.start();
+		// pidTune.start();
 	}
 
 	/**
@@ -91,10 +99,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-//		teleop.start();
+		// teleop.start();
 		drive.start();
 		autonTest.cancel();
-//		pidTune.cancel();
+		// pidTune.cancel();
 
 	}
 
