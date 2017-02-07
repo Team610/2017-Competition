@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		teleop = new T_Teleop();
 		drive = new T_Drive();
+		auton = new G_GearRight();
 		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 

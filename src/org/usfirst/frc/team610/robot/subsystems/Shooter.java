@@ -39,7 +39,7 @@ public class Shooter extends Subsystem{
 		shooterCounter.reset();
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
-		positionSensor = new DigitalInput(ElectricalConstants.SHOOTER_SENSOR);
+		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
 	}
 	
 	public void updatePID(){

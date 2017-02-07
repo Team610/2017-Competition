@@ -17,10 +17,10 @@ public class ElectricalConstants {
 	public static final int SHIFTER_LEFT_ONE = 6;
 	public static final int SHIFTER_LEFT_TWO = 7;
 	//Intake Pneumatics
-	public static final int GEAR_FLAP_ONE = 0;
-	public static final int GEAR_FLAP_TWO = 1;
-	public static final int GEAR_SCORER_ONE = 2;
-	public static final int GEAR_SCORER_TWO = 3;
+	public static final int GEAR_FLAP_ONE = 2;
+	public static final int GEAR_FLAP_TWO = 3;
+	public static final int GEAR_SCORER_ONE = 0;
+	public static final int GEAR_SCORER_TWO = 1;
 	//Shooter
 	public static final int SHOOTER_MOTOR = 8;
 	public static final int TURRET_MOTOR = 9;

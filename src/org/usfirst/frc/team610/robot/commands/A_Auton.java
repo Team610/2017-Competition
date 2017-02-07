@@ -7,6 +7,6 @@ public class A_Auton extends CommandGroup {
 //		addSequential(new A_ResetSensors(1));
 //		addSequential(new A_GearTurn(5));
 //		addSequential(new A_PositionMove(24, 3));
-		addSequential(new A_TurnOptical(5, .5, true));
+		addSequential(new A_TurnOptical(5, .5));
 	}
 }
