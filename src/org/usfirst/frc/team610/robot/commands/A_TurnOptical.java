@@ -63,7 +63,7 @@ public class A_TurnOptical extends Command {
 				driveTrain.setLeft(-value);
 				driveTrain.setRight(value);
 			} else {
-				driveTrain.setLeft(value);
+				driveTrain.setLeft(value);//
 				driveTrain.setRight(-value);
 			}
 		}
