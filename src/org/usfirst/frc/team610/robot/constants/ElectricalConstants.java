@@ -27,7 +27,7 @@ public class ElectricalConstants {
 	//Shooter encoder
 	public static final int SHOOTER_SENSOR = 4;
 	//Turret encoder
-	public static final int TURRET_SENSOR = 5;
+	public static final int TURRET_SENSOR = 13;
 	//Hopper Feeder motor
 	public static final int FEEDER = 15;
 	//Intake Motor
@@ -37,8 +37,7 @@ public class ElectricalConstants {
 	//
 	public static final int SHOOTER_POT = 3;
 	
-	public static final int GEAR_EYE_LEFT = 10;
 	//GEAR SENSORS
-	public static final int GEAR_OPTICAL_LEFT = 0; //CHANGE
-	public static final int GEAR_OPTICAL_RIGHT = 0; //CHANGE
+	public static final int GEAR_OPTICAL_LEFT = 10; //CHANGE
+	public static final int GEAR_OPTICAL_RIGHT = 11; //CHANGE
 }

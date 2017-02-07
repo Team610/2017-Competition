@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +35,7 @@ public class Robot extends IterativeRobot {
 	CommandGroup teleop;
 	VisionServer visionServer;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	CommandGroup auton, autonTest;
+	CommandGroup auton;
 	Command pidTune;
 
 	/**
@@ -46,7 +47,6 @@ public class Robot extends IterativeRobot {
 		oi = OI.getInstance();
 		teleop = new T_Teleop();
 		drive = new T_Drive();
-		autonTest = new A_Auton(true);
 		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
@@ -62,7 +62,6 @@ public class Robot extends IterativeRobot {
 		// teleop.cancel();
 		visionServer = VisionServer.getInstance();
 		drive.cancel();
-		auton.cancel();
 		// pidTune.cancel();
 
 	}
@@ -74,11 +73,17 @@ public class Robot extends IterativeRobot {
 
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
 			auton = new G_GearLeft();
+			SmartDashboard.putString("Auton", "Gearleft");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
 			auton = new G_GearRight();
+			SmartDashboard.putString("Auton", "GearRight");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
 			auton = new G_Hopper();
-		}	
+			SmartDashboard.putString("Auton", "Hopper");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)){
+			auton = new A_Auton();
+			SmartDashboard.putString("Auton", "TurnOptical");
+		}
 	}
 
 
@@ -101,9 +106,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// teleop.start();
-		drive.start();
-		autonTest.cancel();
+		 teleop.start();
+//		drive.start();
 		// pidTune.cancel();
 
 	}

@@ -22,7 +22,7 @@ public class VisionServer implements Runnable {
 
 
 
-	private static final int port = 5800;
+	private static final int port = 3000;
 
 	public static VisionServer getInstance() {
 		if (instance == null) {

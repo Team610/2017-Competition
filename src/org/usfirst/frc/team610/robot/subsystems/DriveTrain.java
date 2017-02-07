@@ -1,19 +1,14 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
-import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
-import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -35,6 +30,8 @@ public class DriveTrain extends Subsystem {
 	
 	private Encoder leftEnc;
 	private Encoder rightEnc;
+	
+	private DigitalInput gearOptLeft, gearOptRight;
 
 	public static DriveTrain getInstance() {
 		if (instance == null) {
@@ -57,13 +54,15 @@ public class DriveTrain extends Subsystem {
 		rightEnc = new Encoder(ElectricalConstants.DRIVE_ENC_RIGHT_A, ElectricalConstants.DRIVE_ENC_RIGHT_B);
 		leftEnc.setDistancePerPulse(4*Math.PI / 128.0);
 		rightEnc.setDistancePerPulse(4*Math.PI / 128.0);
-		leftEye = new DigitalInput(ElectricalConstants.GEAR_EYE_LEFT);
+
+		gearOptLeft = new DigitalInput(ElectricalConstants.GEAR_OPTICAL_LEFT);
+		gearOptRight = new DigitalInput(ElectricalConstants.GEAR_OPTICAL_RIGHT);
 	}
 	
 	public void resetSensors(){
 		leftEnc.reset();
 		rightEnc.reset();
-		navX.reset();
+		navX.resetYaw();
 	}
 	
 	public boolean getLeftEye(){
@@ -151,4 +150,10 @@ public class DriveTrain extends Subsystem {
 //		}
 	}
 	
+	public boolean getLeftOptical(){
+		return !gearOptLeft.get();
+	}
+	public boolean getRightOptical(){
+		return !gearOptRight.get();
+	}
 }

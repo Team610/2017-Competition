@@ -27,22 +27,22 @@ public class GearIntake extends Subsystem{
 	
 	public void setIntake(boolean open){
 		if(open){
-			intake.set(DoubleSolenoid.Value.kForward);
+			intake.set(DoubleSolenoid.Value.kReverse);
 			isIntakeClosed = false;
 		}
 		else{
-			intake.set(DoubleSolenoid.Value.kReverse);
+			intake.set(DoubleSolenoid.Value.kForward);
 			isIntakeClosed = true;
 		}
 	}
 	
 	public void setOuttake(boolean open){
 		if(open){
-			outtake.set(DoubleSolenoid.Value.kForward);
+			outtake.set(DoubleSolenoid.Value.kReverse);
 			isOuttake = false;
 		}
 		else{
-			outtake.set(DoubleSolenoid.Value.kReverse);
+			outtake.set(DoubleSolenoid.Value.kForward);
 			isOuttake = true;
 		}
 	}

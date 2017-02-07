@@ -39,7 +39,7 @@ public class Shooter extends Subsystem{
 		shooterCounter.reset();
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
-
+		positionSensor = new DigitalInput(ElectricalConstants.SHOOTER_SENSOR);
 	}
 	
 	public void updatePID(){
@@ -65,6 +65,10 @@ public class Shooter extends Subsystem{
 	
 	public void setTurret(double speed){
 		turret.set(speed);
+	}
+	
+	public boolean getSensor(){
+		return positionSensor.get();
 	}
 	
 	//Gets the time between counts
