@@ -18,6 +18,7 @@ public class VisionServer implements Runnable {
 	private Socket p;
 	private String rawInput;
 	private boolean startInput = false;
+	private boolean tracking = false;
 	private ServerThread commThread;
 
 
@@ -124,12 +125,23 @@ public class VisionServer implements Runnable {
 		String sub = getRawInput();
 		String [] tokens = sub.split("/n");
 		if((tokens[0].charAt(0) < 57 && tokens[0].charAt(0) > 48 )|| tokens[0].charAt(0) == 45){
+			tracking = true;
 			return Double.parseDouble(tokens[0]);
 		} else {
+			tracking = false;
 			return 0;
 		}
 	}
 
+	public String getString(){
+		String sub = getRawInput();
+		String [] tokens = sub.split("/n");
+		return tokens[0];
+	}
+	
+	public boolean isTracking(){
+		return tracking;
+	}
 	/**
 	 * If a VisionUpdate object (i.e. a target) is not in the list, add it.
 	 * 
