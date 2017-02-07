@@ -14,17 +14,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class A_TurnOptical extends Command {
 
-	
-	private boolean foundTape;
+	private boolean foundTape, done = false, right;
 	private DriveTrain driveTrain;
 	private double turnAngle, turnSpeed;
 	private GearIntake intake;
-	private boolean left = true;;
 	private PID gyroPID;
-	
-	public A_TurnOptical(double time, double turnSpeed) {
+	private int counter;
+
+	public A_TurnOptical(double time, double turnSpeed, boolean right) {
 		setTimeout(time);
 		this.turnSpeed = turnSpeed;
+		counter = 0;
+		this.right = right;
 	}
 
 	// Called just before this Command runs the first time
@@ -34,7 +35,6 @@ public class A_TurnOptical extends Command {
 		intake = GearIntake.getInstance();
 		driveTrain.resetSensors();
 		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
-		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -43,24 +43,43 @@ public class A_TurnOptical extends Command {
 		intake.setOuttake(true);
 		if (driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape) {
 			foundTape = true;
-			turnAngle = driveTrain.getAngle() - 5;
-			
-		} else if(!foundTape) {
-			driveTrain.setLeft(turnSpeed);
-			driveTrain.setRight(-turnSpeed);
+			if (right)
+				turnAngle = driveTrain.getAngle() - 5;
+			else
+				turnAngle = driveTrain.getAngle() + 5;
+		} else if (!foundTape) {
+			if (right) {
+				driveTrain.setLeft(turnSpeed);
+				driveTrain.setRight(-turnSpeed);
+			} else {
+				driveTrain.setLeft(-turnSpeed);
+				driveTrain.setRight(turnSpeed);
+			}
 		}
 		System.out.println(foundTape);
-		if(foundTape){
+		if (foundTape) {
 			double value = gyroPID.getValue(driveTrain.getAngle(), turnAngle, 0);
-	    	driveTrain.setLeft(-value);
-	    	driveTrain.setRight(value);
+			if (right) {
+				driveTrain.setLeft(-value);
+				driveTrain.setRight(value);
+			} else {
+				driveTrain.setLeft(value);
+				driveTrain.setRight(-value);
+			}
 		}
-
+		if (driveTrain.getLeftOptical() && driveTrain.getRightOptical()) {
+			counter++;
+		} else {
+			counter = 0;
+		}
+		if (counter >= 25) {
+			done = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut();
+		return isTimedOut() || done;
 	}
 
 	// Called once after isFinished returns true
