@@ -35,7 +35,7 @@ public class ElectricalConstants {
 	//Hanger Motor
 	public static final int HANGER_MOTOR = 17;
 	//
-	public static final int HELOSHOOTER_POT = 3;
+	public static final int DISASTER = 3;
 	
 	//GEAR SENSORS
 	public static final int GEAR_OPTICAL_LEFT = 10; //CHANGE
