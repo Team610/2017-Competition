@@ -3,10 +3,10 @@ package org.usfirst.frc.team610.robot.subsystems;
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
-import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -20,7 +20,7 @@ public class Shooter extends Subsystem{
 	private PID shooterPID;
 	private Counter shooterCounter;
 	private DigitalInput positionSensor;
-
+	private DigitalOutput spike;
 	
 	public static Shooter getInstance(){
 		if(instance == null)
@@ -40,6 +40,7 @@ public class Shooter extends Subsystem{
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
+		spike = new DigitalOutput(ElectricalConstants.SPIKE);
 	}
 	
 	public void updatePID(){
@@ -51,6 +52,10 @@ public class Shooter extends Subsystem{
 		double shooterPower = 0;
 		shooterPower = shooterPID.getValue(getShooterSpeed(), rpm, getFeedForward(4000)); //change to shooter constants
 		setPower(shooterPower);
+	}
+	
+	public void setLED(boolean on){
+		spike.set(on);
 	}
 	
 	//Set power to motor

@@ -16,8 +16,12 @@ public class T_Shooter extends Command {
 	private OI oi;
 	private boolean isTracking;
 	
+	private boolean isYPressed = false;
+	
 	private PID visionPID;
 	private VisionServer server;
+	
+	private boolean led = false;
 
 	public T_Shooter() {
 		shooter = Shooter.getInstance();
@@ -52,6 +56,16 @@ public class T_Shooter extends Command {
 		} else if(!server.isTracking()){
 			isTracking = false;
 		}
+		
+		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y) && !isYPressed){
+			isYPressed = true;
+			led = !led;
+		}
+		if(!oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)){
+			isYPressed = false;
+		}
+		
+		shooter.setLED(led);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ public class G_Teleop extends CommandGroup{
 		addParallel(new T_GearIntake());
 //		addParallel(new T_Hanger());
 //		addParallel(new T_Feeder());
-		addParallel(new T_Shooter());
+//		addParallel(new T_Shooter());
 //		addParallel(new T_BallIntake());
 	}
 }
