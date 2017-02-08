@@ -15,13 +15,15 @@ public class T_Shooter extends Command {
 	private Shooter shooter;
 	private OI oi;
 	private boolean isTracking;
-	
+
 	private boolean isYPressed = false;
-	
+
 	private PID visionPID;
 	private VisionServer server;
-	
+
 	private boolean led = false;
+
+	private boolean isLeft = false;
 
 	public T_Shooter() {
 		shooter = Shooter.getInstance();
@@ -35,15 +37,24 @@ public class T_Shooter extends Command {
 	}
 
 	protected void execute() {
-		double value = visionPID.getValue(server.getDouble(), 0, 0);
+		double speed = visionPID.getValue(server.getDouble(), 0, 0);
 
-		if (isTracking) {
-			shooter.setTurret(value);
+		if (server.isTracking()) {
+			shooter.setTurret(speed);
+			if (shooter.getSensor()) {
+				if (speed > 0) {
+					isLeft = true;
+				} else {
+					isLeft = false;
+				}
+			}
 		} else {
-			if (!shooter.getSensor()) {
-				shooter.setTurret(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X));
-			} else {
+			if (shooter.getSensor()) {
 				shooter.setTurret(0);
+			} else if (isLeft) {
+				shooter.setTurret(-0.5);
+			} else if (!isLeft) {
+				shooter.setTurret(0.5);
 			}
 		}
 
@@ -53,18 +64,18 @@ public class T_Shooter extends Command {
 		// Operator can hold A until it starts tracking
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && server.isTracking() && !isTracking) {
 			isTracking = true;
-		} else if(!server.isTracking()){
+		} else if (!server.isTracking()) {
 			isTracking = false;
 		}
-		
-		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y) && !isYPressed){
+
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y) && !isYPressed) {
 			isYPressed = true;
 			led = !led;
 		}
-		if(!oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)){
+		if (!oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			isYPressed = false;
 		}
-		
+
 		shooter.setLED(led);
 	}
 
