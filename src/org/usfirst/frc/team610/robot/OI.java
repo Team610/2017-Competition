@@ -23,10 +23,21 @@ public class OI {
 	
 	public Joystick getDriver(){
 		return driver;
+		//R1 - Toggle shift
+		//R2 - Lock Drive
+		//L1 - Gear Outtake
+		//L2 - Gear Load
 	}
 	
 	public Joystick getOperator(){
 		return operator;
+		//A - Start Track && turn on LED
+		//B - Ball Outtake
+		//X - Stop ball intake and retract
+		//Y - Start ball intake and deploy
+		//R1 - Run Feeder
+		//L1 - Climb
+		//Left X - Turn shooter
 	}
 	
 }

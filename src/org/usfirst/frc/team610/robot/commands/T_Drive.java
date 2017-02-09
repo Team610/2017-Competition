@@ -62,15 +62,14 @@ public class T_Drive extends Command {
 			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 && Math.abs(driveTrain.getRightRPM()) < 50) {
 				high = false;
 			}
+			if (!oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)) {
+				isR1Pressed = false;
+			}
 
 			if(high){
 				driveTrain.shiftUp();
 			} else {
 				driveTrain.shiftDown();
-			}
-			
-			if (!oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)) {
-				isR1Pressed = false;
 			}
 
 			if (Math.abs(driveTrain.getLeftRPM()) > 120 && Math.abs(driveTrain.getRightRPM()) > 120) {

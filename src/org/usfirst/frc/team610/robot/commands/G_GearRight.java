@@ -1,6 +1,7 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,11 +11,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class G_GearRight extends CommandGroup {
 
     public G_GearRight() {
-    	
-    	DriveTrain.getInstance().resetEnc();
+    	GearIntake.getInstance().setOuttake(false); //closes gear manip
+    	GearIntake.getInstance().setIntake(true); //opens intake portion to let gear fall in & centers manip
+    	DriveTrain.getInstance().resetEnc(); 
     	addSequential(new A_PositionMove(76, 5));
-    	addSequential(new A_Turn(5,.2));
-    	//Add forward until Optical Sensor reads the tape
-    	//Put gear on the peg
+    	addSequential(new A_TurnOptical(5, .2));
+    	GearIntake.getInstance().setIntake(false); //lets intake float
+    	addSequential(new A_PositionMove(36,5));
+    	GearIntake.getInstance().setOuttake(true); //shoots gear
     }
 }

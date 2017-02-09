@@ -32,6 +32,7 @@ public class A_PositionMove extends Command {
 //		driveTrain.resetEnc();
 		
 		PIDConstants.Update();
+		driveTrain.resetEnc();
 		setTimeout(time);
 		driveTrain.setLeft(0);
 		driveTrain.setRight(0);
@@ -44,8 +45,8 @@ public class A_PositionMove extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double leftPower = -leftDrivePID.getValue(driveTrain.getLeftInches(), distance, 0);
-		double rightPower = -rightDrivePID.getValue(driveTrain.getRightInches(), distance, 0);
+		double leftPower = leftDrivePID.getValue(driveTrain.getLeftInches(), distance, 0);
+		double rightPower = rightDrivePID.getValue(driveTrain.getRightInches(), distance, 0);
 		SmartDashboard.putNumber("Left Enc", driveTrain.getLeftInches());
 		SmartDashboard.putNumber("Right Enc", driveTrain.getRightInches());
 		SmartDashboard.putNumber("LeftPower", leftPower);
