@@ -12,8 +12,8 @@ public class G_GearRight extends CommandGroup {
     public G_GearRight() {
     	
     	DriveTrain.getInstance().resetEnc();
-    	addSequential(new A_PositionMove((13 * 12 + 9.5) * 12/17, 1));
-    	addSequential(new A_Turn(-30, 1));
+    	addSequential(new A_PositionMove(76, 5));
+    	addSequential(new A_Turn(5,.2));
     	//Add forward until Optical Sensor reads the tape
     	//Put gear on the peg
     }
