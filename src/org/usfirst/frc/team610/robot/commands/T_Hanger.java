@@ -16,8 +16,7 @@ public class T_Hanger extends Command {
 	}
 
 	protected void execute() {
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_L1)
-				|| oi.getOperator().getRawButton(LogitechF310Constants.BTN_L1)) {
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_L1)) {
 			hanger.setHanger(1);
 		} else {
 			hanger.setHanger(0);

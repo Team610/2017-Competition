@@ -2,21 +2,17 @@
 package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
-import org.usfirst.frc.team610.robot.commands.A_Auton;
 import org.usfirst.frc.team610.robot.commands.G_GearLeft;
 import org.usfirst.frc.team610.robot.commands.G_GearRight;
 import org.usfirst.frc.team610.robot.commands.G_Hopper;
-import org.usfirst.frc.team610.robot.commands.T_Drive;
-import org.usfirst.frc.team610.robot.commands.T_Teleop;
+import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -30,13 +26,9 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 
-	Command autonomousCommand;
-	Command drive;
 	CommandGroup teleop;
 	VisionServer visionServer;
-	SendableChooser<Command> chooser = new SendableChooser<>();
 	CommandGroup auton;
-	Command pidTune;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -45,8 +37,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = OI.getInstance();
-		teleop = new T_Teleop();
-		drive = new T_Drive();
+		teleop = new G_Teleop();
+		auton = new G_GearRight();
 		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
@@ -59,10 +51,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		// teleop.cancel();
+		teleop.cancel();
+		auton.cancel();
 		visionServer = VisionServer.getInstance();
-		drive.cancel();
-		// pidTune.cancel();
 
 	}
 
@@ -80,19 +71,13 @@ public class Robot extends IterativeRobot {
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
 			auton = new G_Hopper();
 			SmartDashboard.putString("Auton", "Hopper");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)){
-			auton = new A_Auton();
-			SmartDashboard.putString("Auton", "TurnOptical");
 		}
 	}
-
 
 	@Override
 	public void autonomousInit() {
 		teleop.cancel();
-		drive.cancel();
 		auton.start();
-		// pidTune.start();
 	}
 
 	/**
@@ -106,9 +91,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		 teleop.start();
-//		drive.start();
-		// pidTune.cancel();
+		teleop.start();
+		auton.cancel();
 
 	}
 
