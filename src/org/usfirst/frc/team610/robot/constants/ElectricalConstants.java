@@ -33,11 +33,11 @@ public class ElectricalConstants {
 	public static final int TURRET_SENSOR = 13;
 	
 	//Drive train shifter pistons
-	public static final int SHIFTER_RIGHT_ONE = 4;
-	public static final int SHIFTER_RIGHT_TWO = 5;
+	public static final int INTAKE_BALL_ONE = 4;
+	public static final int INTAKE_BALL_TWO = 5;
 	public static final int SHIFTER_LEFT_ONE = 6;
 	public static final int SHIFTER_LEFT_TWO = 7;
-	//Intake Pneumatics
+	//Gear Pneumatics
 	public static final int GEAR_FLAP_ONE = 2;
 	public static final int GEAR_FLAP_TWO = 3;
 	public static final int GEAR_SCORER_ONE = 0;

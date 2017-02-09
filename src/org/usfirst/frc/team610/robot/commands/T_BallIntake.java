@@ -6,24 +6,27 @@ import org.usfirst.frc.team610.robot.subsystems.BallIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class T_BallIntake extends Command{
-	
+public class T_BallIntake extends Command {
+
 	private OI oi;
 	private BallIntake ballIntake;
-	
-	public T_BallIntake(){
+
+	public T_BallIntake() {
 		oi = OI.getInstance();
 		ballIntake = BallIntake.getInstance();
 	}
-	
-	protected void execute(){
-		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_A))
+
+	protected void execute() {
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			ballIntake.setIntake(0.5);
-		else if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_B))
+			ballIntake.deploy(true);
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
 			ballIntake.setIntake(-0.5);
-		else if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_X))
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
 			ballIntake.setIntake(0);
-			
+			ballIntake.deploy(false);
+		}
+
 	}
 
 	@Override

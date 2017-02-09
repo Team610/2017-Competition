@@ -19,7 +19,7 @@ public class DriveTrain extends Subsystem {
 
 	private Victor leftFront,leftBack,rightFront,rightBack;
 	
-	private DoubleSolenoid solLeft, solRight;
+	private DoubleSolenoid solLeft;
 	//private Compressor compressor; //Todo: add this back in
 	
 	private NavX navX;
@@ -42,7 +42,6 @@ public class DriveTrain extends Subsystem {
 	
 	private DriveTrain(){
 		solLeft = new DoubleSolenoid(ElectricalConstants.SHIFTER_LEFT_ONE, ElectricalConstants.SHIFTER_LEFT_TWO);
-		solRight = new DoubleSolenoid(ElectricalConstants.SHIFTER_RIGHT_ONE,ElectricalConstants.SHIFTER_RIGHT_TWO);
 //		compressor = new Compressor();
 		leftFront = new Victor(ElectricalConstants.DRIVE_LEFT_FRONT);
 		leftBack = new Victor(ElectricalConstants.DRIVE_LEFT_BACK);
@@ -107,12 +106,10 @@ public class DriveTrain extends Subsystem {
 	
 	public void shiftUp(){
 		solLeft.set(DoubleSolenoid.Value.kForward);
-		solRight.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	public void shiftDown(){
 		solLeft.set(DoubleSolenoid.Value.kReverse);
-		solRight.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	// Todo: put this back in

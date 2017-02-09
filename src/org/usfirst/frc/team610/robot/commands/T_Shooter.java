@@ -39,25 +39,6 @@ public class T_Shooter extends Command {
 	protected void execute() {
 		double speed = visionPID.getValue(server.getDouble(), 0, 0);
 
-		if (server.isTracking()) {
-			shooter.setTurret(speed);
-			if (shooter.getSensor()) {
-				if (speed > 0) {
-					isLeft = true;
-				} else {
-					isLeft = false;
-				}
-			}
-		} else {
-			if (shooter.getSensor()) {
-				shooter.setTurret(0);
-			} else if (isLeft) {
-				shooter.setTurret(-0.5);
-			} else if (!isLeft) {
-				shooter.setTurret(0.5);
-			}
-		}
-
 		// Displays to operator that turret is tracking
 		SmartDashboard.putBoolean("Tracking", server.isTracking());
 
@@ -68,15 +49,33 @@ public class T_Shooter extends Command {
 			isTracking = false;
 		}
 
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y) && !isYPressed) {
-			isYPressed = true;
-			led = !led;
-		}
-		if (!oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
-			isYPressed = false;
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) || isTracking) {
+			shooter.setLED(true);
+		} else {
+			shooter.setLED(false);
 		}
 
-		shooter.setLED(led);
+		if (server.isTracking() && isTracking) {
+			shooter.setTurret(speed);
+			if (shooter.getSensor()) {
+				if (speed > 0) {
+					isLeft = true;
+				} else {
+					isLeft = false;
+				}
+			}
+		} else {
+			if (Math.abs(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X)) > 0.1) {
+				shooter.setTurret(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X));
+			} else if (shooter.getSensor()) {
+				shooter.setTurret(0);
+			} else if (isLeft) {
+				shooter.setTurret(-0.5);
+			} else if (!isLeft) {
+				shooter.setTurret(0.5);
+			}
+		}
+
 	}
 
 	@Override

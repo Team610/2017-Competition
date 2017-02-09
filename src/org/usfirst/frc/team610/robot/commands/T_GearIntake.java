@@ -16,15 +16,13 @@ public class T_GearIntake extends Command{
 	}
 	
 	protected void execute(){
-		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L2)
-				|| oi.getDriver().getRawButton(LogitechF310Constants.BTN_L2)){
+		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_L2)){
 			gearIntake.setIntake(true);
 			gearIntake.setOuttake(false);
 		} else {
 			gearIntake.setIntake(false);
 		}
-		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L1)
-				|| oi.getDriver().getRawButton(LogitechF310Constants.BTN_L1)) {
+		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_L1)) {
 			gearIntake.setOuttake(true);
 		}
 	}
