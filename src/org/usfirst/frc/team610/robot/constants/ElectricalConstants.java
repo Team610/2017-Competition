@@ -18,7 +18,6 @@ public class ElectricalConstants {
 	public static final int INTAKE = 8;
 	public static final int TURRET_MOTOR = 9;
 
-	
 	//Encoders
 	public static final int DRIVE_ENC_LEFT_A = 2;
 	public static final int DRIVE_ENC_LEFT_B = 3;
