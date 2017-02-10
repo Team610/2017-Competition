@@ -24,7 +24,7 @@ public class ElectricalConstants {
 	public static final int DRIVE_ENC_RIGHT_A = 0;
 	public static final int DRIVE_ENC_RIGHT_B = 1;
 	//SPIKE
-	public static final int SPIKE = 4;
+	public static final int SPIKE = 0;
 	
 	//Shooter Optical
 	public static final int SHOOTER_SENSOR = 12;
@@ -32,16 +32,16 @@ public class ElectricalConstants {
 	public static final int TURRET_SENSOR = 13;
 	
 	//Drive train shifter pistons
-	public static final int INTAKE_BALL_ONE = 4;
-	public static final int INTAKE_BALL_TWO = 5;
+	public static final int INTAKE_BALL_ONE = 5;
+	public static final int INTAKE_BALL_TWO = 4;
 	public static final int SHIFTER_LEFT_ONE = 6;
 	public static final int SHIFTER_LEFT_TWO = 7;
 	
 	//Gear Pneumatics
 	public static final int GEAR_FLAP_ONE = 2;
 	public static final int GEAR_FLAP_TWO = 3;
-	public static final int GEAR_SCORER_ONE = 0;
-	public static final int GEAR_SCORER_TWO = 1;
+	public static final int GEAR_SCORER_ONE = 1;
+	public static final int GEAR_SCORER_TWO = 0;
 	
 	//GEAR SENSORS
 	public static final int GEAR_OPTICAL_LEFT = 10; //CHANGE

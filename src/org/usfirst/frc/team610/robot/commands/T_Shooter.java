@@ -16,12 +16,10 @@ public class T_Shooter extends Command {
 	private OI oi;
 	private boolean isTracking;
 
-	private boolean isYPressed = false;
+	private boolean isAPressed = false;
 
 	private PID visionPID;
 	private VisionServer server;
-
-	private boolean led = false;
 
 	private boolean isLeft = false;
 
@@ -34,6 +32,7 @@ public class T_Shooter extends Command {
 
 	protected void initialize() {
 		isTracking = false;
+		isLeft = true;
 	}
 
 	protected void execute() {
@@ -43,17 +42,16 @@ public class T_Shooter extends Command {
 		SmartDashboard.putBoolean("Tracking", server.isTracking());
 
 		// Operator can hold A until it starts tracking
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && server.isTracking() && !isTracking) {
-			isTracking = true;
-		} else if (!server.isTracking()) {
-			isTracking = false;
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && !isAPressed) {
+			isTracking = !isTracking;
+			isAPressed = true;
 		}
 
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) || isTracking) {
-			shooter.setLED(true);
-		} else {
-			shooter.setLED(false);
+		if (!oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
+			isAPressed = false;
 		}
+
+		shooter.setLED(isTracking);
 
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
@@ -64,15 +62,33 @@ public class T_Shooter extends Command {
 					isLeft = false;
 				}
 			}
-		} else {
-			if (Math.abs(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X)) > 0.1) {
-				shooter.setTurret(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X));
-			} else if (shooter.getSensor()) {
+		} else if (!isTracking) {
+			/*
+			 * if (Math.abs(oi.getOperator().getRawAxis(LogitechF310Constants.
+			 * AXIS_LEFT_X)) > 0.1) {
+			 * shooter.setTurret(oi.getOperator().getRawAxis(
+			 * LogitechF310Constants.AXIS_LEFT_X)); } else
+			 */ if (shooter.getSensor()) {
 				shooter.setTurret(0);
 			} else if (isLeft) {
-				shooter.setTurret(-0.5);
+				shooter.setTurret(-0.2);
 			} else if (!isLeft) {
-				shooter.setTurret(0.5);
+				shooter.setTurret(0.2);
+			}
+		} else {
+			if (oi.getOperator().getPOV() == 90) {
+				shooter.setTurret(.5);
+				if (shooter.getSensor()) {
+					isLeft = true;
+				}
+
+			} else if (oi.getOperator().getPOV() == 270) {
+				shooter.setTurret(-.5);
+				if(shooter.getSensor()){
+					isLeft = false;
+				}
+			} else {
+				shooter.setTurret(0);
 			}
 		}
 
