@@ -52,9 +52,10 @@ public class T_Shooter extends Command {
 		}
 
 		shooter.setLED(isTracking);
-
+		
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
+			shooter.setPower(-0.8);
 			if (shooter.getSensor()) {
 				if (speed > 0) {
 					isLeft = true;
@@ -68,7 +69,10 @@ public class T_Shooter extends Command {
 			 * AXIS_LEFT_X)) > 0.1) {
 			 * shooter.setTurret(oi.getOperator().getRawAxis(
 			 * LogitechF310Constants.AXIS_LEFT_X)); } else
-			 */ if (shooter.getSensor()) {
+			 * 
+			 */
+			shooter.setPower(0);
+			if (shooter.getSensor()) {
 				shooter.setTurret(0);
 			} else if (isLeft) {
 				shooter.setTurret(-0.2);

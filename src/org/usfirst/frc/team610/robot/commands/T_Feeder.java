@@ -18,6 +18,7 @@ public class T_Feeder extends Command {
 	protected void execute() {
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1)) {
 			hopperFeeder.setSpeed(0.5);
+			
 		} else {
 			hopperFeeder.setSpeed(0);
 		}

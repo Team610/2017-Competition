@@ -130,7 +130,11 @@ public class DriveTrain extends Subsystem {
 	
 	public void drive(double speedFactor){
 		double x = oi.getDriver().getRawAxis(Xbox360Constants.AXIS_RIGHT_X);
+		if(x < 0.1 && x > -0.1)
+			x = 0;
 		double y = oi.getDriver().getRawAxis(Xbox360Constants.AXIS_LEFT_Y);
+		if(y < 0.1 && y > -0.1)
+			y = 0;
 		double leftSpeed, rightSpeed;
 		leftSpeed = y - x;
 		rightSpeed = y + x;
