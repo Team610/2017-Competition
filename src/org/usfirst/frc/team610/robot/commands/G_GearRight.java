@@ -12,6 +12,7 @@ public class G_GearRight extends CommandGroup {
 
     public G_GearRight() {
     	DriveTrain.getInstance().resetEnc(); 
+    	addSequential(new A_PositionMove(0, 0.5, 0));
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
     	addSequential(new A_PositionMove(88, 3, .75));

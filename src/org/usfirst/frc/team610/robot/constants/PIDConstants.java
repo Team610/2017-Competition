@@ -12,7 +12,7 @@ public class PIDConstants {
 	
 	public static double DRIVE_ENC_P = 0.625;
 	public static double DRIVE_ENC_I = 0;
-	public static double DRIVE_ENC_D = -0.32;
+	public static double DRIVE_ENC_D = 0.85; //0.65
 	
 	public static double DRIVE_GYRO_P = 0.042;
 	public static double DRIVE_GYRO_I = 0.0002;
@@ -29,7 +29,7 @@ public class PIDConstants {
 		
 		DRIVE_ENC_P = prefs.getDouble("Enc P", 0.625);
 		DRIVE_ENC_I = prefs.getDouble("Enc I", 0);
-		DRIVE_ENC_D = prefs.getDouble("Enc D", -0.32);
+		DRIVE_ENC_D = prefs.getDouble("Enc D", 0.85);
 		
 		DRIVE_GYRO_P = prefs.getDouble("Gyro P", 0.042);
 		DRIVE_GYRO_I = prefs.getDouble("Gyro I", 0.0002);

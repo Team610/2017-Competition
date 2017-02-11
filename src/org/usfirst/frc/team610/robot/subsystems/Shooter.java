@@ -50,6 +50,7 @@ public class Shooter extends Subsystem{
 	
 	//Set shooter at certain RPM
 	public void setShooter(double rpm){
+		rpm = 0;
 		double shooterPower = 0;
 		shooterPower = shooterPID.getValue(getShooterSpeed(), rpm, getFeedForward(4000)); //change to shooter constants
 		setPower(shooterPower);
