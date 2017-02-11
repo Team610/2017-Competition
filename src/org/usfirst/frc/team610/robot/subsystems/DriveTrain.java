@@ -2,7 +2,7 @@ package org.usfirst.frc.team610.robot.subsystems;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -129,8 +129,8 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void drive(double speedFactor){
-		double x = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X);
-		double y = oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y);
+		double x = oi.getDriver().getRawAxis(Xbox360Constants.AXIS_RIGHT_X);
+		double y = oi.getDriver().getRawAxis(Xbox360Constants.AXIS_LEFT_Y);
 		double leftSpeed, rightSpeed;
 		leftSpeed = y - x;
 		rightSpeed = y + x;

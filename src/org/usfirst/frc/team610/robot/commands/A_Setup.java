@@ -32,7 +32,7 @@ public class A_Setup extends Command {
 	protected void execute() {
 		shooter.setTurret(0);
 		if (counter < 50) {
-			intake.setIntake(true);
+			//intake.setIntake(true);
 			intake.setOuttake(false);
 		} else {
 			intake.setIntake(false);
