@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
-	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
-	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
-	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/RIOdroid.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/jacks/wpilib/user/java/lib/navx_frc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/jacks/wpilib/user/java/lib/RIOdroid.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
@@ -22,8 +6,9 @@
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="/Users/Charles/wpilib/user/lib/navx_frc.jar"/>
-	<classpathentry kind="lib" path="/Users/Charles/wpilib/user/lib/RIOdroid.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/RIOdroid.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jacks/wpilib/user/java/lib/navx_frc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jacks/wpilib/user/java/lib/RIOdroid.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
->>>>>>> branch 'develop' of https://github.com/Team610/2017-Competition.git
