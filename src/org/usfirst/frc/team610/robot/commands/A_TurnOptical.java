@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class A_TurnOptical extends Command {
 
-	private boolean foundTape, done = false;
+	private boolean foundTape, done;
 	private DriveTrain driveTrain;
 	private double turnAngle, turnSpeed;
 	private GearIntake intake;
@@ -25,42 +25,40 @@ public class A_TurnOptical extends Command {
 		setTimeout(time);
 		this.turnSpeed = turnSpeed;
 		counter = 0;
+
+		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		done = false;
+		counter = 0;
 		driveTrain = DriveTrain.getInstance();
 		foundTape = false;
 		intake = GearIntake.getInstance();
 		driveTrain.resetSensors();
-		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
+		System.out.println("Starting Turn");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		intake.setIntake(true);
-		intake.setOuttake(true);
 		if (driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape) {
 			foundTape = true;
 			if (turnSpeed < 0)
-				turnAngle = driveTrain.getAngle() + 5;
+				turnAngle = driveTrain.getAngle() + 3.42069610;
 			else
-				turnAngle = driveTrain.getAngle() - 5;
+				turnAngle = driveTrain.getAngle() - 3.42069610;
 		} else if (!foundTape) {
 			driveTrain.setLeft(turnSpeed);
 			driveTrain.setRight(-turnSpeed);
 		}
-		System.out.println(foundTape);
 		if (foundTape) {
 			double value = gyroPID.getValue(driveTrain.getAngle(), turnAngle, 0);
 			driveTrain.setLeft(-value);
 			driveTrain.setRight(value);
-		}
-		if (driveTrain.getLeftOptical() && driveTrain.getRightOptical()) {
 			counter++;
-		} else {
-			counter = 0;
 		}
+		
 		if (counter >= 25) {
 			done = true;
 		}

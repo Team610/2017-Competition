@@ -7,6 +7,7 @@ import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -20,7 +21,7 @@ public class Shooter extends Subsystem{
 	private PID shooterPID;
 	private Counter shooterCounter;
 	private DigitalInput positionSensor;
-	private DigitalOutput spike;
+	private Relay spike;
 	
 	public static Shooter getInstance(){
 		if(instance == null)
@@ -40,7 +41,7 @@ public class Shooter extends Subsystem{
 		shooterPeriod = 0;
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); //change to PID Constants
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
-		spike = new DigitalOutput(ElectricalConstants.SPIKE);
+		spike = new Relay(ElectricalConstants.SPIKE);
 	}
 	
 	public void updatePID(){
@@ -55,7 +56,11 @@ public class Shooter extends Subsystem{
 	}
 	
 	public void setLED(boolean on){
-		spike.set(on);
+		if(on){
+			spike.set(Relay.Value.kForward);
+		} else {
+			spike.set(Relay.Value.kOff);
+		}
 	}
 	
 	//Set power to motor
@@ -73,7 +78,7 @@ public class Shooter extends Subsystem{
 	}
 	
 	public boolean getSensor(){
-		return positionSensor.get();
+		return !positionSensor.get();
 	}
 	
 	//Gets the time between counts

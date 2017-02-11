@@ -77,6 +77,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		teleop.cancel();
+		System.out.println("Good Meme");
 		auton.start();
 	}
 
