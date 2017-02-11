@@ -16,7 +16,6 @@ public class Shooter extends Subsystem {
 	private Victor shooter;
 	private Victor turret;
 	private double RPMfactor;
-	private double shooterPeriod;
 	private PID shooterPID;
 	private Counter shooterCounter;
 	private DigitalInput positionSensor;
@@ -33,15 +32,15 @@ public class Shooter extends Subsystem {
 		shooterCounter = new Counter(ElectricalConstants.SHOOTER_SENSOR);
 		shooter = new Victor(ElectricalConstants.SHOOTER_MOTOR);
 		turret = new Victor(ElectricalConstants.TURRET_MOTOR);
-		shooterCounter.setMaxPeriod(.1);
-		shooterCounter.setDistancePerPulse(1);
-		shooterCounter.setSamplesToAverage(1);
-		shooterCounter.reset();
-		shooterPeriod = 0;
-		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D); // change
-																										// to
-																										// PID
-																										// Constants
+		// shooterCounter.setUpDownCounterMode();
+		// shooterCounter.setUpdateWhenEmpty(true);
+		// shooterCounter.setMaxPeriod(5);
+		// shooterCounter.setDistancePerPulse(1);
+		// shooterCounter.setSamplesToAverage(1);
+		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D, 0, 1); // change
+		// to
+		// PID
+		// Constants
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
 		spike = new Relay(ElectricalConstants.SPIKE);
 	}
@@ -51,16 +50,6 @@ public class Shooter extends Subsystem {
 	}
 
 	// Set shooter at certain RPM
-	public void setShooterRPM(double rpm) {
-		PIDConstants.Update();
-		shooterPID.updatePID(1.0, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
-		rpm = 0;
-		double shooterPower = 0;
-		// change to shooter constants
-		shooterPower = shooterPID.getValue(getShooterSpeed(), rpm, 0);
-		System.out.println(getShooterSpeed());
-		setPower(shooterPower);
-	}
 
 	public void setLED(boolean on) {
 		if (on) {
@@ -77,7 +66,7 @@ public class Shooter extends Subsystem {
 
 	// Get rpm of the shooter
 	public double getShooterSpeed() {
-		return RPMfactor / getShooterPeriod();
+		return RPMfactor / getShooterPeriod(); // getShooterPeriod()
 	}
 
 	public void setTurret(double speed) {
@@ -90,18 +79,20 @@ public class Shooter extends Subsystem {
 
 	// Gets the time between counts
 	public double getShooterPeriod() {
-		double shooterPeriod = shooterCounter.getPeriod();
-		if (shooterPeriod < 1.66e-4)
-			return this.shooterPeriod;
-		else {
-			this.shooterPeriod = shooterPeriod;
-			return shooterPeriod;
-		}
+		// double shooterPeriod = shooterCounter.getPeriod();
+		// if (shooterPeriod < 1.66e-4)
+		// return this.shooterPeriod;
+		// else {
+		// this.shooterPeriod = shooterPeriod;
+		// return this.shooterPeriod;
+		return shooterCounter.getPeriod();
+		// }
 	}
 
 	// Gets feedforward
 	public double getFeedForward(double rpm) {
-		return 1.4e-4 * rpm - 0.05; // change for this years feedforward
+		return 1 / 2500.0 * rpm; // change for this years
+									// feedforward
 	}
 
 	public boolean atPosition() {
