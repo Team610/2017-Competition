@@ -51,11 +51,16 @@ public class T_Shooter extends Command {
 			isAPressed = false;
 		}
 
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R2)) {
+			shooter.setShooterRPM(150);
+		} else {
+			shooter.setPower(0);
+		}
+
 		shooter.setLED(isTracking);
-		
+
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
-			shooter.setPower(-0.8);
 			if (shooter.getSensor()) {
 				if (speed > 0) {
 					isLeft = true;
@@ -71,7 +76,7 @@ public class T_Shooter extends Command {
 			 * LogitechF310Constants.AXIS_LEFT_X)); } else
 			 * 
 			 */
-			shooter.setPower(0);
+			// shooter.setPower(0);
 			if (shooter.getSensor()) {
 				shooter.setTurret(0);
 			} else if (isLeft) {
@@ -88,7 +93,7 @@ public class T_Shooter extends Command {
 
 			} else if (oi.getOperator().getPOV() == 270) {
 				shooter.setTurret(-.5);
-				if(shooter.getSensor()){
+				if (shooter.getSensor()) {
 					isLeft = false;
 				}
 			} else {

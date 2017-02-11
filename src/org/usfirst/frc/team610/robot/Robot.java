@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = OI.getInstance();
 		teleop = new G_Teleop();
-		auton = new G_GearRight();
+		auton = new G_CenterGear();
 		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
@@ -61,14 +61,17 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		// teleop.cancel();
-		
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X) && oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
+
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearLeft();
 			SmartDashboard.putString("Auton", "Gearleft_Blue");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B) && oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearRight();
 			SmartDashboard.putString("Auton", "GearRight_Blue");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_CenterGear();
 			SmartDashboard.putString("Auton", "Center_Blue");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
