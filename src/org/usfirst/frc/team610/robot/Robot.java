@@ -2,14 +2,17 @@
 package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
+import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
+import org.usfirst.frc.team610.robot.commands.G_CenterGear;
 import org.usfirst.frc.team610.robot.commands.G_GearLeft;
 import org.usfirst.frc.team610.robot.commands.G_GearRight;
-import org.usfirst.frc.team610.robot.commands.G_Hopper;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -38,7 +41,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = OI.getInstance();
 		teleop = new G_Teleop();
-		auton = new G_GearRight();
+		auton = new G_CenterGear();
 		// pidTune = new DrivePID();
 		RIOdroid.initUSB();
 
@@ -61,16 +64,33 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		// teleop.cancel();
+		
+		SmartDashboard.putNumber("rightDistance", DriveTrain.getInstance().getRightInches());
+		SmartDashboard.putNumber("leftDistance", DriveTrain.getInstance().getLeftInches());
+		SmartDashboard.putNumber("Gyro", DriveTrain.getInstance().getAngle());
+		
 
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearLeft();
-			SmartDashboard.putString("Auton", "Gearleft");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
+			SmartDashboard.putString("Auton", "Gearleft_Blue");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearRight();
-			SmartDashboard.putString("Auton", "GearRight");
+			SmartDashboard.putString("Auton", "GearRight_Blue");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
+			auton = new G_CenterGear();
+			SmartDashboard.putString("Auton", "Center_Blue");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
+			auton = new G_GearLeft();
+			SmartDashboard.putString("Auton", "Gearleft_Red");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
-			auton = new G_Hopper();
-			SmartDashboard.putString("Auton", "Hopper");
+			auton = new G_GearRight();
+			SmartDashboard.putString("Auton", "GearRight_Red");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
+			auton = new G_CenterGear();
+			SmartDashboard.putString("Auton", "Center_Red");
 		}
 	}
 
@@ -87,7 +107,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		teleop.cancel();
+		
 	}
 
 	@Override

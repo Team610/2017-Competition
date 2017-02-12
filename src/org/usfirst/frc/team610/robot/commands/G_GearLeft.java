@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class G_GearLeft extends CommandGroup {
 
     public G_GearLeft() {
-    	GearIntake.getInstance().setOuttake(false); //closes gear manip
-    	GearIntake.getInstance().setIntake(true); //opens intake portion to let gear fall in & centers manip
-    	DriveTrain.getInstance().resetEnc();
-    	addSequential(new A_PositionMove(132, 1, 1));
-    	addSequential(new A_TurnOptical(5,.5));
-    	GearIntake.getInstance().setIntake(false); //lets intake float
-    	addSequential(new A_PositionMove(36,5, .5));
-    	GearIntake.getInstance().setOuttake(true); //shoots gear
+    	DriveTrain.getInstance().resetEnc(); 
+    	addSequential(new A_PositionMove(0, 0.5, 0));
+    	addSequential(new A_Setup());
+    	addSequential(new A_SetIntake(true));
+    	addSequential(new A_PositionMove(88, 3, .75));
+    	addSequential(new A_TurnOptical(10000, -.35));
+    	addSequential(new A_SetIntake(false));
+    	addSequential(new A_PositionMove(32,3, .35));
+    	addSequential(new A_SetOuttake(true));
+    	addParallel(new A_PositionMove(-12, 2, 1));
     }
 }

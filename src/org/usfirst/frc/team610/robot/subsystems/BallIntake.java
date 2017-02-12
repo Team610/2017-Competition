@@ -2,7 +2,7 @@ package org.usfirst.frc.team610.robot.subsystems;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Victor;
@@ -40,7 +40,7 @@ public class BallIntake extends Subsystem {
 	}
 	
 	public void run(){
-		if(oi.getDriver().getRawButton(LogitechF310Constants.BTN_A)){
+		if(oi.getDriver().getRawButton(Xbox360Constants.BTN_A)){
 			
 		}
 	}

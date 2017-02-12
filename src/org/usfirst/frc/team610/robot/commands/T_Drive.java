@@ -2,8 +2,8 @@ package org.usfirst.frc.team610.robot.commands;
 
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.OI;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
+import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,13 +17,13 @@ public class T_Drive extends Command {
 	private PID pidLeft, pidRight;
 	private OI oi;
 	private boolean high;
-	private boolean isR1Pressed;
+	private boolean isR2Pressed;
 
 	public T_Drive() {
 		driveTrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
 		high = false;
-		isR1Pressed = false;
+		isR2Pressed = false;
 	}
 
 	protected void initialize() {
@@ -38,13 +38,11 @@ public class T_Drive extends Command {
 		pidRight.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 		pidLeft.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 
-		if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R2)) {
-			if (Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_LEFT_Y)) < 0.05
-					&& Math.abs(oi.getDriver().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X)) < 0.05) {
+		if (oi.getDriver().getRawButton(Xbox360Constants.BTN_R1)) {
+			if (Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_LEFT_Y)) < 0.15
+					&& Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_RIGHT_X)) < 0.15) {
 				driveTrain.setLeft(pidLeft.getValue(driveTrain.getLeftInches(), leftEncValue, 0));
 				driveTrain.setRight(pidRight.getValue(driveTrain.getRightInches(), rightEncValue, 0));
-				System.out.println(driveTrain.getLeftInches());
-				System.out.println(driveTrain.getRightInches());
 			} else {
 				driveTrain.drive(0.5);
 				leftEncValue = driveTrain.getLeftInches();
@@ -56,17 +54,17 @@ public class T_Drive extends Command {
 			driveTrain.drive(1);
 
 			// Shifting
-			if (oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1) && !isR1Pressed) {
-				high = !high;
-				isR1Pressed = true;
-			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 && Math.abs(driveTrain.getRightRPM()) < 50) {
+			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 ) {
+				high = true;
+				isR2Pressed = true;
+			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 
+					&& Math.abs(driveTrain.getRightRPM()) < 50 
+					&& oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) < 0.5) {
 				high = false;
 			}
-			if (!oi.getDriver().getRawButton(LogitechF310Constants.BTN_R1)) {
-				isR1Pressed = false;
-			}
+			
 
-			if(high){
+			if (high) {
 				driveTrain.shiftUp();
 			} else {
 				driveTrain.shiftDown();
