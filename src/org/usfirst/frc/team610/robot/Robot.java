@@ -2,14 +2,17 @@
 package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
+import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_CenterGear;
 import org.usfirst.frc.team610.robot.commands.G_GearLeft;
 import org.usfirst.frc.team610.robot.commands.G_GearRight;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -61,6 +64,11 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		// teleop.cancel();
+		
+		SmartDashboard.putNumber("rightDistance", DriveTrain.getInstance().getRightInches());
+		SmartDashboard.putNumber("leftDistance", DriveTrain.getInstance().getLeftInches());
+		SmartDashboard.putNumber("Gyro", DriveTrain.getInstance().getAngle());
+		
 
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
@@ -99,7 +107,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		teleop.cancel();
+		
 	}
 
 	@Override
@@ -115,7 +123,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		auton.cancel();
 	}
 
 	/**

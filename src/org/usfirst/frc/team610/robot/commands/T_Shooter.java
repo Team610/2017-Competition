@@ -21,18 +21,26 @@ public class T_Shooter extends Command {
 	private PID visionPID;
 	private VisionServer server;
 
+	
+	private PID shooterPID;
+	
 	private boolean isLeft = false;
+	
+	private double rpm = 0;
 
 	public T_Shooter() {
 		shooter = Shooter.getInstance();
 		server = VisionServer.getInstance();
 		oi = OI.getInstance();
 		visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
+		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 	}
 
 	protected void initialize() {
 		isTracking = false;
 		isLeft = true;
+		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		rpm = 0;
 	}
 
 	protected void execute() {
@@ -41,6 +49,16 @@ public class T_Shooter extends Command {
 		// Displays to operator that turret is tracking
 		SmartDashboard.putBoolean("Tracking", server.isTracking());
 
+
+		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		
+		double shooterSpeed = shooterPID.getValue(shooter.getShooterSpeed(), PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
+		
+		SmartDashboard.putNumber("RPM", shooter.getShooterSpeed());
+		
+		shooter.setPower(-shooterSpeed);
+		
+		
 		// Operator can hold A until it starts tracking
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && !isAPressed) {
 			isTracking = !isTracking;
@@ -57,10 +75,12 @@ public class T_Shooter extends Command {
 		// shooter.setShooterRPM(0);
 		// }
 		// shooter.setPower(0.2);
-		System.out.println(shooter.getShooterPeriod());
-
+//		System.out.println(shooter.getShooterPeriod());
+		
+		
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
+//			shooter.setLED(true);
 			if (shooter.getSensor()) {
 				if (speed > 0) {
 					isLeft = true;
@@ -80,24 +100,28 @@ public class T_Shooter extends Command {
 			if (shooter.getSensor()) {
 				shooter.setTurret(0);
 			} else if (isLeft) {
-				shooter.setTurret(-0.2);
+//				shooter.setTurret(-0.2);
 			} else if (!isLeft) {
-				shooter.setTurret(0.2);
+//				shooter.setTurret(0.2);
 			}
+			shooter.setPower(0);
+			shooter.setLED(false);
 		} else {
+//			shooter.setLED(true);
+			rpm = PIDConstants.RPM;
 			if (oi.getOperator().getPOV() == 90) {
-				shooter.setTurret(.5);
+//				shooter.setTurret(.5);
 				if (shooter.getSensor()) {
 					isLeft = true;
 				}
 
 			} else if (oi.getOperator().getPOV() == 270) {
-				shooter.setTurret(-.5);
+//				shooter.setTurret(-.5);
 				if (shooter.getSensor()) {
 					isLeft = false;
 				}
 			} else {
-				shooter.setTurret(0);
+//				shooter.setTurret(0);
 			}
 		}
 

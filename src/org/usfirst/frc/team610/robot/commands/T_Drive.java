@@ -54,15 +54,15 @@ public class T_Drive extends Command {
 			driveTrain.drive(1);
 
 			// Shifting
-			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 && !isR2Pressed) {
-				high = !high;
+			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 ) {
+				high = true;
 				isR2Pressed = true;
-			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 && Math.abs(driveTrain.getRightRPM()) < 50) {
+			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 
+					&& Math.abs(driveTrain.getRightRPM()) < 50 
+					&& oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) < 0.5) {
 				high = false;
 			}
-			if (!(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5)) {
-				isR2Pressed = false;
-			}
+			
 
 			if (high) {
 				driveTrain.shiftUp();

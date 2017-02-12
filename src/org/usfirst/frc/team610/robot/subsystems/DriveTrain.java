@@ -137,6 +137,9 @@ public class DriveTrain extends Subsystem {
 		// System.out.println(y);
 		if (y < 0.1 && y > -0.1)
 			y = 0;
+		y = y * y * y;
+		x = x * x * x;
+		
 		double leftSpeed, rightSpeed;
 		leftSpeed = y - x;
 		rightSpeed = y + x;
