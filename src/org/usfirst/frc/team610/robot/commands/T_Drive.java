@@ -5,6 +5,7 @@ import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,13 +35,15 @@ public class T_Drive extends Command {
 	}
 
 	protected void execute() {
+		
 		PIDConstants.Update();
 		pidRight.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 		pidLeft.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 
 		if (oi.getDriver().getRawButton(Xbox360Constants.BTN_R1)) {
-			if (Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_LEFT_Y)) < 0.15
-					&& Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_RIGHT_X)) < 0.15) {
+			if (Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_LEFT_Y)) < 0.1
+					&& Math.abs(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_RIGHT_X)) < 0.11
+					&& Math.abs(driveTrain.getVelocity()) < 1) {
 				driveTrain.setLeft(pidLeft.getValue(driveTrain.getLeftInches(), leftEncValue, 0));
 				driveTrain.setRight(pidRight.getValue(driveTrain.getRightInches(), rightEncValue, 0));
 			} else {

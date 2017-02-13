@@ -51,6 +51,7 @@ public class T_Shooter extends Command {
 
 
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		visionPID.updatePID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		
 		double shooterSpeed = shooterPID.getValue(shooter.getShooterSpeed(), PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
 		
@@ -80,7 +81,7 @@ public class T_Shooter extends Command {
 		
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
-//			shooter.setLED(true);
+			shooter.setLED(true);
 			if (shooter.getSensor()) {
 				if (speed > 0) {
 					isLeft = true;
@@ -96,32 +97,32 @@ public class T_Shooter extends Command {
 			 * LogitechF310Constants.AXIS_LEFT_X)); } else
 			 *
 			 */
-			// shooter.setPower(0);
+			 shooter.setPower(0);
 			if (shooter.getSensor()) {
 				shooter.setTurret(0);
 			} else if (isLeft) {
-//				shooter.setTurret(-0.2);
+				shooter.setTurret(-0.2);
 			} else if (!isLeft) {
-//				shooter.setTurret(0.2);
+				shooter.setTurret(0.2);
 			}
 			shooter.setPower(0);
 			shooter.setLED(false);
 		} else {
-//			shooter.setLED(true);
+			shooter.setLED(true);
 			rpm = PIDConstants.RPM;
 			if (oi.getOperator().getPOV() == 90) {
-//				shooter.setTurret(.5);
+				shooter.setTurret(.5);
 				if (shooter.getSensor()) {
 					isLeft = true;
 				}
 
 			} else if (oi.getOperator().getPOV() == 270) {
-//				shooter.setTurret(-.5);
+				shooter.setTurret(-.5);
 				if (shooter.getSensor()) {
 					isLeft = false;
 				}
 			} else {
-//				shooter.setTurret(0);
+				shooter.setTurret(0);
 			}
 		}
 

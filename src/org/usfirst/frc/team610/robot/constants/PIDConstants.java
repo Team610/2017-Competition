@@ -40,6 +40,13 @@ public class PIDConstants {
 		
 		RPM = prefs.getDouble("RPM", 0);
 		hopperSpeed = prefs.getDouble("Hopper Speed", 0);
+		
+		TURRET_P = prefs.getDouble("Turret P", 0);
+		TURRET_I = prefs.getDouble("Turret I", 0);
+		TURRET_D = prefs.getDouble("Turret D", 0);
+		
+		
+		
 	}
 
 }

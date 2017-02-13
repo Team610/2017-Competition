@@ -2,6 +2,7 @@ package org.usfirst.frc.team610.robot.subsystems;
 
 
 
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -41,6 +42,18 @@ public class NavX extends Subsystem {
     
     public void reset(){
     	navX.reset();
+    }
+    
+    public double getVelocityY(){
+    	return navX.getVelocityY();
+    }
+    
+    public double getVelocityX(){
+    	return navX.getVelocityX();
+    }
+    
+    public double getVelocityZ(){
+    	return navX.getVelocityZ();
     }
     
     public double getAngle(){

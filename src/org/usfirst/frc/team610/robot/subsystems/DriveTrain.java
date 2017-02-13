@@ -67,6 +67,10 @@ public class DriveTrain extends Subsystem {
 	public boolean getLeftEye() {
 		return leftEye.get();
 	}
+	
+	public double getVelocity(){
+		return navX.getVelocityX();
+	}
 
 	public double getLeftInches() {
 		return leftEnc.getDistance();
