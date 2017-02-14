@@ -4,8 +4,8 @@ import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class G_CenterGear extends CommandGroup{
-    public G_CenterGear() {
+public class G_GearCenter extends CommandGroup{
+    public G_GearCenter() {
     	DriveTrain.getInstance().resetEnc();
     	addSequential(new A_PositionMove(0, 0.5, 0));
     	addSequential(new A_Setup());

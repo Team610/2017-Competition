@@ -1,12 +1,9 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.crescent.sixten.pid.PID;
-import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -17,7 +14,6 @@ public class A_TurnOptical extends Command {
 	private boolean foundTape, done;
 	private DriveTrain driveTrain;
 	private double turnAngle, turnSpeed;
-	private GearIntake intake;
 	private PID gyroPID;
 	private int counter;
 
@@ -35,7 +31,6 @@ public class A_TurnOptical extends Command {
 		counter = 0;
 		driveTrain = DriveTrain.getInstance();
 		foundTape = false;
-		intake = GearIntake.getInstance();
 		driveTrain.resetSensors();
 		System.out.println("Starting Turn");
 	}

@@ -13,9 +13,9 @@ public class ElectricalConstants {
 	//Hanger Motor
 	public static final int HANGER_MOTOR = 6;
 	//Hopper Feeder motor
-	public static final int FEEDER = 7;
+	public static final int FEEDER = 8;
 	//Intake Motor
-	public static final int INTAKE = 8;
+	public static final int INTAKE = 7;
 	public static final int TURRET_MOTOR = 9;
 
 	//Encoders

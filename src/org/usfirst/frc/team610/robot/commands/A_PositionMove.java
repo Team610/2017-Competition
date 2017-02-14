@@ -3,7 +3,6 @@ package org.usfirst.frc.team610.robot.commands;
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,15 +15,12 @@ public class A_PositionMove extends Command {
 	// Distance
 	private DriveTrain driveTrain;
 	private PID leftDrivePID, rightDrivePID;
-	private GearIntake intake;
 
 	private double distance;
 	private double time;
-	private double max;
 
 	public A_PositionMove(double distance, double time, double max) {
 		driveTrain = DriveTrain.getInstance();
-		intake = GearIntake.getInstance();
 		this.time = time;
 		this.distance = distance;
 		leftDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D, -max, max);

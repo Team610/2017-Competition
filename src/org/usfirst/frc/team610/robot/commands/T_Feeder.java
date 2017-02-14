@@ -6,7 +6,6 @@ import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.HopperFeeder;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class T_Feeder extends Command {
 	private HopperFeeder hopperFeeder;

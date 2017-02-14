@@ -25,9 +25,6 @@ public class T_Shooter extends Command {
 	private PID shooterPID;
 	
 	private boolean isLeft = false;
-	
-	private double rpm = 0;
-
 	public T_Shooter() {
 		shooter = Shooter.getInstance();
 		server = VisionServer.getInstance();
@@ -40,7 +37,6 @@ public class T_Shooter extends Command {
 		isTracking = false;
 		isLeft = true;
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
-		rpm = 0;
 	}
 
 	protected void execute() {
@@ -109,7 +105,6 @@ public class T_Shooter extends Command {
 			shooter.setLED(false);
 		} else {
 			shooter.setLED(true);
-			rpm = PIDConstants.RPM;
 			if (oi.getOperator().getPOV() == 90) {
 				shooter.setTurret(.5);
 				if (shooter.getSensor()) {

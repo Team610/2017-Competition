@@ -1,7 +1,6 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
-import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 

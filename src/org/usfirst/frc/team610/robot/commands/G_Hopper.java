@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class G_Hopper extends CommandGroup {
 
     public G_Hopper() {
+    	System.out.println("Starting: Hopper");
     	GearIntake.getInstance().setOuttake(false); //closes gear manip
     	GearIntake.getInstance().setIntake(true); //opens intake portion to let gear fall in & centers manip
     	DriveTrain.getInstance().resetEnc();

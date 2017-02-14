@@ -5,7 +5,6 @@ import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team610.robot.subsystems.NavX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,13 +17,11 @@ public class T_Drive extends Command {
 	private PID pidLeft, pidRight;
 	private OI oi;
 	private boolean high;
-	private boolean isR2Pressed;
 
 	public T_Drive() {
 		driveTrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
 		high = false;
-		isR2Pressed = false;
 	}
 
 	protected void initialize() {
@@ -59,7 +56,6 @@ public class T_Drive extends Command {
 			// Shifting
 			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 ) {
 				high = true;
-				isR2Pressed = true;
 			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 
 					&& Math.abs(driveTrain.getRightRPM()) < 50 
 					&& oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) < 0.5) {
