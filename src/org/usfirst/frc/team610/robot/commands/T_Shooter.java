@@ -33,30 +33,26 @@ public class T_Shooter extends Command {
 		server = VisionServer.getInstance();
 		oi = OI.getInstance();
 		visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
-		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		shooterPID = new PID(PIDConstants.SHOOTER_P,PIDConstants.SHOOTER_I,PIDConstants.SHOOTER_D);
 	}
 
 	protected void initialize() {
 		isTracking = false;
 		isLeft = true;
-		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		shooterPID.updatePID(PIDConstants.SHOOTER_P,PIDConstants.SHOOTER_I,PIDConstants.SHOOTER_D);
 		rpm = 0;
 	}
 
 	protected void execute() {
 		double speed = visionPID.getValue(server.getDouble(), 0, 0);
-
+		double shooterSpeed = shooterPID.getValue(shooter.getShooterSpeed(), 3000, shooter.getFeedForward(3000));
+		if(shooterSpeed<0)
+			shooterSpeed = 0;
 		// Displays to operator that turret is tracking
 		SmartDashboard.putBoolean("Tracking", server.isTracking());
-
-
-		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 		
-		double shooterSpeed = shooterPID.getValue(shooter.getShooterSpeed(), PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
 		
-		SmartDashboard.putNumber("RPM", shooter.getShooterSpeed());
-		
-		shooter.setPower(-shooterSpeed);
+		SmartDashboard.putNumber("RPM", shooter.getShooterPeriod());
 		
 		
 		// Operator can hold A until it starts tracking
@@ -69,14 +65,12 @@ public class T_Shooter extends Command {
 			isAPressed = false;
 		}
 
-		// if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R2)) {
-		// shooter.setShooterRPM(60);
-		// } else {
-		// shooter.setShooterRPM(0);
-		// }
-		// shooter.setPower(0.2);
-//		System.out.println(shooter.getShooterPeriod());
-		
+		 if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R2)) {
+			 shooter.setPower(-shooterSpeed);
+		 } else {
+			 shooter.setPower(0);
+		 }
+		System.out.println(PIDConstants.SHOOTER_P + " and " + shooter.getShooterSpeed());
 		
 		if (server.isTracking() && isTracking) {
 			shooter.setTurret(speed);
@@ -104,7 +98,6 @@ public class T_Shooter extends Command {
 			} else if (!isLeft) {
 //				shooter.setTurret(0.2);
 			}
-			shooter.setPower(0);
 			shooter.setLED(false);
 		} else {
 //			shooter.setLED(true);

@@ -22,7 +22,7 @@ public class PIDConstants {
 	public static double TURRET_I = 0;
 	public static double TURRET_D = 0;
 	
-	public static double RPM = 0;
+	public static double RPM = 60;
 	public static double hopperSpeed = 0;
 
 	public static void Update() {
@@ -38,7 +38,7 @@ public class PIDConstants {
 		DRIVE_GYRO_I = prefs.getDouble("Gyro I", 0.0002);
 		DRIVE_GYRO_D = prefs.getDouble("Gyro D", -0.16);
 		
-		RPM = prefs.getDouble("RPM", 0);
+		RPM = prefs.getDouble("RPM", 60);
 		hopperSpeed = prefs.getDouble("Hopper Speed", 0);
 	}
 
