@@ -18,6 +18,8 @@ public class A_PositionMove extends Command {
 
 	private double distance;
 	private double time;
+	private boolean isFinished;
+	private int counter;
 
 	public A_PositionMove(double distance, double time, double max) {
 		driveTrain = DriveTrain.getInstance();
@@ -30,7 +32,8 @@ public class A_PositionMove extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 //		driveTrain.resetEnc();
-		
+		counter = 0;
+		isFinished = false;
 		PIDConstants.Update();
 		driveTrain.resetEnc();
 		setTimeout(time);
@@ -53,11 +56,19 @@ public class A_PositionMove extends Command {
 		SmartDashboard.putNumber("RightPower", rightPower);
 		driveTrain.setLeft(leftPower);
 		driveTrain.setRight(rightPower);
+		if(Math.abs(leftDrivePID.getError()) < 1 && Math.abs(rightDrivePID.getError()) < 1){
+			counter ++;
+		} else {
+			counter = 0;
+		}
+		if(counter >= 25){
+			isFinished = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (isTimedOut());
+		return (isTimedOut()) || isFinished;
 	}
 
 	// Called once after isFinished returns true

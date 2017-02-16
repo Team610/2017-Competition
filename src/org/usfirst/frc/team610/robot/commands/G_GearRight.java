@@ -18,7 +18,9 @@ public class G_GearRight extends CommandGroup {
     	addSequential(new A_TurnOptical(10000, .4));
     	addSequential(new A_SetIntake(false));
     	addSequential(new A_PositionMove(28,3, .35));
+    	addParallel(new A_Turret());
     	addSequential(new A_SetOuttake(true));
     	addParallel(new A_PositionMove(-12, 2, 1));
+    	addSequential(new A_Shoot());
     }
 }

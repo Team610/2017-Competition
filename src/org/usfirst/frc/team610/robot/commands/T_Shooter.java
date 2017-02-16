@@ -60,12 +60,12 @@ public class T_Shooter extends Command {
 			if(sortedRPMs.get(2) < 6000){
 				rpm = sortedRPMs.get(2);
 			}
-			System.out.println(String.format("%.1f", sortedRPMs.get(0)) + " " + 
-					String.format("%.1f", sortedRPMs.get(1)) + " " +
-					String.format("%.1f", sortedRPMs.get(2)) + " " +
-					String.format("%.1f", sortedRPMs.get(3)) + " " +
-					String.format("%.1f", sortedRPMs.get(4)) + " " );
-			
+//			System.out.println(String.format("%.1f", sortedRPMs.get(0)) + " " + 
+//					String.format("%.1f", sortedRPMs.get(1)) + " " +
+//					String.format("%.1f", sortedRPMs.get(2)) + " " +
+//					String.format("%.1f", sortedRPMs.get(3)) + " " +
+//					String.format("%.1f", sortedRPMs.get(4)) + " " );
+//			
 		}
 		
 //		rpm = shooter.getShooterSpeed();
@@ -116,13 +116,7 @@ public class T_Shooter extends Command {
 				}
 			}
 		} else if (!isTracking) {
-			/*
-			 * if (Math.abs(oi.getOperator().getRawAxis(LogitechF310Constants.
-			 * AXIS_LEFT_X)) > 0.1) {
-			 * shooter.setTurret(oi.getOperator().getRawAxis(
-			 * LogitechF310Constants.AXIS_LEFT_X)); } else
-			 *
-			 */
+
 			 shooter.setPower(0);
 			if (shooter.getSensor()) {
 //				shooter.setTurret(0);
