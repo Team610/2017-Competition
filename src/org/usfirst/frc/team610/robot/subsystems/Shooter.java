@@ -1,8 +1,8 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
-import org.crescent.sixten.pid.PID;
+import java.util.ArrayList;
+
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
-import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -20,6 +20,7 @@ public class Shooter extends Subsystem {
 	private DigitalInput positionSensor;
 	private Relay spike;
 
+
 	public static Shooter getInstance() {
 		if (instance == null)
 			instance = new Shooter();
@@ -29,6 +30,8 @@ public class Shooter extends Subsystem {
 	public Shooter() {
 		RPMfactor = 60; // min/s
 		shooterCounter = new Counter(ElectricalConstants.SHOOTER_SENSOR);
+		shooterCounter.setSamplesToAverage(1);
+		shooterCounter.setMaxPeriod(0.1);
 		shooter = new Victor(ElectricalConstants.SHOOTER_MOTOR);
 		turret = new Victor(ElectricalConstants.TURRET_MOTOR);
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
@@ -36,7 +39,7 @@ public class Shooter extends Subsystem {
 	}
 
 	public double getFeedForward(double rpm){
-		return rpm / 6000.0;
+		return rpm / 6000;
 	}
 	
 	// Set shooter at certain RPM
@@ -89,9 +92,6 @@ public class Shooter extends Subsystem {
 	// setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0,
 	// 0));
 	// }
-
-	public void setShooterPos(int pos) { // one = home, two = red, three = blue
-	}
 
 	@Override
 	protected void initDefaultCommand() {

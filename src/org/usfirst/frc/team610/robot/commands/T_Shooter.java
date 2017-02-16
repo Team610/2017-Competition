@@ -1,5 +1,8 @@
 package org.usfirst.frc.team610.robot.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
@@ -20,17 +23,22 @@ public class T_Shooter extends Command {
 
 	private PID visionPID;
 	private VisionServer server;
-
+	
+	private double rpm;
+	private ArrayList<Double> rpms;
+	private ArrayList<Double> sortedRPMs;
 	
 	private PID shooterPID;
 	
 	private boolean isLeft = false;
 	public T_Shooter() {
+		rpms = new ArrayList<Double>();
+		sortedRPMs = new ArrayList<Double>();
 		shooter = Shooter.getInstance();
 		server = VisionServer.getInstance();
 		oi = OI.getInstance();
 		visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
-		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D,0,1);
 	}
 
 	protected void initialize() {
@@ -39,7 +47,29 @@ public class T_Shooter extends Command {
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void execute() {
+		if(rpms.size() < 5){
+			rpms.add(shooter.getShooterSpeed());
+			rpm = shooter.getShooterSpeed();
+		} else {
+			rpms.remove(0);
+			rpms.add(shooter.getShooterSpeed());
+			sortedRPMs = (ArrayList<Double>) rpms.clone();
+			Collections.sort(sortedRPMs);
+			if(sortedRPMs.get(2) < 6000){
+				rpm = sortedRPMs.get(2);
+			}
+			System.out.println(String.format("%.1f", sortedRPMs.get(0)) + " " + 
+					String.format("%.1f", sortedRPMs.get(1)) + " " +
+					String.format("%.1f", sortedRPMs.get(2)) + " " +
+					String.format("%.1f", sortedRPMs.get(3)) + " " +
+					String.format("%.1f", sortedRPMs.get(4)) + " " );
+			
+		}
+		
+//		rpm = shooter.getShooterSpeed();
+		
 		double speed = visionPID.getValue(server.getDouble(), 0, 0);
 
 		// Displays to operator that turret is tracking
@@ -49,9 +79,9 @@ public class T_Shooter extends Command {
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 		visionPID.updatePID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		
-		double shooterSpeed = shooterPID.getValue(shooter.getShooterSpeed(), PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
+		double shooterSpeed = shooterPID.getValue(rpm, PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
 		
-		SmartDashboard.putNumber("RPM", shooter.getShooterSpeed());
+		SmartDashboard.putNumber("RPM", rpm);
 		
 		shooter.setPower(-shooterSpeed);
 		
@@ -76,7 +106,7 @@ public class T_Shooter extends Command {
 		
 		
 		if (server.isTracking() && isTracking) {
-			shooter.setTurret(speed);
+//			shooter.setTurret(speed);
 			shooter.setLED(true);
 			if (shooter.getSensor()) {
 				if (speed > 0) {
@@ -95,24 +125,24 @@ public class T_Shooter extends Command {
 			 */
 			 shooter.setPower(0);
 			if (shooter.getSensor()) {
-				shooter.setTurret(0);
+//				shooter.setTurret(0);
 			} else if (isLeft) {
-				shooter.setTurret(-0.2);
+//				shooter.setTurret(-0.2);
 			} else if (!isLeft) {
-				shooter.setTurret(0.2);
+//				shooter.setTurret(0.2);
 			}
 			shooter.setPower(0);
 			shooter.setLED(false);
 		} else {
 			shooter.setLED(true);
 			if (oi.getOperator().getPOV() == 90) {
-				shooter.setTurret(.5);
+//				shooter.setTurret(.5);
 				if (shooter.getSensor()) {
 					isLeft = true;
 				}
 
 			} else if (oi.getOperator().getPOV() == 270) {
-				shooter.setTurret(-.5);
+//				shooter.setTurret(-.5);
 				if (shooter.getSensor()) {
 					isLeft = false;
 				}

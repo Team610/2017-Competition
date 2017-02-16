@@ -6,6 +6,7 @@ import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,11 +18,13 @@ public class T_Drive extends Command {
 	private PID pidLeft, pidRight;
 	private OI oi;
 	private boolean high;
+	private Preferences prefs;
 
 	public T_Drive() {
 		driveTrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
 		high = false;
+		prefs = Preferences.getInstance();
 	}
 
 	protected void initialize() {
@@ -54,7 +57,7 @@ public class T_Drive extends Command {
 			driveTrain.drive(1);
 
 			// Shifting
-			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 ) {
+			if (oi.getDriver().getRawAxis(Xbox360Constants.AXIS_R2) > 0.5 && prefs.getBoolean("GoodEgg", true)) {
 				high = true;
 			} else if (Math.abs(driveTrain.getLeftRPM()) < 50 
 					&& Math.abs(driveTrain.getRightRPM()) < 50 

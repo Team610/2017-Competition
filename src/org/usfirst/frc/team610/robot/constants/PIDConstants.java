@@ -6,9 +6,9 @@ public class PIDConstants {
 
 	public static Preferences prefs = Preferences.getInstance();
 
-	public static double SHOOTER_P = 0;
-	public static double SHOOTER_D = 0;
-	public static double SHOOTER_I = 0;
+	public static double SHOOTER_P = 5.0E-4;
+	public static double SHOOTER_D = -5E-4;
+	public static double SHOOTER_I = 1E-6;
 
 	public static double DRIVE_ENC_P = 0.625;
 	public static double DRIVE_ENC_I = 0;
