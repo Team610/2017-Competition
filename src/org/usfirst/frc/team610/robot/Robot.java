@@ -57,11 +57,6 @@ public class Robot extends IterativeRobot {
 		teleop.cancel();
 		auton.cancel();
 		visionServer = VisionServer.getInstance();
-		
-		
-				
-		
-
 	}
 
 	@Override

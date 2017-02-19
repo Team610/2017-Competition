@@ -61,8 +61,9 @@ public class A_PositionMove extends Command {
 		} else {
 			counter = 0;
 		}
-		if(counter >= 25){
+		if(counter >= 50){
 			isFinished = true;
+			System.out.println("isFinished");
 		}
 	}
 

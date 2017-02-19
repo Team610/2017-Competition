@@ -6,8 +6,8 @@ public class PIDConstants {
 
 	public static Preferences prefs = Preferences.getInstance();
 
-	public static double SHOOTER_P = 5.0E-4;
-	public static double SHOOTER_D = -5E-4;
+	public static double SHOOTER_P = 5.3E-4;
+	public static double SHOOTER_D = -5.5E-4;
 	public static double SHOOTER_I = 1E-6;
 
 	public static double DRIVE_ENC_P = 0.625;
@@ -18,17 +18,17 @@ public class PIDConstants {
 	public static double DRIVE_GYRO_I = 0.0002;
 	public static double DRIVE_GYRO_D = -0.16;
 
-	public static double TURRET_P = 0.005;
+	public static double TURRET_P = 0.0039;
 	public static double TURRET_I = 0;
-	public static double TURRET_D = 0;
+	public static double TURRET_D = -0.0032;
 	
 	public static double RPM = 0;
-	public static double hopperSpeed = 0;
+	public static double hopperSpeed = 0.3;
 
 	public static void Update() {
-		SHOOTER_P = prefs.getDouble("Shooter P", 0);
-		SHOOTER_I = prefs.getDouble("Shooter I", 0);
-		SHOOTER_D = prefs.getDouble("Shooter D", 0);
+		SHOOTER_P = prefs.getDouble("Shooter P", 5.3E-4);
+		SHOOTER_I = prefs.getDouble("Shooter I", 1E-6);
+		SHOOTER_D = prefs.getDouble("Shooter D", -5.5E-4);
 
 		DRIVE_ENC_P = prefs.getDouble("Enc P", -0.15);
 		DRIVE_ENC_I = prefs.getDouble("Enc I", 0);
@@ -39,11 +39,13 @@ public class PIDConstants {
 		DRIVE_GYRO_D = prefs.getDouble("Gyro D", -0.16);
 		
 		RPM = prefs.getDouble("RPM", 0);
-		hopperSpeed = prefs.getDouble("Hopper Speed", 0);
+		//Peg center RPM: 4250
 		
-		TURRET_P = prefs.getDouble("Turret P", 0);
+		hopperSpeed = prefs.getDouble("Hopper Speed", 0.3);
+		
+		TURRET_P = prefs.getDouble("Turret P", 0.0039);
 		TURRET_I = prefs.getDouble("Turret I", 0);
-		TURRET_D = prefs.getDouble("Turret D", 0);
+		TURRET_D = prefs.getDouble("Turret D", -0.0032);
 		
 		
 		

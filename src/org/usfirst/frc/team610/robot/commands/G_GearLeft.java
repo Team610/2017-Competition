@@ -14,10 +14,10 @@ public class G_GearLeft extends CommandGroup {
     	addSequential(new A_PositionMove(0, 0.5, 0));
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
-    	addSequential(new A_PositionMove(88, 3, .75));
+    	addSequential(new A_PositionMove(95, 3, .75));
     	addSequential(new A_TurnOptical(4, -.35));
     	addSequential(new A_SetIntake(false));
-    	addSequential(new A_PositionMove(32,3, .35));
+    	addSequential(new A_PositionMove(26,3, .35));
     	addParallel(new A_Turret());
     	addSequential(new A_SetOuttake(true));
     	addParallel(new A_PositionMove(-12, 1, 1));

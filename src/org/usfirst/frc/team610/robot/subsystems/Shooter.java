@@ -19,6 +19,7 @@ public class Shooter extends Subsystem {
 	private Counter shooterCounter;
 	private DigitalInput positionSensor;
 	private Relay spike;
+	public boolean isLeft;
 
 
 	public static Shooter getInstance() {
@@ -36,10 +37,11 @@ public class Shooter extends Subsystem {
 		turret = new Victor(ElectricalConstants.TURRET_MOTOR);
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
 		spike = new Relay(ElectricalConstants.SPIKE);
+		isLeft = false;
 	}
 
 	public double getFeedForward(double rpm){
-		return rpm / 6000;
+		return rpm * 0.00015888888888888;
 	}
 	
 	// Set shooter at certain RPM

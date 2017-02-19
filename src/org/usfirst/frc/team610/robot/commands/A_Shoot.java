@@ -40,8 +40,9 @@ public class A_Shoot extends Command {
     protected void execute() {
     	rpm = shooter.getShooterSpeed();
     	shooterSpeed = shooterPID.getValue(rpm, PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
-   
-    	if(Math.abs(rpm - PIDConstants.RPM) < 50 && server.isTracking()){
+    	shooter.setPower(-shooterSpeed);
+    	
+    	if(server.isTracking()){
     		feeder.setSpeed(0.5);
     	}
     }

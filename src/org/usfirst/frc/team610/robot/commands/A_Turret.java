@@ -6,6 +6,7 @@ import org.usfirst.frc.team610.robot.subsystems.Shooter;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -23,7 +24,7 @@ public class A_Turret extends Command {
     	visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
     	server = VisionServer.getInstance();
     	shooter = Shooter.getInstance();
-    	speed = .5;
+    	speed = -.3;
     	counter = 0;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -32,22 +33,31 @@ public class A_Turret extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	counter = 12;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
     	shooter.setLED(true);
+    	SmartDashboard.putBoolean("Tracking", server.isTracking());
+    	System.out.println(server.getDouble());
     	if(server.isTracking()){
     		speed = visionPID.getValue(server.getDouble(), 0, 0);
     	} else {
-    		if(counter < 50){
+    		if(counter > 40){
     			speed = -speed;
-    		} else {
     			counter = 0;
     		}
     		counter++;
     	}
+    	
+    	if(speed < 0 && shooter.getSensor()){
+    		shooter.isLeft = false;
+    	} else if(speed > 0 && shooter.getSensor()){
+    		shooter.isLeft = true;
+    	}
+    	shooter.setTurret(speed);
     	
     }
 
@@ -58,6 +68,7 @@ public class A_Turret extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	shooter.setLED(false);
     }
 
     // Called when another command which requires one or more of the same

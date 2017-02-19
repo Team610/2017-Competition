@@ -124,13 +124,35 @@ public class VisionServer implements Runnable {
 	public double getDouble() {
 		String sub = getRawInput();
 		String [] tokens = sub.split("/n");
-		if((tokens[0].charAt(0) < 57 && tokens[0].charAt(0) > 48 )|| tokens[0].charAt(0) == 45){
+		String [] subTokens = tokens[0].split("&");
+		if((subTokens[0].charAt(0) < 57 && subTokens[0].charAt(0) > 48 )|| subTokens[0].charAt(0) == 45){
 			tracking = true;
-			return Double.parseDouble(tokens[0]);
+			return Double.parseDouble(subTokens[0]);
 		} else {
 			tracking = false;
 			return 0;
 		}
+	}
+	
+	public double getHeight(){
+		String sub = getRawInput();
+		String [] tokens = sub.split("/n");
+		String [] subTokens = tokens[0].split("&");
+		if( getDouble() != 0){
+			if(((subTokens[1].charAt(0) < 57 && subTokens[1].charAt(0) > 48 )|| subTokens[1].charAt(0) == 45)){
+				tracking = true;
+				return Double.parseDouble(subTokens[1]);
+			} else {
+				tracking = false;
+				return 0;
+			}
+		} else {
+			return 0;
+		}
+	}
+	
+	public double getRPM(){
+		return 3.5597 * getHeight() + 3330.4;
 	}
 
 	public String getString(){

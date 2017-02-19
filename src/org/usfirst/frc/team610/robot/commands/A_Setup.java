@@ -1,6 +1,8 @@
 package org.usfirst.frc.team610.robot.commands;
 
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.GearIntake;
+import org.usfirst.frc.team610.robot.subsystems.HopperFeeder;
 import org.usfirst.frc.team610.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,12 +14,17 @@ public class A_Setup extends Command {
 
 	private GearIntake intake;
 	private Shooter shooter;
+	private DriveTrain driveTrain;
+	private HopperFeeder feeder;
 	private int counter;
 
 	public A_Setup() {
 
 		intake = GearIntake.getInstance();
 		shooter = Shooter.getInstance();
+		driveTrain = DriveTrain.getInstance();
+		feeder = HopperFeeder.getInstance();
+		
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
@@ -25,6 +32,13 @@ public class A_Setup extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		counter = 0;
+		driveTrain.resetEnc();
+		driveTrain.resetAngle();
+		driveTrain.setLeft(0);
+		driveTrain.setRight(0);
+		feeder.setSpeed(0);
+		shooter.setLED(false);
+		shooter.setPower(0);
 		setTimeout(2);
 	}
 

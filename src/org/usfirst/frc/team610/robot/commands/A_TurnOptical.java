@@ -37,7 +37,7 @@ public class A_TurnOptical extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape) {
+		if ((driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape) ||( Math.abs(driveTrain.getAngle()) > 60 && !foundTape)) {
 			foundTape = true;
 			if (turnSpeed < 0)
 				turnAngle = driveTrain.getAngle() + 3.42069610;
