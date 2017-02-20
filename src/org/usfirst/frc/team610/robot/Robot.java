@@ -3,8 +3,10 @@ package org.usfirst.frc.team610.robot;
 
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team610.robot.commands.G_GearCenter;
-import org.usfirst.frc.team610.robot.commands.G_GearLeft;
-import org.usfirst.frc.team610.robot.commands.G_GearRight;
+import org.usfirst.frc.team610.robot.commands.G_GearLeftBlue;
+import org.usfirst.frc.team610.robot.commands.G_GearLeftRed;
+import org.usfirst.frc.team610.robot.commands.G_GearRightBlue;
+import org.usfirst.frc.team610.robot.commands.G_GearRightRed;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
@@ -52,7 +54,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		SmartDashboard.putString("Auton", "Center_Blue");
+		SmartDashboard.putString("Auton", "Center");
 		auton = new G_GearCenter();
 		teleop.cancel();
 		auton.cancel();
@@ -71,25 +73,25 @@ public class Robot extends IterativeRobot {
 
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
-			auton = new G_GearLeft();
+			auton = new G_GearLeftBlue();
 			SmartDashboard.putString("Auton", "GearLeft_Blue");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
-			auton = new G_GearRight();
+			auton = new G_GearRightBlue();
 			SmartDashboard.putString("Auton", "GearRight_Blue");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearCenter();
-			SmartDashboard.putString("Auton", "Center_Blue");
+			SmartDashboard.putString("Auton", "Center");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
-			auton = new G_GearLeft();
+			auton = new G_GearLeftRed();
 			SmartDashboard.putString("Auton", "Gearleft_Red");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
-			auton = new G_GearRight();
+			auton = new G_GearRightRed();
 			SmartDashboard.putString("Auton", "GearRight_Red");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
 			auton = new G_GearCenter();
-			SmartDashboard.putString("Auton", "Center_Red");
+			SmartDashboard.putString("Auton", "Center");
 		}
 	}
 

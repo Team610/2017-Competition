@@ -21,8 +21,6 @@ public class VisionServer implements Runnable {
 	private boolean tracking = false;
 	private ServerThread commThread;
 
-
-
 	private static final int port = 3000;
 
 	public static VisionServer getInstance() {
@@ -63,7 +61,7 @@ public class VisionServer implements Runnable {
 				int read;
 				// Continue while connected and have messages to read
 				while (socket.isConnected() && (read = is.read(buffer)) != -1) {
-					startInput = true;  
+					startInput = true;
 					String messageRaw = new String(buffer, 0, read);
 					rawInput = messageRaw;
 				}
@@ -71,7 +69,7 @@ public class VisionServer implements Runnable {
 				p = null;
 				commThread = null;
 				startInput = false;
-				
+
 			} catch (IOException e) {
 				System.err.println("Could not talk to socket");
 				socket = null;
@@ -88,7 +86,7 @@ public class VisionServer implements Runnable {
 
 		public void close() {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
@@ -97,9 +95,9 @@ public class VisionServer implements Runnable {
 		try {
 			// Creating a socket and setting up connection over adb to start tcp
 			serverSocket = new ServerSocket(port);
-			try{
+			try {
 				RIOadb.init();
-			} catch(IndexOutOfBoundsException e){
+			} catch (IndexOutOfBoundsException e) {
 				System.out.println("Device Not Connected");
 			}
 			AdbUtils.adbReverseForward(port, port);
@@ -111,8 +109,8 @@ public class VisionServer implements Runnable {
 	}
 
 	public String getRawInput() {
-		if(startInput){
-			if(commThread == null){
+		if (startInput) {
+			if (commThread == null) {
 				return "Socket Not Connected";
 			}
 			return rawInput;
@@ -123,9 +121,9 @@ public class VisionServer implements Runnable {
 
 	public double getDouble() {
 		String sub = getRawInput();
-		String [] tokens = sub.split("/n");
-		String [] subTokens = tokens[0].split("&");
-		if((subTokens[0].charAt(0) < 57 && subTokens[0].charAt(0) > 48 )|| subTokens[0].charAt(0) == 45){
+		String[] tokens = sub.split("/n");
+		String[] subTokens = tokens[0].split("&");
+		if ((subTokens[0].charAt(0) <= 57 && subTokens[0].charAt(0) > 48) || subTokens[0].charAt(0) == 45) {
 			tracking = true;
 			return Double.parseDouble(subTokens[0]);
 		} else {
@@ -133,46 +131,46 @@ public class VisionServer implements Runnable {
 			return 0;
 		}
 	}
-	
-	public double getHeight(){
+
+	public double getHeight() {
 		String sub = getRawInput();
-		String [] tokens = sub.split("/n");
-		String [] subTokens = tokens[0].split("&");
-		if( getDouble() != 0){
-			if(((subTokens[1].charAt(0) < 57 && subTokens[1].charAt(0) > 48 )|| subTokens[1].charAt(0) == 45)){
-				tracking = true;
+		String[] tokens = sub.split("/n");
+		String[] subTokens = tokens[0].split("&");
+		if (getDouble() != 0) {
+			if (((subTokens[1].charAt(0) <= 57 && subTokens[1].charAt(0) > 48) || subTokens[1].charAt(0) == 45)) {
 				return Double.parseDouble(subTokens[1]);
 			} else {
-				tracking = false;
 				return 0;
 			}
 		} else {
 			return 0;
 		}
 	}
-	
-	public double getRPM(){
-		return 3.5597 * getHeight() + 3330.4;
-	}
 
-	public String getString(){
+	public double getRPM() {
+		double h = getHeight();
+		return 0.0125 * h * h + 1.6874 * h + 3400;
+	}
+	// y = 0.0125x2 + 1.6874x + 3370.8
+	// R² = 0.98105
+
+	// 0.016*getHeight()*getHeight() + 0.8906*getHeight() + 3400;
+
+	public String getString() {
 		String sub = getRawInput();
-		String [] tokens = sub.split("/n");
+		String[] tokens = sub.split("/n");
 		return tokens[0];
 	}
-	
-	public boolean isTracking(){
+
+	public boolean isTracking() {
 		return tracking;
 	}
+
 	/**
 	 * If a VisionUpdate object (i.e. a target) is not in the list, add it.
 	 * 
 	 * @see VisionUpdate
 	 */
-
-
-
-	
 
 	@Override
 	public void run() {
@@ -182,10 +180,10 @@ public class VisionServer implements Runnable {
 		while (true) {
 			// If socket is disconnected, attempt to reconnect and start new
 			// ServerThread
-		
+
 			try {
 				if (p == null) {
-					
+
 					System.out.println("Attempting to accept socket");
 					p = serverSocket.accept();
 					System.out.println("Socket Accepted!");

@@ -33,7 +33,15 @@ public class T_Shooter extends Command {
 	private double trim;
 	
 	private boolean isPOV;
+	
+	private double rpmTrim;
+	
+	private double shooterSpeed;
+	
+	private double setRPM;
 
+	
+	private double speed;
 //	public boolean isLeft = false;
 
 	public T_Shooter() {
@@ -42,6 +50,7 @@ public class T_Shooter extends Command {
 		shooter = Shooter.getInstance();
 		server = VisionServer.getInstance();
 		oi = OI.getInstance();
+		shooterSpeed = 0;
 		visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D, 0, 1);
 		
@@ -51,6 +60,9 @@ public class T_Shooter extends Command {
 		isTracking = false;
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 		trim = 0;
+		rpmTrim = 0;
+		setRPM = 0;
+		speed = 0;
 		isPOV = false;
 	}
 
@@ -79,14 +91,35 @@ public class T_Shooter extends Command {
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 		visionPID.updatePID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 
-		double speed = visionPID.getValue(server.getDouble() + trim, 0, 0);
-		double shooterSpeed = shooterPID.getValue(rpm, PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
+		speed = visionPID.getValue(server.getDouble() + trim, 0, 0);
+//		double shooterSpeed = shooterPID.getValue(rpm, PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
 
-//		double shooterSpeed = shooterPID.getValue(rpm, server.getRPM(), shooter.getFeedForward(PIDConstants.RPM));
 		
+		
+		if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) < -0.9){
+			setRPM = PIDConstants.RPM_DIAMOND;
+			SmartDashboard.putString("RPM_Setpoing", "Diamond");
+		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) > 0.9){
+			setRPM = PIDConstants.RPM_Center;
+			SmartDashboard.putString("RPM_Setpoing", "Center");
+		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) < - 0.9){
+			setRPM = PIDConstants.RPM_LINE;
+			SmartDashboard.putString("RPM_Setpoing", "Line");
+		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) > 0.9){
+			setRPM = PIDConstants.RPM_SIDE;
+			SmartDashboard.putString("RPM_Setpoing", "Right");
+		} else {
+			setRPM = server.getRPM();
+			SmartDashboard.putString("RPM_Setpoing", "Auto");
+		}
+		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));
+		
+		SmartDashboard.putNumber("Calculated RPM", server.getRPM());
 		SmartDashboard.putNumber("RPM", rpm);
 		SmartDashboard.putNumber("Y-Dist", server.getHeight());
 		SmartDashboard.putNumber("ShooterSpeed", shooterSpeed);
+		SmartDashboard.putNumber("RPMTrim", rpmTrim);
+		SmartDashboard.putNumber("TurretTrim", trim);;
 		// if(rpm < PIDConstants.RPM){
 		// shooterSpeed = 1;
 		// } else {
@@ -109,10 +142,18 @@ public class T_Shooter extends Command {
 		SmartDashboard.putNumber("Target", server.getDouble());
 		double x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
 
+		
+		
+		
 		if (server.isTracking() && isTracking) { //Tracking and led on
 			
-			shooter.setTurret(speed);
+			
 			shooter.setLED(true);
+			if(Math.abs(x) > 0.5){
+				shooter.setTurret(x * 0.6);
+			} else {
+				shooter.setTurret(speed);
+			}
 			if (shooter.getSensor()) {
 				if (speed > 0) {
 					shooter.isLeft = true;
@@ -122,13 +163,23 @@ public class T_Shooter extends Command {
 			}
 		} else if (!isTracking) { //Not tracking and led off
 		
-//			shooter.setTurret(x * 0.2);
-			if(shooter.isLeft && !shooter.getSensor()){
+			if(Math.abs(x) > .5){
+				shooter.setTurret(x * 0.6);
+			}
+			else if(shooter.isLeft && !shooter.getSensor()){
 				shooter.setTurret(-0.15);
 			} else if (!shooter.isLeft && !shooter.getSensor()){
 				shooter.setTurret(0.15);
 			} else {
 				shooter.setTurret(0);
+			}
+			
+			if(shooter.getSensor()){
+				if(x > 0){
+					shooter.isLeft = true;
+				} else {
+					shooter.isLeft = false;
+				}
 			}
 			
 			
@@ -147,10 +198,16 @@ public class T_Shooter extends Command {
 		}
 		
 		if(oi.getOperator().getPOV()==90 && !isPOV){
-			trim += 5;
+			trim -= 10;
 			isPOV = true;
 		} else if(oi.getOperator().getPOV() == 270 && !isPOV){
-			trim -= 5;
+			trim += 10;
+			isPOV = true;
+		} else if(oi.getOperator().getPOV() == 0 && !isPOV){
+			rpmTrim += 10;
+			isPOV = true;
+		} else if(oi.getOperator().getPOV() == 180 && !isPOV){
+			rpmTrim -= 10;
 			isPOV = true;
 		}
 		if(oi.getOperator().getPOV() == -1){

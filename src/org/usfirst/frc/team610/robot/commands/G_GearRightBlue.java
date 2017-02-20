@@ -7,20 +7,19 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class G_GearRight extends CommandGroup {
+public class G_GearRightBlue extends CommandGroup {
 
-    public G_GearRight() {
+    public G_GearRightBlue() {
     	DriveTrain.getInstance().resetEnc(); 
 //    	addSequential(new A_PositionMove(0, 0.5, 0));
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
-    	addSequential(new A_PositionMove(94, 3, .75));
-    	addSequential(new A_TurnOptical(10000, .4));
+    	addSequential(new A_PositionMove(90, 3, .75));
+    	addSequential(new A_TurnOptical(10000, .6));
     	addSequential(new A_SetIntake(false));
-    	addSequential(new A_PositionMove(32,3, .35));
-    	addParallel(new A_Turret());
+    	addSequential(new A_PositionMove(22,3, .35));
     	addSequential(new A_SetOuttake(true));
     	addParallel(new A_PositionMove(-12, 2, 1));
-    	addSequential(new A_Shoot());
+    	
     }
 }

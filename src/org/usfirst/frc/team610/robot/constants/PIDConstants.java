@@ -23,9 +23,16 @@ public class PIDConstants {
 	public static double TURRET_D = -0.0032;
 	
 	public static double RPM = 0;
+	public static double RPM_Center = 4200;
+	public static double RPM_SIDE = 3875.0;
+	public static double RPM_LINE = 3350;
+	public static double RPM_DIAMOND = 3500;
+	
 	public static double hopperSpeed = 0.3;
 
 	public static void Update() {
+		RPM_SIDE = prefs.getDouble("Side RPM", 3800);
+		RPM_Center = prefs.getDouble("Center RPM", 4250);
 		SHOOTER_P = prefs.getDouble("Shooter P", 5.3E-4);
 		SHOOTER_I = prefs.getDouble("Shooter I", 1E-6);
 		SHOOTER_D = prefs.getDouble("Shooter D", -5.5E-4);

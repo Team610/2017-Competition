@@ -33,7 +33,7 @@ public class A_Turret extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	counter = 12;
+    	counter = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,13 +41,14 @@ public class A_Turret extends Command {
     	
     	shooter.setLED(true);
     	SmartDashboard.putBoolean("Tracking", server.isTracking());
-    	System.out.println(server.getDouble());
+    	SmartDashboard.putNumber("Target", server.getDouble());
     	if(server.isTracking()){
     		speed = visionPID.getValue(server.getDouble(), 0, 0);
     	} else {
     		if(counter > 40){
     			speed = -speed;
     			counter = 0;
+    			
     		}
     		counter++;
     	}

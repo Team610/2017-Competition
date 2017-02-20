@@ -35,6 +35,15 @@ public class HopperFeeder {
 		}
 	}
 	
+	public void setAgitator(boolean run){
+		if(run){
+			agitator.set(0.4);
+		} else {
+			agitator.set(0);
+			
+		}
+	}
+	
 	public boolean isRunning(){
 		return isRunning;
 	}

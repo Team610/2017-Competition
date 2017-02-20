@@ -1,5 +1,6 @@
 package org.usfirst.frc.team610.robot.commands;
 
+import org.usfirst.frc.team610.robot.subsystems.BallIntake;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 import org.usfirst.frc.team610.robot.subsystems.HopperFeeder;
@@ -17,6 +18,7 @@ public class A_Setup extends Command {
 	private DriveTrain driveTrain;
 	private HopperFeeder feeder;
 	private int counter;
+	private BallIntake ballIntake;
 
 	public A_Setup() {
 
@@ -24,6 +26,7 @@ public class A_Setup extends Command {
 		shooter = Shooter.getInstance();
 		driveTrain = DriveTrain.getInstance();
 		feeder = HopperFeeder.getInstance();
+		ballIntake = BallIntake.getInstance();
 		
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -39,7 +42,9 @@ public class A_Setup extends Command {
 		feeder.setSpeed(0);
 		shooter.setLED(false);
 		shooter.setPower(0);
-		setTimeout(2);
+		feeder.setAgitator(true);
+		ballIntake.setIntake(1);
+		setTimeout(1);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

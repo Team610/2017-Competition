@@ -1,19 +1,23 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class G_GearCenter extends CommandGroup{
+/**
+ *
+ */
+public class G_GearCenter extends CommandGroup {
+
     public G_GearCenter() {
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(false));
 
-    	addParallel(new A_Shoot());
-    	addSequential(new A_PositionMove(75, 3, .5));
+    	addParallel(new A_Shoot(PIDConstants.RPM_Center, 0.4));
+    	addSequential(new A_PositionMove(80, 3, .5));
     	addSequential(new A_SetOuttake(true));
+    	addSequential(new A_PositionMove(-50, 2, 1));
     	addParallel(new A_Turret());
-    	addSequential(new A_PositionMove(-12, 2, 1));
     	
     }
 }

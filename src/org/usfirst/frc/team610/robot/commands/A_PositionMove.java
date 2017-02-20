@@ -15,6 +15,7 @@ public class A_PositionMove extends Command {
 	// Distance
 	private DriveTrain driveTrain;
 	private PID leftDrivePID, rightDrivePID;
+	private PID gyroPID;
 
 	private double distance;
 	private double time;
@@ -25,13 +26,15 @@ public class A_PositionMove extends Command {
 		driveTrain = DriveTrain.getInstance();
 		this.time = time;
 		this.distance = distance;
+		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
+	
 		leftDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D, -max, max);
 		rightDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D, -max, max);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-//		driveTrain.resetEnc();
+		driveTrain.resetAngle();
 		counter = 0;
 		isFinished = false;
 		PIDConstants.Update();
@@ -48,14 +51,16 @@ public class A_PositionMove extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double value = gyroPID.getValue(driveTrain.getAngle(), 0, 0);
+		
 		double leftPower = leftDrivePID.getValue(driveTrain.getLeftInches(), distance, 0);
 		double rightPower = rightDrivePID.getValue(driveTrain.getRightInches(), distance, 0);
 		SmartDashboard.putNumber("Left Enc", driveTrain.getLeftInches());
 		SmartDashboard.putNumber("Right Enc", driveTrain.getRightInches());
 		SmartDashboard.putNumber("LeftPower", leftPower);
 		SmartDashboard.putNumber("RightPower", rightPower);
-		driveTrain.setLeft(leftPower);
-		driveTrain.setRight(rightPower);
+		driveTrain.setLeft(leftPower - value);
+		driveTrain.setRight(rightPower + value);
 		if(Math.abs(leftDrivePID.getError()) < 1 && Math.abs(rightDrivePID.getError()) < 1){
 			counter ++;
 		} else {
