@@ -83,10 +83,10 @@ public class T_Drive extends Command {
 		}
 
 		SmartDashboard.putBoolean("SHIFT!", atMax);
-		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
-		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
-		SmartDashboard.putNumber("leftDistance", driveTrain.getLeftInches());
-		SmartDashboard.putNumber("rightDistance", driveTrain.getRightInches());
+//		SmartDashboard.putNumber("leftRPM", Math.abs(driveTrain.getLeftRPM()));
+//		SmartDashboard.putNumber("rightRPM", Math.abs(driveTrain.getRightRPM()));
+//		SmartDashboard.putNumber("leftDistance", driveTrain.getLeftInches());
+//		SmartDashboard.putNumber("rightDistance", driveTrain.getRightInches());
 	}
 
 	@Override

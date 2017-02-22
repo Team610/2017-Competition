@@ -41,7 +41,8 @@ public class Shooter extends Subsystem {
 	}
 
 	public double getFeedForward(double rpm){
-		return rpm * 0.00015888888888888;
+		return 0.0001666666666666666 * rpm + 0.0149;
+
 	}
 	
 	// Set shooter at certain RPM

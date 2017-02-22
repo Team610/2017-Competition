@@ -40,6 +40,7 @@ public class T_Shooter extends Command {
 	
 	private double setRPM;
 
+	private double x;
 	
 	private double speed;
 //	public boolean isLeft = false;
@@ -64,11 +65,19 @@ public class T_Shooter extends Command {
 		setRPM = 0;
 		speed = 0;
 		isPOV = false;
+		x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected void execute() {
 		PIDConstants.Update();
+		
+		SmartDashboard.putNumber("RPM", rpm);
+		SmartDashboard.putNumber("ShooterSpeed", shooterSpeed);
+		SmartDashboard.putNumber("RPMTrim", rpmTrim);
+		SmartDashboard.putNumber("TurretTrim", trim);;
+		
+		//RPM Median filter
 		if (rpms.size() < 5) {
 			rpms.add(shooter.getShooterSpeed());
 			rpm = shooter.getShooterSpeed();
@@ -82,20 +91,16 @@ public class T_Shooter extends Command {
 			}
 		}
 
-
-		
-
-		// Displays to operator that turret is tracking
-		SmartDashboard.putBoolean("Tracking", server.isTracking());
+//		// Displays to operator that turret is tracking
+//		SmartDashboard.putBoolean("Tracking", server.isTracking());
 
 		shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
 		visionPID.updatePID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 
 		speed = visionPID.getValue(server.getDouble() + trim, 0, 0);
-//		double shooterSpeed = shooterPID.getValue(rpm, PIDConstants.RPM, shooter.getFeedForward(PIDConstants.RPM));
 
 		
-		
+		//RPM setters
 		if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) < -0.9){
 			setRPM = PIDConstants.RPM_DIAMOND;
 			SmartDashboard.putString("RPM_Setpoing", "Diamond");
@@ -112,20 +117,8 @@ public class T_Shooter extends Command {
 			setRPM = server.getRPM();
 			SmartDashboard.putString("RPM_Setpoing", "Auto");
 		}
-		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));
 		
-		SmartDashboard.putNumber("Calculated RPM", server.getRPM());
-		SmartDashboard.putNumber("RPM", rpm);
-		SmartDashboard.putNumber("Y-Dist", server.getHeight());
-		SmartDashboard.putNumber("ShooterSpeed", shooterSpeed);
-		SmartDashboard.putNumber("RPMTrim", rpmTrim);
-		SmartDashboard.putNumber("TurretTrim", trim);;
-		// if(rpm < PIDConstants.RPM){
-		// shooterSpeed = 1;
-		// } else {
-		// shooterSpeed = shooter.getFeedForward(PIDConstants.RPM);
-		// }
-
+		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));
 		shooter.setPower(-shooterSpeed);
 
 		// Operator press A to track
@@ -138,16 +131,12 @@ public class T_Shooter extends Command {
 			isAPressed = false;
 		}
 
+//
+//		SmartDashboard.putNumber("Target", server.getDouble());
+		x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
 
-		SmartDashboard.putNumber("Target", server.getDouble());
-		double x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
-
-		
-		
 		
 		if (server.isTracking() && isTracking) { //Tracking and led on
-			
-			
 			shooter.setLED(true);
 			if(Math.abs(x) > 0.5){
 				shooter.setTurret(x * 0.6);
@@ -162,7 +151,6 @@ public class T_Shooter extends Command {
 				}
 			}
 		} else if (!isTracking) { //Not tracking and led off
-		
 			if(Math.abs(x) > .5){
 				shooter.setTurret(x * 0.6);
 			}
@@ -181,8 +169,6 @@ public class T_Shooter extends Command {
 					shooter.isLeft = false;
 				}
 			}
-			
-			
 			shooter.setPower(0);
 			shooter.setLED(false);
 		} else { //not tracking and led on
@@ -197,6 +183,7 @@ public class T_Shooter extends Command {
 			shooter.setTurret(x * 0.6);
 		}
 		
+		// Turret trimming left and right. RPM trimming up and down
 		if(oi.getOperator().getPOV()==90 && !isPOV){
 			trim -= 10;
 			isPOV = true;
@@ -213,8 +200,6 @@ public class T_Shooter extends Command {
 		if(oi.getOperator().getPOV() == -1){
 			isPOV = false;
 		}
-		
-
 	}
 
 	@Override
