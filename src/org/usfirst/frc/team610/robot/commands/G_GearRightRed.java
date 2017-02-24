@@ -2,7 +2,6 @@ package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team610.robot.subsystems.HopperFeeder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -2,7 +2,6 @@ package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
-import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.HopperFeeder;
 import org.usfirst.frc.team610.robot.subsystems.Shooter;
 import org.usfirst.frc.team610.robot.vision.VisionServer;

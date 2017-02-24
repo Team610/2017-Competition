@@ -1,7 +1,5 @@
 package org.usfirst.frc.team610.robot.subsystems;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 
 import edu.wpi.first.wpilibj.Counter;
