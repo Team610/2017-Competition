@@ -22,6 +22,8 @@ public class VisionServer implements Runnable {
 	private ServerThread commThread;
 
 	private static final int port = 3000;
+	
+	private double prevY = 0;
 
 	public static VisionServer getInstance() {
 		if (instance == null) {
@@ -146,13 +148,18 @@ public class VisionServer implements Runnable {
 			return 0;
 		}
 	}
+	
+	public double getDeltaY(){
+		double out = getHeight() - prevY;
+		prevY = getHeight();
+		return out;
+	}
 
 	public double getRPM() {
 		double h = getHeight();
-		return 0.0125 * h * h + 1.6874 * h + 3400;
+		return 0.0267 * h * h - 0.2113 * h + 3300;
 	}
-	// y = 0.0125x2 + 1.6874x + 3370.8
-	// R² = 0.98105
+	// y = 0.0267x2 - 0.2113x + 3306.9
 
 	// 0.016*getHeight()*getHeight() + 0.8906*getHeight() + 3400;
 

@@ -25,17 +25,18 @@ public class PIDConstants {
 	public static double RPM = 0;
 	public static double RPM_Center = 4070;
 	public static double RPM_SIDE = 3875.0;
+	//IN Update()
 	public static double RPM_LINE = 3350;
 	public static double RPM_DIAMOND = 3500;
 	
 	public static double HOPPER_SPEED = 0.5;
 
 	public static void Update() {
-		RPM_SIDE = prefs.getDouble("Side RPM", 3800);
 		RPM_Center = prefs.getDouble("Center RPM", 4250);
-		SHOOTER_P = prefs.getDouble("Shooter P", 3.5E-4);
-		SHOOTER_I = prefs.getDouble("Shooter I", 9);
-		SHOOTER_D = prefs.getDouble("Shooter D", -6E-4);
+	
+		SHOOTER_P = prefs.getDouble("Shooter P", 3E-4);
+		SHOOTER_I = prefs.getDouble("Shooter I", 0);
+		SHOOTER_D = prefs.getDouble("Shooter D", -3E-4);
 
 		DRIVE_ENC_P = prefs.getDouble("Enc P", -0.15);
 		DRIVE_ENC_I = prefs.getDouble("Enc I", 0);
@@ -48,7 +49,7 @@ public class PIDConstants {
 		RPM = prefs.getDouble("RPM", 0);
 		//Peg center RPM: 4250
 		
-		HOPPER_SPEED = prefs.getDouble("Hopper Speed", 0.3);
+		HOPPER_SPEED = prefs.getDouble("Hopper Speed", 0.7);
 		
 		TURRET_P = prefs.getDouble("Turret P", 0.0039);
 		TURRET_I = prefs.getDouble("Turret I", 0);

@@ -4,8 +4,11 @@ package org.usfirst.frc.team610.robot;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team610.robot.commands.G_GearCenter;
 import org.usfirst.frc.team610.robot.commands.G_GearLeftBlue;
+import org.usfirst.frc.team610.robot.commands.G_GearLeftFast;
 import org.usfirst.frc.team610.robot.commands.G_GearLeftRed;
+import org.usfirst.frc.team610.robot.commands.G_GearMidFast;
 import org.usfirst.frc.team610.robot.commands.G_GearRightBlue;
+import org.usfirst.frc.team610.robot.commands.G_GearRightFast;
 import org.usfirst.frc.team610.robot.commands.G_GearRightRed;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
@@ -65,11 +68,10 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		// teleop.cancel();
-		
+
 		SmartDashboard.putNumber("rightDistance", DriveTrain.getInstance().getRightInches());
 		SmartDashboard.putNumber("leftDistance", DriveTrain.getInstance().getLeftInches());
 		SmartDashboard.putNumber("Gyro", DriveTrain.getInstance().getAngle());
-		
 
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
@@ -92,6 +94,18 @@ public class Robot extends IterativeRobot {
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
 			auton = new G_GearCenter();
 			SmartDashboard.putString("Auton", "Center");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
+			auton = new G_GearLeftFast();
+			SmartDashboard.putString("Auton", "GearLeftFast");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
+			auton = new G_GearMidFast();
+			SmartDashboard.putString("Auton", "GearMidFast");
+		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
+			auton = new G_GearRightFast();
+			SmartDashboard.putString("Auton", "GearRightFast");
 		}
 	}
 
@@ -108,7 +122,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
+
 	}
 
 	@Override

@@ -18,4 +18,7 @@ public class LogitechF310Constants {
 	public static final int AXIS_RIGHT_X = 2;
 	public static final int AXIS_RIGHT_Y = 3;
 	
+	public static final int BTN_RS = 12;
+	public static final int BTN_LS = 11;
+	
 }

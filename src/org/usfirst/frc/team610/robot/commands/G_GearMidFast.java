@@ -7,17 +7,16 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class G_GearCenter extends CommandGroup {
+public class G_GearMidFast extends CommandGroup {
 
-    public G_GearCenter() {
+    public G_GearMidFast() {
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(false));
 
     	addParallel(new A_Shoot(PIDConstants.RPM_Center, 0.4));
-    	addSequential(new A_PositionMove(80, 3, .5));
+    	addSequential(new A_PositionMoveFast(80, 3, .75));
     	addSequential(new A_SetOuttake(true));
-    	addSequential(new A_PositionMove(-24, 2, 1));
+    	addSequential(new A_PositionMoveFast(-50, 2, 1));
     	addParallel(new A_Turret());
-    	
     }
 }

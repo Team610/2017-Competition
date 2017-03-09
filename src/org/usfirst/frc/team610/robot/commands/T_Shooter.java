@@ -43,7 +43,8 @@ public class T_Shooter extends Command {
 	private double x;
 	
 	private double speed;
-//	public boolean isLeft = false;
+
+	public boolean isAuto = true;
 
 	public T_Shooter() {
 		rpms = new ArrayList<Double>();
@@ -103,20 +104,31 @@ public class T_Shooter extends Command {
 		//RPM setters
 		if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) < -0.9){
 			setRPM = PIDConstants.RPM_DIAMOND;
-			SmartDashboard.putString("RPM_Setpoing", "Diamond");
+			SmartDashboard.putString("RPM_SetPoint", "Diamond");
+			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) > 0.9){
 			setRPM = PIDConstants.RPM_Center;
-			SmartDashboard.putString("RPM_Setpoing", "Center");
+			SmartDashboard.putString("RPM_SetPoint", "Center");
+			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) < - 0.9){
 			setRPM = PIDConstants.RPM_LINE;
-			SmartDashboard.putString("RPM_Setpoing", "Line");
+			SmartDashboard.putString("RPM_SetPoint", "Line");
+			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) > 0.9){
 			setRPM = PIDConstants.RPM_SIDE;
-			SmartDashboard.putString("RPM_Setpoing", "Right");
-		} else {
+			SmartDashboard.putString("RPM_SetPoint", "Right");
+			isAuto = false;
+		} 
+		if(isAuto) {
 			setRPM = server.getRPM();
-			SmartDashboard.putString("RPM_Setpoing", "Auto");
+			SmartDashboard.putString("RPM_SetPoint", "Auto");
 		}
+		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_RS)){
+			isAuto = true;
+		}
+		
+//		setRPM = PIDConstants.RPM;
+		
 		
 		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));
 		shooter.setPower(-shooterSpeed);

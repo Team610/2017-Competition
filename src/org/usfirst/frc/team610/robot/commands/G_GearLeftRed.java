@@ -11,7 +11,7 @@ public class G_GearLeftRed extends CommandGroup {
 
 	public G_GearLeftRed() {
     	DriveTrain.getInstance().resetEnc(); 
-    	addSequential(new A_PositionMove(0, 0.5, 0));
+//    	addSequential(new A_PositionMove(0, 0.5, 0));
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
     	addSequential(new A_PositionMove(95, 3, .75));
