@@ -54,7 +54,7 @@ public class A_TurnOptical extends Command {
 			counter++;
 		}
 		
-		if (counter >= 25) {
+		if (counter >= 10) {
 			done = true;
 		}
 	}

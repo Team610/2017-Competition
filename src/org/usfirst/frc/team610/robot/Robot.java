@@ -94,18 +94,6 @@ public class Robot extends IterativeRobot {
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
 			auton = new G_GearCenter();
 			SmartDashboard.putString("Auton", "Center");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
-				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
-			auton = new G_GearLeftFast();
-			SmartDashboard.putString("Auton", "GearLeftFast");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
-				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
-			auton = new G_GearMidFast();
-			SmartDashboard.putString("Auton", "GearMidFast");
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)
-				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
-			auton = new G_GearRightFast();
-			SmartDashboard.putString("Auton", "GearRightFast");
 		}
 	}
 

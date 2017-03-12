@@ -16,11 +16,11 @@ public class G_GearRightRed extends CommandGroup {
     	
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
-    	addSequential(new A_PositionMove(98, 3, .75));
+    	addSequential(new A_PositionMove(88, 3, 1));
     	addSequential(new A_TurnOptical(10000, .6));
     	addSequential(new A_SetIntake(false));
-    	addSequential(new A_PositionMove(28,3, .35));
-    	addParallel(new A_Turret());
+    	addSequential(new A_PositionMove(30,3, .4));
+    	addParallel(new A_Turret(0));
     	addSequential(new A_SetOuttake(true));
     	addSequential(new A_PositionMove(-12, 2, 1));
     	addParallel(new A_Shoot(PIDConstants.RPM_SIDE, 0.6));

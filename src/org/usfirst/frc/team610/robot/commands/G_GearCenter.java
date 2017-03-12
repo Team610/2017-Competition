@@ -17,7 +17,7 @@ public class G_GearCenter extends CommandGroup {
     	addSequential(new A_PositionMove(80, 3, .5));
     	addSequential(new A_SetOuttake(true));
     	addSequential(new A_PositionMove(-24, 2, 1));
-    	addParallel(new A_Turret());
+    	addParallel(new A_Turret(0));
     	
     }
 }

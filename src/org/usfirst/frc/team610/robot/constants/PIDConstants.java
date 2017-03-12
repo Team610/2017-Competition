@@ -30,6 +30,8 @@ public class PIDConstants {
 	public static double RPM_DIAMOND = 3500;
 	
 	public static double HOPPER_SPEED = 0.5;
+	
+	public static double DELTAY_FAC = 0;
 
 	public static void Update() {
 		RPM_Center = prefs.getDouble("Center RPM", 4250);
@@ -54,6 +56,8 @@ public class PIDConstants {
 		TURRET_P = prefs.getDouble("Turret P", 0.0039);
 		TURRET_I = prefs.getDouble("Turret I", 0);
 		TURRET_D = prefs.getDouble("Turret D", -0.0032);
+		
+		DELTAY_FAC = prefs.getDouble("DeltaFactor", 0);
 		
 		
 		

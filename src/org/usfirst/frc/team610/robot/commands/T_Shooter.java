@@ -45,6 +45,8 @@ public class T_Shooter extends Command {
 	private double speed;
 
 	public boolean isAuto = true;
+	
+	public double prevY;
 
 	public T_Shooter() {
 		rpms = new ArrayList<Double>();
@@ -65,6 +67,7 @@ public class T_Shooter extends Command {
 		rpmTrim = 0;
 		setRPM = 0;
 		speed = 0;
+		prevY = 0;
 		isPOV = false;
 		x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
 	}
@@ -119,15 +122,24 @@ public class T_Shooter extends Command {
 			SmartDashboard.putString("RPM_SetPoint", "Right");
 			isAuto = false;
 		} 
-		if(isAuto) {
-			setRPM = server.getRPM();
-			SmartDashboard.putString("RPM_SetPoint", "Auto");
+		double out = server.getHeight() - prevY;
+		prevY = server.getHeight();
+		if(out >= server.getHeight()){
+			
+		
+		
+		
+			if(isAuto) {
+				setRPM = server.getRPM();
+				SmartDashboard.putString("RPM_SetPoint", "Auto");
+			}
 		}
 		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_RS)){
 			isAuto = true;
 		}
 		
 //		setRPM = PIDConstants.RPM;
+		SmartDashboard.putNumber("CalculateValue", out);
 		
 		
 		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));

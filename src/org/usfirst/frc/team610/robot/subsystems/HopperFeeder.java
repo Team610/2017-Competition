@@ -31,13 +31,13 @@ public class HopperFeeder {
 		
 		else{
 			isRunning = true;
-			agitator.set(0.4);
+			agitator.set(-0.4);
 		}
 	}
 	
 	public void setAgitator(boolean run){
 		if(run){
-			agitator.set(0.4);
+			agitator.set(-0.4);
 		} else {
 			agitator.set(0);
 			

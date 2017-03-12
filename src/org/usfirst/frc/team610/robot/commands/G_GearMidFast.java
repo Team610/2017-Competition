@@ -16,7 +16,8 @@ public class G_GearMidFast extends CommandGroup {
     	addParallel(new A_Shoot(PIDConstants.RPM_Center, 0.4));
     	addSequential(new A_PositionMoveFast(80, 3, .75));
     	addSequential(new A_SetOuttake(true));
-    	addSequential(new A_PositionMoveFast(-50, 2, 1));
-    	addParallel(new A_Turret());
+    	addParallel(new A_Turret(0));
+    	addSequential(new A_PositionMoveFast(-24, 2, 1));
+    	addParallel(new A_Shoot(PIDConstants.RPM_SIDE, 0.6));
     }
 }

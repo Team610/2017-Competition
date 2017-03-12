@@ -13,14 +13,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class A_Turret extends Command {
 
-	PID visionPID;
-	VisionServer server;
-	Shooter shooter;
-	double speed;
-	double counter;
+	private PID visionPID;
+	private VisionServer server;
+	private Shooter shooter;
+	private double speed;
+	private double counter;
+	private int offset;
 	
-    public A_Turret() {
-
+	
+    public A_Turret(int offset) {
+    	this.offset = offset;
     	visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
     	server = VisionServer.getInstance();
     	shooter = Shooter.getInstance();
@@ -43,7 +45,7 @@ public class A_Turret extends Command {
     	SmartDashboard.putBoolean("Tracking", server.isTracking());
     	SmartDashboard.putNumber("Target", server.getDouble());
     	if(server.isTracking()){
-    		speed = visionPID.getValue(server.getDouble(), 0, 0);
+    		speed = visionPID.getValue(server.getDouble() + offset, 0, 0);
     	} else {
     		if(counter > 40){
     			speed = -speed;

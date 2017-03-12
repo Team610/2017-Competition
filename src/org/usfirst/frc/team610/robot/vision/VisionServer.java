@@ -157,9 +157,9 @@ public class VisionServer implements Runnable {
 
 	public double getRPM() {
 		double h = getHeight();
-		return 0.0267 * h * h - 0.2113 * h + 3300;
+		return 0.0520*h*h - 2.7619*h + 3350;
 	}
-	// y = 0.0267x2 - 0.2113x + 3306.9
+//y = 0.0293x2 - 2.7619x + 3510.7
 
 	// 0.016*getHeight()*getHeight() + 0.8906*getHeight() + 3400;
 

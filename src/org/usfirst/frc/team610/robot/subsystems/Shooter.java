@@ -88,11 +88,13 @@ public class Shooter extends Subsystem {
 		// }
 		return !positionSensor.get();
 	}
+	
+	public double getFeeder(double rpm){
+		return -3e-6 * rpm * rpm + 0.227 * rpm -37.5;
+	}
+	
+	//y = -3E-06x2 + 0.0227x - 37.5
 
-	// public void vision(){
-	// setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0,
-	// 0));
-	// }
 
 	@Override
 	protected void initDefaultCommand() {

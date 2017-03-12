@@ -21,7 +21,7 @@ public class A_SetOuttake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(.5);
+    	setTimeout(1);
     }
 
     // Called repeatedly when this Command is scheduled to run
