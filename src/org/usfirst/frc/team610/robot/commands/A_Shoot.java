@@ -44,7 +44,7 @@ public class A_Shoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	rpm = shooter.getShooterSpeed();
+    	rpm = shooter.getRPM();
     	shooterSpeed = shooterPID.getValue(rpm, server.getRPM(), shooter.getFeedForward(shootingSpeed));
     	if(shooterSpeed < 6000){
     		shooter.setPower(-shooterSpeed);

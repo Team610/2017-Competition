@@ -18,6 +18,7 @@ public class Shooter extends Subsystem {
 	private DigitalInput positionSensor;
 	private Relay spike;
 	public boolean isLeft;
+	private ShooterState state;
 
 
 	public static Shooter getInstance() {
@@ -36,6 +37,7 @@ public class Shooter extends Subsystem {
 		positionSensor = new DigitalInput(ElectricalConstants.TURRET_SENSOR);
 		spike = new Relay(ElectricalConstants.SPIKE);
 		isLeft = false;
+		state = ShooterState.AUTO;
 	}
 
 	public double getFeedForward(double rpm){
@@ -59,7 +61,7 @@ public class Shooter extends Subsystem {
 	}
 
 	// Get rpm of the shooter
-	public double getShooterSpeed() {
+	public double getRPM() {
 		return RPMfactor / getShooterPeriod(); // getShooterPeriod()
 	}
 
@@ -93,6 +95,14 @@ public class Shooter extends Subsystem {
 	// setTurret(turretPID.getValue(VisionServer.getInstance().getDouble(), 0,
 	// 0));
 	// }
+	
+	public ShooterState getState(){
+		return state;
+	}
+	
+	public void setState(ShooterState state){
+		this.state = state;
+	}
 
 	@Override
 	protected void initDefaultCommand() {
