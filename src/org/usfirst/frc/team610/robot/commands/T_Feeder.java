@@ -24,7 +24,7 @@ public class T_Feeder extends Command {
 
 	protected void execute() {
 		PIDConstants.Update();
-		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1) && shooter.getShooterSpeed() > 1000) {
+		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1) && shooter.getRPM() > 1000) {
 			hopperFeeder.setSpeed(shooter.getFeeder(server.getRPM()));
 
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_R2)) {

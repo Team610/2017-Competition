@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.crescent.sixten.pid.PID;
+import org.crescent.sixten.pid.PIDThread;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.Shooter;
+import org.usfirst.frc.team610.robot.subsystems.ShooterState;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -46,7 +48,6 @@ public class T_Shooter extends Command {
 
 	public boolean isAuto = true;
 	
-	public double prevY;
 
 	public T_Shooter() {
 		rpms = new ArrayList<Double>();
@@ -57,7 +58,6 @@ public class T_Shooter extends Command {
 		shooterSpeed = 0;
 		visionPID = new PID(PIDConstants.TURRET_P, PIDConstants.TURRET_I, PIDConstants.TURRET_D);
 		shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D, 0, 1);
-		
 	}
 
 	protected void initialize() {
@@ -67,7 +67,6 @@ public class T_Shooter extends Command {
 		rpmTrim = 0;
 		setRPM = 0;
 		speed = 0;
-		prevY = 0;
 		isPOV = false;
 		x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
 	}
@@ -83,11 +82,11 @@ public class T_Shooter extends Command {
 		
 		//RPM Median filter
 		if (rpms.size() < 5) {
-			rpms.add(shooter.getShooterSpeed());
-			rpm = shooter.getShooterSpeed();
+			rpms.add(shooter.getRPM());
+			rpm = shooter.getRPM();
 		} else {
 			rpms.remove(0);
-			rpms.add(shooter.getShooterSpeed());
+			rpms.add(shooter.getRPM());
 			sortedRPMs = (ArrayList<Double>) rpms.clone();
 			Collections.sort(sortedRPMs);
 			if (sortedRPMs.get(2) < 6000) {
@@ -107,43 +106,37 @@ public class T_Shooter extends Command {
 		//RPM setters
 		if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) < -0.9){
 			setRPM = PIDConstants.RPM_DIAMOND;
+			shooter.setState(ShooterState.FAR);
 			SmartDashboard.putString("RPM_SetPoint", "Diamond");
 			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_Y) > 0.9){
 			setRPM = PIDConstants.RPM_Center;
+			shooter.setState(ShooterState.CENTER);
 			SmartDashboard.putString("RPM_SetPoint", "Center");
 			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) < - 0.9){
 			setRPM = PIDConstants.RPM_LINE;
+			shooter.setState(ShooterState.LINE);
 			SmartDashboard.putString("RPM_SetPoint", "Line");
 			isAuto = false;
 		} else if(oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_RIGHT_X) > 0.9){
 			setRPM = PIDConstants.RPM_SIDE;
-			SmartDashboard.putString("RPM_SetPoint", "Right");
+			shooter.setState(ShooterState.SIDE);
+			SmartDashboard.putString("RPM_SetPoint", "Side");
 			isAuto = false;
 		} 
-		double out = server.getHeight() - prevY;
-		prevY = server.getHeight();
-		if(out >= server.getHeight()){
-			
-		
-		
-		
-			if(isAuto) {
-				setRPM = server.getRPM();
-				SmartDashboard.putString("RPM_SetPoint", "Auto");
-			}
-		}
+				
 		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_RS)){
 			isAuto = true;
 		}
-		
-//		setRPM = PIDConstants.RPM;
-		SmartDashboard.putNumber("CalculateValue", out);
+		if(isAuto && !oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1)) {
+			setRPM = server.getRPM();
+			SmartDashboard.putString("RPM_SetPoint", "Auto");
+		}
 		
 		
 		shooterSpeed = shooterPID.getValue(rpm, setRPM + rpmTrim, shooter.getFeedForward(setRPM));
-		shooter.setPower(-shooterSpeed);
+		shooter.setPower(shooterSpeed);
 
 		// Operator press A to track
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A) && !isAPressed) {
