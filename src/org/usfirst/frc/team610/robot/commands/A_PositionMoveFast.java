@@ -69,7 +69,7 @@ public class A_PositionMoveFast extends Command {
 		} else {
 			counter = 0;
 		}
-		if (counter >= 10) {
+		if (counter >= 20) {
 			isFinished = true;
 			System.out.println("A_PositionMove Finished");
 		}

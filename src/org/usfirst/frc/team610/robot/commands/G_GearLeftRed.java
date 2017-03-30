@@ -12,8 +12,8 @@ public class G_GearLeftRed extends CommandGroup {
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
     	addSequential(new A_SetBallIntake(true));
-    	addSequential(new A_PositionMoveFast(82, 3, 1));
-    	addSequential(new A_TurnOpticalFast(4, -0.75));
+    	addSequential(new A_PositionMoveFast(88, 3, .8));
+    	addSequential(new A_TurnOpticalFast(4, -0.6));
     	addSequential(new A_SetIntake(false));
     	addSequential(new A_PositionMove(27,3, .5));
     	addSequential(new A_SetOuttake(true));

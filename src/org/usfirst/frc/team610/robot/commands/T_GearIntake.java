@@ -24,11 +24,11 @@ public class T_GearIntake extends Command{
 		if(oi.getDriver().getRawAxis(Xbox360Constants.AXIS_L2)>0.3){
 			gearIntake.setIntake(true);
 			
-			if(!oi.getDriver().getRawButton(Xbox360Constants.BTN_L1)){
-				gearIntake.setOuttake(false);
-			}
-			else if(oi.getDriver().getRawButton(Xbox360Constants.BTN_L1) || gearIntake.getPeg()){
+			
+			if(oi.getDriver().getRawButton(Xbox360Constants.BTN_L1) || gearIntake.getPeg()){
 				gearIntake.setOuttake(true);
+			} else if(!oi.getDriver().getRawButton(Xbox360Constants.BTN_L1)){
+				gearIntake.setOuttake(false);
 			}
 		} else {
 			gearIntake.setIntake(false);
