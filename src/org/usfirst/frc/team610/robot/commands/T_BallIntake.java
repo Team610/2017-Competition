@@ -24,8 +24,6 @@ public class T_BallIntake extends Command {
 		if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			ballIntake.setIntake(1);
 			ballIntake.deploy(true);
-		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)) {
-			ballIntake.setIntake(-1);
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_X)) {
 			ballIntake.setIntake(0.0);
 			ballIntake.deploy(false);

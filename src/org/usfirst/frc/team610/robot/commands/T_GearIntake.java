@@ -5,6 +5,7 @@ import org.usfirst.frc.team610.robot.constants.Xbox360Constants;
 import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class T_GearIntake extends Command{
 	private GearIntake gearIntake;
@@ -53,6 +54,8 @@ public class T_GearIntake extends Command{
 		} else {
 			gearIntake.setLED(false);
 		}
+		
+		SmartDashboard.putBoolean("Peg", gearIntake.getPeg());
 		
 	}
 
