@@ -3,6 +3,7 @@ package org.usfirst.frc.team610.robot.commands;
 import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class A_PositionMoveFast extends Command {
 	private DriveTrain driveTrain;
+	private GearIntake gearIntake;
 	private PID leftDrivePID, rightDrivePID;
 	private PID gyroPID;
 
@@ -24,6 +26,7 @@ public class A_PositionMoveFast extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		driveTrain = DriveTrain.getInstance();
+		gearIntake = GearIntake.getInstance();
 		this.time = time;
 		this.distance = distance;
 		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
@@ -70,11 +73,12 @@ public class A_PositionMoveFast extends Command {
 			isFinished = true;
 			System.out.println("A_PositionMove Finished");
 		}
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (isTimedOut()) || isFinished;
+		return (isTimedOut()) || isFinished || gearIntake.getPeg();
 	}
 
 	// Called once after isFinished returns true

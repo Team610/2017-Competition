@@ -1,15 +1,11 @@
 
 package org.usfirst.frc.team610.robot;
 
-import org.crescent.sixten.pid.PID;
 import org.spectrum3847.RIOdroid.RIOdroid;
 import org.usfirst.frc.team610.robot.commands.G_GearCenter;
 import org.usfirst.frc.team610.robot.commands.G_GearLeftBlue;
-import org.usfirst.frc.team610.robot.commands.G_GearLeftFast;
 import org.usfirst.frc.team610.robot.commands.G_GearLeftRed;
-import org.usfirst.frc.team610.robot.commands.G_GearMidFast;
 import org.usfirst.frc.team610.robot.commands.G_GearRightBlue;
-import org.usfirst.frc.team610.robot.commands.G_GearRightFast;
 import org.usfirst.frc.team610.robot.commands.G_GearRightRed;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;

@@ -11,36 +11,38 @@ public class A_SetOuttake extends Command {
 
 	private GearIntake intake;
 	private boolean outtake;
-	
-    public A_SetOuttake(boolean outtake) {
-    	intake = GearIntake.getInstance();
-    	this.outtake = outtake;
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	setTimeout(1);
-    }
+	public A_SetOuttake(boolean outtake) {
+		intake = GearIntake.getInstance();
+		this.outtake = outtake;
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	intake.setOuttake(outtake);
-    	
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		setTimeout(1);
+	}
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return isTimedOut();
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		if (intake.getPeg()) {
+			intake.setOuttake(outtake);
+		}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

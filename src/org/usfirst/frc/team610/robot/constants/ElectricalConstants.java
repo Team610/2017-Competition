@@ -46,6 +46,9 @@ public class ElectricalConstants {
 	//GEAR SENSORS
 	public static final int GEAR_OPTICAL_LEFT = 10; //CHANGE
 	public static final int GEAR_OPTICAL_RIGHT = 11; //CHANGE
+	public static final int PEG_OPTICAL = 4;
+	public static final int LED = 5;
+	
 	
 
 }

@@ -47,7 +47,7 @@ public class A_Shoot extends Command {
     	rpm = shooter.getRPM();
     	shooterSpeed = shooterPID.getValue(rpm, server.getRPM(), shooter.getFeedForward(shootingSpeed));
     	if(shooterSpeed < 6000){
-    		shooter.setPower(-shooterSpeed);
+    		shooter.setPower(shooterSpeed);
     	}
     	SmartDashboard.putNumber("Y-Dist", server.getHeight());
     	SmartDashboard.putNumber("RPM", rpm);
