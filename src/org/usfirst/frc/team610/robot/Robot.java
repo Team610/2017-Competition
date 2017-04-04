@@ -11,6 +11,7 @@ import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.Shooter;
 import org.usfirst.frc.team610.robot.vision.VisionServer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 	CommandGroup teleop;
 	VisionServer visionServer;
 	CommandGroup auton;
+	private Shooter shooter;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,13 +63,15 @@ public class Robot extends IterativeRobot {
 		teleop.cancel();
 		auton.cancel();
 		visionServer = VisionServer.getInstance();
+		shooter = Shooter.getInstance();
+		
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		// teleop.cancel();
-
+		shooter.setLED(true);
 		SmartDashboard.putNumber("rightDistance", DriveTrain.getInstance().getRightInches());
 		SmartDashboard.putNumber("leftDistance", DriveTrain.getInstance().getLeftInches());
 		SmartDashboard.putNumber("Gyro", DriveTrain.getInstance().getAngle());

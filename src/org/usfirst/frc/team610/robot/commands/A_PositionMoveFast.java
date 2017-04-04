@@ -21,13 +21,15 @@ public class A_PositionMoveFast extends Command {
 	private double time;
 	private boolean isFinished;
 	private int counter;
+	private boolean gear;
 
-	public A_PositionMoveFast(double distance, double time, double max) {
+	public A_PositionMoveFast(double distance, double time, double max, boolean gear) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		driveTrain = DriveTrain.getInstance();
 		gearIntake = GearIntake.getInstance();
 		this.time = time;
+		this.gear = gear;
 		this.distance = distance;
 		gyroPID = new PID(PIDConstants.DRIVE_GYRO_P, PIDConstants.DRIVE_GYRO_I, PIDConstants.DRIVE_GYRO_D);
 
@@ -69,7 +71,7 @@ public class A_PositionMoveFast extends Command {
 		} else {
 			counter = 0;
 		}
-		if (counter >= 20) {
+		if (counter >= 30) {
 			isFinished = true;
 			System.out.println("A_PositionMove Finished");
 		}
@@ -78,7 +80,7 @@ public class A_PositionMoveFast extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (isTimedOut()) || isFinished || gearIntake.getPeg();
+		return (isTimedOut()) || isFinished || (gear && gearIntake.getPeg());
 	}
 
 	// Called once after isFinished returns true

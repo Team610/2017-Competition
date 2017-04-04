@@ -12,12 +12,14 @@ public class G_GearLeftRed extends CommandGroup {
     	addSequential(new A_Setup());
     	addSequential(new A_SetIntake(true));
     	addSequential(new A_SetBallIntake(true));
-    	addSequential(new A_PositionMoveFast(88, 3, .8));
-    	addSequential(new A_TurnOpticalFast(4, -0.6));
+    	addSequential(new A_PositionMoveFast(88, 3, 1, false));
+    	addSequential(new A_TurnOpticalFast(4, -0.4, 50, true));
     	addSequential(new A_SetIntake(false));
-    	addSequential(new A_PositionMove(27,3, .5));
+    	addSequential(new A_PositionMoveFast(27,3, .3, true));
     	addSequential(new A_SetOuttake(true));
-    	addSequential(new A_PositionMoveFast(-12, 1, 1));
+    	addSequential(new A_PositionMoveFast(-24, 1, 1, false));
+    	addSequential(new A_TurnOpticalFast(2, 0.8, 50, false));
+    	addSequential(new A_PositionMoveFast(150, 3, 1, false));
     	
     }
 }

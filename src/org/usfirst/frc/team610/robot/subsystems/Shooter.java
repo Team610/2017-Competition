@@ -51,7 +51,7 @@ public class Shooter extends Subsystem {
 		if (on) {
 			spike.set(Relay.Value.kForward);
 		} else {
-			spike.set(Relay.Value.kOff);
+			spike.set(Relay.Value.kReverse);
 		}
 	}
 

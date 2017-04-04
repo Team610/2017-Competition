@@ -16,8 +16,10 @@ public class A_TurnOpticalFast extends Command {
 	private double turnAngle, turnSpeed;
 	private PID gyroPID;
 	private int counter;
+	private double angle;
+	private boolean optical;
 
-	public A_TurnOpticalFast(double time, double turnSpeed) {
+	public A_TurnOpticalFast(double time, double turnSpeed, double angle, boolean optical) {
 		setTimeout(time);
 		this.turnSpeed = turnSpeed;
 		counter = 0;
@@ -37,16 +39,20 @@ public class A_TurnOpticalFast extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if ((driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape) ||( Math.abs(driveTrain.getAngle()) > 60 && !foundTape)) {
+		if ((driveTrain.getLeftOptical() && driveTrain.getRightOptical() && !foundTape && optical) ||( Math.abs(driveTrain.getAngle()) > 50 && !foundTape)) {
 			foundTape = true;
 			if (turnSpeed < 0)
-				turnAngle = driveTrain.getAngle() + 3.42069610;
+				turnAngle = driveTrain.getAngle();
 			else
-				turnAngle = driveTrain.getAngle() - 3.42069610;
+				turnAngle = driveTrain.getAngle();
 		} else if (!foundTape) {
 			driveTrain.setLeft(turnSpeed);
 			driveTrain.setRight(-turnSpeed);
 		}
+		if(driveTrain.getLeftOptical() && driveTrain.getRightOptical()){
+			System.out.println("Found Tape");
+		}
+		
 		if (foundTape) {
 			double value = gyroPID.getValue(driveTrain.getAngle(), turnAngle, 0);
 			driveTrain.setLeft(-value);

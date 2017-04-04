@@ -13,7 +13,7 @@ public class GearIntake extends Subsystem {
 	private DoubleSolenoid intake, outtake;
 	private boolean isIntakeClosed, isOuttake;
 	private DigitalInput peg;
-	private DigitalOutput light;
+	private DigitalOutput light, lightA;
 
 	public static GearIntake getInstance() {
 		if (instance == null)
@@ -26,6 +26,7 @@ public class GearIntake extends Subsystem {
 		outtake = new DoubleSolenoid(ElectricalConstants.GEAR_SCORER_ONE, ElectricalConstants.GEAR_SCORER_TWO);
 		peg = new DigitalInput(ElectricalConstants.PEG_OPTICAL);
 		light = new DigitalOutput(ElectricalConstants.LED);
+		lightA = new DigitalOutput(ElectricalConstants.LED_A);
 		isIntakeClosed = true;
 		isOuttake = true;
 
@@ -64,9 +65,8 @@ public class GearIntake extends Subsystem {
 	}
 
 	public void setLED(boolean on) {
-
 		light.set(on);
-
+		lightA.set(on);
 	}
 
 	@Override

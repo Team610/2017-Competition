@@ -22,7 +22,7 @@ public class VisionServer implements Runnable {
 	private ServerThread commThread;
 
 	private static final int port = 3000;
-	
+
 	private double prevY = 0;
 
 	public static VisionServer getInstance() {
@@ -148,18 +148,38 @@ public class VisionServer implements Runnable {
 			return 0;
 		}
 	}
-	
+
+	private int frameCounter = 0;
+	private double prevOut = 0;
+	double out = 0;
+
 	public double getDeltaY(){
-		double out = getHeight() - prevY;
-		prevY = getHeight();
+		if(frameCounter > 10){
+			out = getHeight() - prevY;
+			prevY = getHeight();
+			frameCounter = 0;
+			
+			prevOut = out;
+		} else {
+			frameCounter ++;
+			out = prevOut;
+		}
+//		System.out.println(frameCounter);
 		return out;
 	}
-
+	
+	public double getDeltaRPM(){
+		if(!(Math.abs(getDeltaY()) > 20) || !(Math.abs(getDeltaY()) < 1)){
+			return getDeltaY() * 25;
+		} else {
+			return 0;
+		}
+	}
 	public double getRPM() {
 		double h = getHeight();
-		return 0.0267*h*h - 0.2133*h + 3320;
+		return 0.0267 * h * h - 0.2133 * h + 3350;
 	}
-//y = 0.0293x2 - 2.7619x + 3510.7
+	// y = 0.0293x2 - 2.7619x + 3510.7
 
 	// 0.016*getHeight()*getHeight() + 0.8906*getHeight() + 3400;
 

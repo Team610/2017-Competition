@@ -47,6 +47,14 @@ public class T_Shooter extends Command {
 
 	public boolean isAuto = true;
 	
+	private double prevY;
+	private double deltaY;
+	private boolean isStartPressed;
+	private boolean strobe;
+	private int strobeCounter;
+	private boolean on;
+	private boolean legit;
+	
 
 	public T_Shooter() {
 		rpms = new ArrayList<Double>();
@@ -68,6 +76,11 @@ public class T_Shooter extends Command {
 		speed = 0;
 		isPOV = false;
 		x = oi.getOperator().getRawAxis(LogitechF310Constants.AXIS_LEFT_X);
+		isStartPressed = false;
+		strobe = false;
+		strobeCounter = 0;
+		on = false;;
+		legit = true;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -128,7 +141,7 @@ public class T_Shooter extends Command {
 		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_RS)){
 			isAuto = true;
 		}
-		if(isAuto && !oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1)) {
+		if(isAuto) {
 			setRPM = server.getRPM();
 			SmartDashboard.putString("RPM_SetPoint", "Auto");
 		}
@@ -166,6 +179,7 @@ public class T_Shooter extends Command {
 					shooter.isLeft = false;
 				}
 			}
+			legit = true;
 		} else if (!isTracking) { //Not tracking and led off
 			if(Math.abs(x) > .5){
 				shooter.setTurret(x * 0.6);
@@ -187,6 +201,7 @@ public class T_Shooter extends Command {
 			}
 			shooter.setPower(0);
 			shooter.setLED(false);
+			legit = false;
 		} else { //not tracking and led on
 			shooter.setLED(true);
 			if(shooter.getSensor()){
@@ -197,6 +212,7 @@ public class T_Shooter extends Command {
 				}
 			}
 			shooter.setTurret(x * 0.6);
+			legit = true;
 		}
 		
 		// Turret trimming left and right. RPM trimming up and down
@@ -216,6 +232,28 @@ public class T_Shooter extends Command {
 		if(oi.getOperator().getPOV() == -1){
 			isPOV = false;
 		}
+		
+		
+		if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_START) 
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_BACK)
+				&& !isStartPressed){
+			strobe = !strobe;
+			isStartPressed = true;
+		}
+		if(!oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)){
+			isStartPressed = false;
+		}
+		if(strobe && !legit) {
+			strobeCounter++;
+			if(strobeCounter > 10){
+				on = !on;
+				strobeCounter = 0;
+			}
+			shooter.setLED(on);
+			
+		}
+		
+		SmartDashboard.putNumber("DeltaY", server.getDeltaY());
 	}
 
 	@Override
