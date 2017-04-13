@@ -45,6 +45,7 @@ public class A_Setup extends Command {
 		feeder.setAgitator(true);
 		ballIntake.setIntake(1);
 		setTimeout(.25);
+		intake.autonScored(false);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

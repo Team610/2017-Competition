@@ -22,6 +22,7 @@ public class A_SetOuttake extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		setTimeout(.5);
+		intake.autonScored(false);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -29,6 +30,7 @@ public class A_SetOuttake extends Command {
 		if (intake.getPeg()) {
 			intake.setOuttake(outtake);
 			intake.setLED(true);
+			intake.autonScored(true);
 		}
 
 	}

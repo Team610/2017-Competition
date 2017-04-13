@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class A_PositionMoveFast extends Command {
+public class A_ConditionalMove extends Command {
 	private DriveTrain driveTrain;
 	private GearIntake gearIntake;
 	private PID leftDrivePID, rightDrivePID;
@@ -22,11 +22,9 @@ public class A_PositionMoveFast extends Command {
 	private boolean isFinished;
 	private int counter;
 	private boolean gear;
-
-	public A_PositionMoveFast(double distance, double time, double max, boolean gear) {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		driveTrain = DriveTrain.getInstance();
+	
+    public A_ConditionalMove(double distance, double time, double max, boolean gear) {
+    	driveTrain = DriveTrain.getInstance();
 		gearIntake = GearIntake.getInstance();
 		this.time = time;
 		this.gear = gear;
@@ -36,11 +34,13 @@ public class A_PositionMoveFast extends Command {
 		leftDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D, -max, max);
 		rightDrivePID = new PID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D, -max,
 				max);
-	}
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    }
 
-	// Called just before this Command runs the first time
-	protected void initialize() {
-		driveTrain.resetAngle();
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	driveTrain.resetAngle();
 		counter = 0;
 		isFinished = false;
 		PIDConstants.Update();
@@ -52,11 +52,11 @@ public class A_PositionMoveFast extends Command {
 		rightDrivePID.resetPID();
 		leftDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 		rightDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
-	}
+    }
 
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		double value = gyroPID.getValue(driveTrain.getAngle(), 0, 0);
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    	double value = gyroPID.getValue(driveTrain.getAngle(), 0, 0);
 
 		double leftPower = leftDrivePID.getValue(driveTrain.getLeftInches(), distance, 0);
 		double rightPower = rightDrivePID.getValue(driveTrain.getRightInches(), distance, 0);
@@ -76,21 +76,22 @@ public class A_PositionMoveFast extends Command {
 			System.out.println("A_PositionMove Finished");
 		}
 		
-	}
+    }
 
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return (isTimedOut()) || isFinished || (gear && gearIntake.getPeg());
-	}
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+    	return (isTimedOut()) || isFinished || (gear && gearIntake.getPeg()) || !gearIntake.isScored();
+    }
 
-	// Called once after isFinished returns true
-	protected void end() {
+    // Called once after isFinished returns true
+    protected void end() {
+
 		driveTrain.setLeft(0);
 		driveTrain.setRight(0);
-	}
+    }
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-	}
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+    }
 }

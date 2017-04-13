@@ -14,6 +14,7 @@ public class GearIntake extends Subsystem {
 	private boolean isIntakeClosed, isOuttake;
 	private DigitalInput peg;
 	private DigitalOutput light, lightA;
+	private boolean autonScored;
 
 	public static GearIntake getInstance() {
 		if (instance == null)
@@ -29,6 +30,7 @@ public class GearIntake extends Subsystem {
 		lightA = new DigitalOutput(ElectricalConstants.LED_A);
 		isIntakeClosed = true;
 		isOuttake = true;
+		autonScored = false;
 
 	}
 
@@ -68,7 +70,15 @@ public class GearIntake extends Subsystem {
 		light.set(on);
 		lightA.set(on);
 	}
-
+	
+	public void autonScored(boolean scored){
+		autonScored = scored;
+	}
+	
+	public boolean isScored(){
+		return autonScored;
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

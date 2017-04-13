@@ -23,7 +23,7 @@ public class PIDConstants {
 	public static double TURRET_D = -0.0032;
 	
 	public static double RPM = 0;
-	public static double RPM_Center = 4070;
+	public static double RPM_Center = 4000;
 	public static double RPM_SIDE = 3875.0;
 	//IN Update()
 	public static double RPM_LINE = 3350;
@@ -31,10 +31,15 @@ public class PIDConstants {
 	
 	public static double HOPPER_SPEED = 0.5;
 	
+	public static double PEG_DRIVE = 27;
+	
 	public static double DELTAY_FAC = 0;
+	
+	public static double INIT_DRIVE_RED = 88;
+	public static double INIT_DRIVE_BLUE = 88;
 
 	public static void Update() {
-		RPM_Center = prefs.getDouble("Center RPM", 4250);
+		RPM_Center = prefs.getDouble("Center RPM", 4000);
 	
 		SHOOTER_P = prefs.getDouble("Shooter P", 3E-4);
 		SHOOTER_I = prefs.getDouble("Shooter I", 0);
@@ -49,7 +54,6 @@ public class PIDConstants {
 		DRIVE_GYRO_D = prefs.getDouble("Gyro D", -0.16);
 		
 		RPM = prefs.getDouble("RPM", 0);
-		//Peg center RPM: 4250
 		
 		HOPPER_SPEED = prefs.getDouble("Hopper Speed", 0.7);
 		
@@ -58,6 +62,10 @@ public class PIDConstants {
 		TURRET_D = prefs.getDouble("Turret D", -0.0032);
 		
 		DELTAY_FAC = prefs.getDouble("DeltaFactor", 0);
+		
+		INIT_DRIVE_RED = prefs.getDouble("Init Drive Red", 88);
+		INIT_DRIVE_BLUE = prefs.getDouble("Init Drive Blue", 88);
+		PEG_DRIVE = prefs.getDouble("Peg Drive", 27);
 		
 		
 		
