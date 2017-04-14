@@ -1,8 +1,6 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.crescent.sixten.pid.PID;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
-import org.usfirst.frc.team610.robot.subsystems.GearIntake;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -17,7 +17,6 @@ public class A_Setup extends Command {
 	private Shooter shooter;
 	private DriveTrain driveTrain;
 	private HopperFeeder feeder;
-	private int counter;
 	private BallIntake ballIntake;
 
 	public A_Setup() {
@@ -27,14 +26,13 @@ public class A_Setup extends Command {
 		driveTrain = DriveTrain.getInstance();
 		feeder = HopperFeeder.getInstance();
 		ballIntake = BallIntake.getInstance();
-		
+
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		counter = 0;
 		driveTrain.resetEnc();
 		driveTrain.resetAngle();
 		driveTrain.setLeft(0);
@@ -51,13 +49,8 @@ public class A_Setup extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		shooter.setTurret(0);
-		if (counter < 50) {
-			//intake.setIntake(true);
-			intake.setOuttake(false);
-		} else {
-			intake.setIntake(false);
-		}
-		counter++;
+		intake.setOuttake(false);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

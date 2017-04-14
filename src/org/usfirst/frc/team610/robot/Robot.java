@@ -8,6 +8,7 @@ import org.usfirst.frc.team610.robot.commands.G_GearLeftRed;
 import org.usfirst.frc.team610.robot.commands.G_GearRightBlue;
 import org.usfirst.frc.team610.robot.commands.G_GearRightRed;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
+import org.usfirst.frc.team610.robot.commands.SC_SystemCheck;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
@@ -99,6 +100,11 @@ public class Robot extends IterativeRobot {
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_A)) {
 			auton = new G_GearCenter();
 			SmartDashboard.putString("Auton", "Center");
+		} else if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_L1) 
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_R1)
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)){
+			auton = new SC_SystemCheck();
+			SmartDashboard.putString("Auton", "SystemCheck");
 		}
 	}
 

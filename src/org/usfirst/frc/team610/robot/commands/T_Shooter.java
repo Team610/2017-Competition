@@ -47,8 +47,8 @@ public class T_Shooter extends Command {
 
 	public boolean isAuto = true;
 	
-	private double prevY;
-	private double deltaY;
+//	private double prevY;
+//	private double deltaY;
 	private boolean isStartPressed;
 	private boolean strobe;
 	private int strobeCounter;
@@ -254,6 +254,9 @@ public class T_Shooter extends Command {
 		}
 		
 		SmartDashboard.putNumber("DeltaY", server.getDeltaY());
+		SmartDashboard.putNumber("InputRPM", setRPM);
+		System.out.println("Y_Value: " + server.getHeight() + " Calculated RPM: " + server.getRPM() + " Shooter RPM: " + shooter.getRPM() + " Input RPM: " + setRPM);
+    	
 	}
 
 	@Override

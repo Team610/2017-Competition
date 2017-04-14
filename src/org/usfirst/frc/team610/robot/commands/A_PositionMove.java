@@ -52,6 +52,7 @@ public class A_PositionMove extends Command {
 		rightDrivePID.resetPID();
 		leftDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
 		rightDrivePID.updatePID(PIDConstants.DRIVE_ENC_P, PIDConstants.DRIVE_ENC_I, PIDConstants.DRIVE_ENC_D);
+		System.out.println("PositionMove Starting");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -71,9 +72,11 @@ public class A_PositionMove extends Command {
 		} else {
 			counter = 0;
 		}
-		if (counter >= 30) {
+		if (counter >= 48) {
 			isFinished = true;
 			System.out.println("A_PositionMove Finished");
+			driveTrain.setLeft(0);
+			driveTrain.setRight(0);
 		}
 		
 	}

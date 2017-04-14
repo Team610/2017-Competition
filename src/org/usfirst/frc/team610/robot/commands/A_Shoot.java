@@ -22,8 +22,9 @@ public class A_Shoot extends Command {
 	private VisionServer server;
 	private double shootingSpeed;
 	private double hopperSpeed;
+	private boolean auto;
 	
-    public A_Shoot(double shootingSpeed, double hopperSpeed) {
+    public A_Shoot(double shootingSpeed, double hopperSpeed, boolean auto) {
     	shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D,0,1);
     	shooterSpeed = 0;
     	rpm = 0;
@@ -32,6 +33,7 @@ public class A_Shoot extends Command {
     	server = VisionServer.getInstance();
     	this.shootingSpeed = shootingSpeed;
     	this.hopperSpeed = hopperSpeed;
+    	this.auto = auto;
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -44,14 +46,19 @@ public class A_Shoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
+		System.out.println("DeltaY: " + server.getDeltaY() + " Calculated RPM: " + server.getRPM());
     	rpm = shooter.getRPM();
-    	shooterSpeed = shooterPID.getValue(rpm, server.getRPM(), shooter.getFeedForward(shootingSpeed));
+    	if(auto){
+    		shootingSpeed = server.getRPM();
+    	}
+    	shooterSpeed = shooterPID.getValue(rpm, shootingSpeed, shooter.getFeedForward(shootingSpeed));
     	if(shooterSpeed < 6000){
     		shooter.setPower(shooterSpeed);
     	}
     	SmartDashboard.putNumber("Y-Dist", server.getHeight());
     	SmartDashboard.putNumber("RPM", rpm);
-    	
+		System.out.println("Y_Value: " + server.getHeight() + " Calculated RPM: " + server.getRPM() + " Shooter RPM: " + shooter.getRPM() + " Input RPM: " + shootingSpeed);
     	if(server.isTracking()){
     		feeder.setSpeed(hopperSpeed);
     	}

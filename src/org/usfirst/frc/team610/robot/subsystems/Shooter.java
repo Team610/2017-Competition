@@ -41,7 +41,7 @@ public class Shooter extends Subsystem {
 	}
 
 	public double getFeedForward(double rpm){
-		return 0.0001666666666666666 * rpm + 0.0149;
+		return 0.0001666666666666666 * rpm ;
 
 	}
 	

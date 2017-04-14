@@ -66,19 +66,23 @@ public class A_TurnOptical extends Command {
 		
 		if (counter >= 10) {
 			done = true;
-			System.out.println("A_TurnOptical Finished");
+			
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut() || done || !(optical && gearIntake.isScored());
+		return isTimedOut() || done || (!optical && !gearIntake.isScored());
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		driveTrain.setLeft(0);
 		driveTrain.setRight(0);
+		if(!optical && !gearIntake.isScored()){
+			System.out.println("OpticaTurn Swagged");
+		}
+		System.out.println("A_TurnOptical Finished");
 	}
 
 	// Called when another command which requires one or more of the same

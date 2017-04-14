@@ -16,7 +16,7 @@ public class G_GearCenter extends CommandGroup {
     	addSequential(new A_SetOuttake(true));
     	addSequential(new A_PositionMove(-24, 2, 1, false));
     	addParallel(new A_Turret(0));
-    	addParallel(new A_Shoot(PIDConstants.RPM_Center, 0.8));
+    	addParallel(new A_Shoot(PIDConstants.RPM_Center, 0.8, true));
     	
     }
 }
