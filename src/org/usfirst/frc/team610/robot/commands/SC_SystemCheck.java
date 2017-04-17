@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class SC_SystemCheck extends CommandGroup {
 
     public SC_SystemCheck() {
+    	addParallel(new T_SmartDash());
     	addSequential(new SC_Drive(3, false, 1, 1));
     	addSequential(new SC_Drive(3, true, 1, 1));
     	addSequential(new SC_SetZero(1));

@@ -14,8 +14,6 @@ public class D_SensorReadings extends Command {
 	
 	private DriveTrain driveTrain;
 	private NavX navx;
-	//private Intake intake;
-	//private Hanger hanger;
 	 
 	
     public D_SensorReadings() {
@@ -36,11 +34,7 @@ public class D_SensorReadings extends Command {
     // Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-    	//SmartDashboard.putNumber("ClawPot: ", intake.getPot());
 		SmartDashboard.putNumber("GyroAngle: ", navx.getAngle());
-		//SmartDashboard.putNumber("Top RPM", intake.getTopSpeed());
-		//SmartDashboard.putNumber("Bot RPM", intake.getBotSpeed());
-		//SmartDashboard.putNumber("Encoder Lift: ", hanger.getEnc());
 		SmartDashboard.putNumber("RightEncoder", driveTrain.getRightInches());
 		SmartDashboard.putNumber("LeftEncoder", driveTrain.getLeftInches());
     }
