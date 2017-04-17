@@ -7,6 +7,7 @@ import org.usfirst.frc.team610.robot.commands.G_GearLeftBlue;
 import org.usfirst.frc.team610.robot.commands.G_GearLeftRed;
 import org.usfirst.frc.team610.robot.commands.G_GearRightBlue;
 import org.usfirst.frc.team610.robot.commands.G_GearRightRed;
+import org.usfirst.frc.team610.robot.commands.G_GearSideSwag;
 import org.usfirst.frc.team610.robot.commands.G_Teleop;
 import org.usfirst.frc.team610.robot.commands.SC_SystemCheck;
 import org.usfirst.frc.team610.robot.constants.LogitechF310Constants;
@@ -83,6 +84,10 @@ public class Robot extends IterativeRobot {
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearLeftBlue();
 			SmartDashboard.putString("Auton", "GearLeft_Blue");
+		} else if(oi.getOperator().getRawButton(LogitechF310Constants.BTN_START) 
+				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)){
+			auton = new G_GearSideSwag();
+			SmartDashboard.putString("Auton", "Swag");
 		} else if (oi.getOperator().getRawButton(LogitechF310Constants.BTN_B)
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_Y)) {
 			auton = new G_GearRightBlue();
@@ -105,7 +110,7 @@ public class Robot extends IterativeRobot {
 				&& oi.getOperator().getRawButton(LogitechF310Constants.BTN_START)){
 			auton = new SC_SystemCheck();
 			SmartDashboard.putString("Auton", "SystemCheck");
-		}
+		} 
 	}
 
 	@Override

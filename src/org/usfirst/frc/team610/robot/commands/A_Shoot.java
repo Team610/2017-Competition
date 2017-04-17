@@ -23,6 +23,7 @@ public class A_Shoot extends Command {
 	private double shootingSpeed;
 	private double hopperSpeed;
 	private boolean auto;
+	private boolean isDo;
 	
     public A_Shoot(double shootingSpeed, double hopperSpeed, boolean auto) {
     	shooterPID = new PID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D,0,1);
@@ -41,6 +42,7 @@ public class A_Shoot extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	shooterPID.updatePID(PIDConstants.SHOOTER_P, PIDConstants.SHOOTER_I, PIDConstants.SHOOTER_D);
+    	isDo = false;
     	PIDConstants.Update();
     }
 
@@ -59,7 +61,10 @@ public class A_Shoot extends Command {
     	SmartDashboard.putNumber("Y-Dist", server.getHeight());
     	SmartDashboard.putNumber("RPM", rpm);
 		System.out.println("Y_Value: " + server.getHeight() + " Calculated RPM: " + server.getRPM() + " Shooter RPM: " + shooter.getRPM() + " Input RPM: " + shootingSpeed);
-    	if(server.isTracking()){
+		if((shootingSpeed - 50 < rpm && rpm < shootingSpeed + 50)){
+    		isDo = true;
+    	}
+		if(server.isTracking() && isDo){
     		feeder.setSpeed(hopperSpeed);
     	}
     }
